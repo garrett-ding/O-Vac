@@ -34,16 +34,18 @@ LiquidCrystal_I2C lcd(0x3F, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I
 /* DEFINES */
 #define FT_PER_SEC 250
 #define APPROX_24_PSI 0.3
+#define WATER_SENSE_MIN 266
 
 MPU6050 accelgyro(0x68); // <-- use for AD0 high
 int16_t ax, ay, az; //accelerometer variables
 int16_t ax_offset = 887;
 int16_t ay_offset = -487;
 int16_t az_offset = 5437;
-int16_t curr_press = 0;
+int16_t curr_press = 0, water_check = 0;
 float   press_voltage = 0, prev_press_voltage = 0;
 int8_t  curr_acc = 0, prev_acc = 0;
 int8_t  pulses = 0;
+char  info[100];
 //int16_t gx, gy, gz; //gyroscope variables
 // uncomment "OUTPUT_READABLE_ACCELGYRO" if you want to see a tab-separated
 // list of the accel X/Y/Z and then gyro X/Y/Z values in decimal. Easy to read,
@@ -58,7 +60,8 @@ int8_t  pulses = 0;
 
 const int chipSelect = 10; //CS pin assignment
 const int solenoidPin = 5; // Solenoid pin
-const int pressure_pin = 0;
+const int pressurePin = 0; // Pressure pin
+const int waterPin = 3; // Moisture sensor pin
 
 typedef enum {
   Wait_For_Water,
@@ -71,6 +74,11 @@ typedef enum {
 states state = Wait_For_Water;
 
 void setup() {
+//set pins
+  pinMode(solenoidPin, OUTPUT);
+  pinMode(pressurePin, INPUT);
+  pinMode(waterPin, INPUT);
+  
 // Timer code taken directly from: https://www.instructables.com/id/Arduino-Timer-Interrupts/
 cli();//stop interrupts
 
@@ -203,23 +211,30 @@ ISR(TIMER1_COMPA_vect){
 
 // INT for sensor related state changes
 ISR(TIMER0_COMPA_vect){
+  water_check = analogRead(waterPin);
+  if (water_check > WATER_SENSE_MIN) state = Ascending;
   accelgyro.getAcceleration(&ax, &ay, &az);
   curr_acc = (ax ^ 2) + (ay ^ 2) + (az ^ 2);
-  curr_press = analogRead(pressure_pin); // get pressure
+  curr_press = analogRead(pressurePin); // get pressure
   press_voltage = (5.0/ 1023.0) * curr_press;
-  
+  int16_t psi = curr_press * 0.47;
   if (state == Wait_For_Water) {
-    if ((curr_acc > prev_acc + FT_PER_SEC) && (press_voltage > APPROX_24_PSI)) 
+    if ((curr_acc > prev_acc + FT_PER_SEC) && (press_voltage > APPROX_24_PSI)){ 
       state = Descending;
+    }
   }
   else if (state == Descending){
-    if ((curr_acc - prev_acc < FT_PER_SEC) && (press_voltage - prev_press_voltage < 0.0049))
+    if ((curr_acc - prev_acc < FT_PER_SEC) && (press_voltage - prev_press_voltage < 0.0049)){
       state = Collecting;
+    }
   }
   else if (state == Ascending){
-    if ((curr_acc - prev_acc < FT_PER_SEC) && press_voltage < APPROX_24_PSI) 
+    if ((curr_acc - prev_acc < FT_PER_SEC) && press_voltage < APPROX_24_PSI){ 
       state = Floating;
+    }
   }
+  sprintf(info, "approx. pressure:%d, accel value:%d\n", psi, curr_acc);
+  Serial.println(info);
   prev_press_voltage = press_voltage;
   prev_acc = curr_acc;
 }
