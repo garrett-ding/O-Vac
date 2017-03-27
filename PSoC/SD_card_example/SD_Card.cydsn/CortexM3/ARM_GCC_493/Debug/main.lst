@@ -1,0 +1,2349 @@
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.write,"ax",%progbits
+  19              		.align	2
+  20              		.global	write
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	write, %function
+  24              	write:
+  25              	.LFB64:
+  26              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include <FS.h>
+  14:main.c        **** 
+  15:main.c        **** CY_ISR_PROTO(write);
+  16:main.c        **** 
+  17:main.c        **** int flag = 0;
+  18:main.c        **** char sdFile[9] = "File.txt";
+  19:main.c        **** 
+  20:main.c        **** int main(void)
+  21:main.c        **** {
+  22:main.c        ****     char sdVolName[10];
+  23:main.c        ****     FS_FILE * pFile;
+  24:main.c        ****     FS_Init();
+  25:main.c        ****     if(0 != FS_GetVolumeName(0u, &sdVolName[0], 9u))
+  26:main.c        ****     {
+  27:main.c        ****         /* Getting volume name succeeded so prompt it on the LCD */
+  28:main.c        ****         LCD_PrintString("SD card name:");
+  29:main.c        ****         LCD_Position(1u, 0u);
+  30:main.c        ****         LCD_PrintString(sdVolName);
+  31:main.c        ****     }
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 2
+
+
+  32:main.c        ****     else
+  33:main.c        ****     {
+  34:main.c        ****         /* Operation Failed - indicate this */
+  35:main.c        ****         LCD_PrintString("Failed to get");
+  36:main.c        ****         LCD_Position(1u, 0u);
+  37:main.c        ****         LCD_PrintString("SD card name");
+  38:main.c        ****     }
+  39:main.c        ****     CyDelay(2000u);
+  40:main.c        ****     LCD_Position(0u, 0u);
+  41:main.c        ****     LCD_PrintString("SD card format");
+  42:main.c        ****     
+  43:main.c        ****     if(0 == FS_FormatSD(sdVolName))
+  44:main.c        ****     {
+  45:main.c        ****         LCD_Position(1u, 0u);
+  46:main.c        ****         LCD_PrintString("Succeeded");
+  47:main.c        ****     }
+  48:main.c        ****     else
+  49:main.c        ****     {
+  50:main.c        ****         LCD_Position(1u, 0u);
+  51:main.c        ****         LCD_PrintString("Failed");
+  52:main.c        ****     }
+  53:main.c        ****     CyDelay(2000u);
+  54:main.c        ****     if(0 == FS_MkDir("Dir"))
+  55:main.c        ****     {
+  56:main.c        ****         /* Display successful directory creation message */
+  57:main.c        ****         LCD_PrintString("\"Dir\" created");
+  58:main.c        ****     }
+  59:main.c        ****     else
+  60:main.c        ****     {
+  61:main.c        ****         /* Display failure message */
+  62:main.c        ****         LCD_PrintString("Failed to create");
+  63:main.c        ****         LCD_Position(1u, 0u);
+  64:main.c        ****         LCD_PrintString("directory");
+  65:main.c        ****     }
+  66:main.c        ****     CyDelay(2000u);
+  67:main.c        ****     pFile = FS_FOpen(sdFile, "w");
+  68:main.c        ****     if(pFile)
+  69:main.c        ****     {
+  70:main.c        ****         /* Indicate successful file creation message */
+  71:main.c        ****         LCD_PrintString("File ");
+  72:main.c        ****         LCD_PrintString(sdFile);
+  73:main.c        ****         LCD_Position(1u, 0u);
+  74:main.c        ****         LCD_PrintString("was opened");
+  75:main.c        ****         
+  76:main.c        ****         /* Need some delay to indicate output on the LCD */
+  77:main.c        ****         CyDelay(2000u);
+  78:main.c        ****         
+  79:main.c        ****         LCD_ClearDisplay();
+  80:main.c        ****         
+  81:main.c        ****         LCD_Position(0u, 0u);
+  82:main.c        ****         
+  83:main.c        ****         if(0 != FS_Write(pFile, "0123456789", 10u)) 
+  84:main.c        ****         {
+  85:main.c        ****             /* Inditate that data was written to a file */
+  86:main.c        ****             LCD_PrintString("\"0123456789\"");
+  87:main.c        ****             LCD_PrintString(sdFile);
+  88:main.c        ****             LCD_Position(1u, 0u);
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 3
+
+
+  89:main.c        ****             LCD_PrintString("written to file");
+  90:main.c        ****         }
+  91:main.c        ****         else
+  92:main.c        ****         {
+  93:main.c        ****             LCD_PrintString("Failed to write");
+  94:main.c        ****             LCD_Position(1u, 0u);
+  95:main.c        ****             LCD_PrintString("data to file");
+  96:main.c        ****         }
+  97:main.c        ****         
+  98:main.c        ****         /* Need some delay to indicate output on the LCD */
+  99:main.c        ****         CyDelay(2000u);
+ 100:main.c        ****         
+ 101:main.c        ****         LCD_ClearDisplay();
+ 102:main.c        ****         
+ 103:main.c        ****         LCD_Position(0u, 0u);
+ 104:main.c        ****     }
+ 105:main.c        ****     else
+ 106:main.c        ****     {
+ 107:main.c        ****         LCD_PrintString("Failed to create");
+ 108:main.c        ****         LCD_Position(1u, 0u);
+ 109:main.c        ****         LCD_PrintString("file");
+ 110:main.c        ****     }
+ 111:main.c        ****     CyDelay(2000u);
+ 112:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 113:main.c        ****     LCD_Start(); // LCD start
+ 114:main.c        ****     Timer_1_Start();    // Timer start
+ 115:main.c        ****     write_to_StartEx(write); // ISR start
+ 116:main.c        **** 
+ 117:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+ 118:main.c        **** 
+ 119:main.c        ****     for(;;)
+ 120:main.c        ****     {
+ 121:main.c        ****         if (flag){
+ 122:main.c        ****             flag = 0;
+ 123:main.c        ****             FS_Write(pFile, "HERE\n", 5u);
+ 124:main.c        ****         }
+ 125:main.c        ****         
+ 126:main.c        ****         /* Place your application code here. */
+ 127:main.c        ****     }
+ 128:main.c        **** }
+ 129:main.c        **** 
+ 130:main.c        **** CY_ISR(write)
+ 131:main.c        **** {
+  27              		.loc 1 131 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 132:main.c        ****     flag = 1;
+  32              		.loc 1 132 0
+  33 0000 0122     		movs	r2, #1
+  34 0002 024B     		ldr	r3, .L2
+  35 0004 1A60     		str	r2, [r3]
+ 133:main.c        ****     /* Clear Timer bit to reset counter */
+ 134:main.c        ****     Timer_1_STATUS;
+  36              		.loc 1 134 0
+  37 0006 024B     		ldr	r3, .L2+4
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 4
+
+
+  38 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  39 000a 7047     		bx	lr
+  40              	.L3:
+  41              		.align	2
+  42              	.L2:
+  43 000c 00000000 		.word	.LANCHOR0
+  44 0010 64650040 		.word	1073767780
+  45              		.cfi_endproc
+  46              	.LFE64:
+  47              		.size	write, .-write
+  48              		.section	.text.main,"ax",%progbits
+  49              		.align	2
+  50              		.global	main
+  51              		.thumb
+  52              		.thumb_func
+  53              		.type	main, %function
+  54              	main:
+  55              	.LFB63:
+  21:main.c        ****     char sdVolName[10];
+  56              		.loc 1 21 0
+  57              		.cfi_startproc
+  58              		@ args = 0, pretend = 0, frame = 16
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60 0000 10B5     		push	{r4, lr}
+  61              		.cfi_def_cfa_offset 8
+  62              		.cfi_offset 4, -8
+  63              		.cfi_offset 14, -4
+  64 0002 84B0     		sub	sp, sp, #16
+  65              		.cfi_def_cfa_offset 24
+  24:main.c        ****     if(0 != FS_GetVolumeName(0u, &sdVolName[0], 9u))
+  66              		.loc 1 24 0
+  67 0004 FFF7FEFF 		bl	FS_Init
+  68              	.LVL0:
+  25:main.c        ****     {
+  69              		.loc 1 25 0
+  70 0008 0020     		movs	r0, #0
+  71 000a 01A9     		add	r1, sp, #4
+  72 000c 0922     		movs	r2, #9
+  73 000e FFF7FEFF 		bl	FS_GetVolumeName
+  74              	.LVL1:
+  75 0012 50B1     		cbz	r0, .L5
+  28:main.c        ****         LCD_Position(1u, 0u);
+  76              		.loc 1 28 0
+  77 0014 5C48     		ldr	r0, .L18
+  78 0016 FFF7FEFF 		bl	LCD_PrintString
+  79              	.LVL2:
+  29:main.c        ****         LCD_PrintString(sdVolName);
+  80              		.loc 1 29 0
+  81 001a 0120     		movs	r0, #1
+  82 001c 0021     		movs	r1, #0
+  83 001e FFF7FEFF 		bl	LCD_Position
+  84              	.LVL3:
+  30:main.c        ****     }
+  85              		.loc 1 30 0
+  86 0022 01A8     		add	r0, sp, #4
+  87 0024 FFF7FEFF 		bl	LCD_PrintString
+  88              	.LVL4:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 5
+
+
+  89 0028 09E0     		b	.L6
+  90              	.L5:
+  35:main.c        ****         LCD_Position(1u, 0u);
+  91              		.loc 1 35 0
+  92 002a 5848     		ldr	r0, .L18+4
+  93 002c FFF7FEFF 		bl	LCD_PrintString
+  94              	.LVL5:
+  36:main.c        ****         LCD_PrintString("SD card name");
+  95              		.loc 1 36 0
+  96 0030 0120     		movs	r0, #1
+  97 0032 0021     		movs	r1, #0
+  98 0034 FFF7FEFF 		bl	LCD_Position
+  99              	.LVL6:
+  37:main.c        ****     }
+ 100              		.loc 1 37 0
+ 101 0038 5548     		ldr	r0, .L18+8
+ 102 003a FFF7FEFF 		bl	LCD_PrintString
+ 103              	.LVL7:
+ 104              	.L6:
+  39:main.c        ****     LCD_Position(0u, 0u);
+ 105              		.loc 1 39 0
+ 106 003e 4FF4FA60 		mov	r0, #2000
+ 107 0042 FFF7FEFF 		bl	CyDelay
+ 108              	.LVL8:
+  40:main.c        ****     LCD_PrintString("SD card format");
+ 109              		.loc 1 40 0
+ 110 0046 0020     		movs	r0, #0
+ 111 0048 0146     		mov	r1, r0
+ 112 004a FFF7FEFF 		bl	LCD_Position
+ 113              	.LVL9:
+  41:main.c        ****     
+ 114              		.loc 1 41 0
+ 115 004e 5148     		ldr	r0, .L18+12
+ 116 0050 FFF7FEFF 		bl	LCD_PrintString
+ 117              	.LVL10:
+  43:main.c        ****     {
+ 118              		.loc 1 43 0
+ 119 0054 01A8     		add	r0, sp, #4
+ 120 0056 FFF7FEFF 		bl	FS_FormatSD
+ 121              	.LVL11:
+ 122 005a 38B9     		cbnz	r0, .L7
+  45:main.c        ****         LCD_PrintString("Succeeded");
+ 123              		.loc 1 45 0
+ 124 005c 0120     		movs	r0, #1
+ 125 005e 0021     		movs	r1, #0
+ 126 0060 FFF7FEFF 		bl	LCD_Position
+ 127              	.LVL12:
+  46:main.c        ****     }
+ 128              		.loc 1 46 0
+ 129 0064 4C48     		ldr	r0, .L18+16
+ 130 0066 FFF7FEFF 		bl	LCD_PrintString
+ 131              	.LVL13:
+ 132 006a 06E0     		b	.L8
+ 133              	.L7:
+  50:main.c        ****         LCD_PrintString("Failed");
+ 134              		.loc 1 50 0
+ 135 006c 0120     		movs	r0, #1
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 6
+
+
+ 136 006e 0021     		movs	r1, #0
+ 137 0070 FFF7FEFF 		bl	LCD_Position
+ 138              	.LVL14:
+  51:main.c        ****     }
+ 139              		.loc 1 51 0
+ 140 0074 4948     		ldr	r0, .L18+20
+ 141 0076 FFF7FEFF 		bl	LCD_PrintString
+ 142              	.LVL15:
+ 143              	.L8:
+  53:main.c        ****     if(0 == FS_MkDir("Dir"))
+ 144              		.loc 1 53 0
+ 145 007a 4FF4FA60 		mov	r0, #2000
+ 146 007e FFF7FEFF 		bl	CyDelay
+ 147              	.LVL16:
+  54:main.c        ****     {
+ 148              		.loc 1 54 0
+ 149 0082 4748     		ldr	r0, .L18+24
+ 150 0084 FFF7FEFF 		bl	FS_MkDir
+ 151              	.LVL17:
+ 152 0088 18B9     		cbnz	r0, .L9
+  57:main.c        ****     }
+ 153              		.loc 1 57 0
+ 154 008a 4648     		ldr	r0, .L18+28
+ 155 008c FFF7FEFF 		bl	LCD_PrintString
+ 156              	.LVL18:
+ 157 0090 09E0     		b	.L10
+ 158              	.L9:
+  62:main.c        ****         LCD_Position(1u, 0u);
+ 159              		.loc 1 62 0
+ 160 0092 4548     		ldr	r0, .L18+32
+ 161 0094 FFF7FEFF 		bl	LCD_PrintString
+ 162              	.LVL19:
+  63:main.c        ****         LCD_PrintString("directory");
+ 163              		.loc 1 63 0
+ 164 0098 0120     		movs	r0, #1
+ 165 009a 0021     		movs	r1, #0
+ 166 009c FFF7FEFF 		bl	LCD_Position
+ 167              	.LVL20:
+  64:main.c        ****     }
+ 168              		.loc 1 64 0
+ 169 00a0 4248     		ldr	r0, .L18+36
+ 170 00a2 FFF7FEFF 		bl	LCD_PrintString
+ 171              	.LVL21:
+ 172              	.L10:
+  66:main.c        ****     pFile = FS_FOpen(sdFile, "w");
+ 173              		.loc 1 66 0
+ 174 00a6 4FF4FA60 		mov	r0, #2000
+ 175 00aa FFF7FEFF 		bl	CyDelay
+ 176              	.LVL22:
+  67:main.c        ****     if(pFile)
+ 177              		.loc 1 67 0
+ 178 00ae 4048     		ldr	r0, .L18+40
+ 179 00b0 4049     		ldr	r1, .L18+44
+ 180 00b2 FFF7FEFF 		bl	FS_FOpen
+ 181              	.LVL23:
+  68:main.c        ****     {
+ 182              		.loc 1 68 0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 7
+
+
+ 183 00b6 0446     		mov	r4, r0
+ 184 00b8 0028     		cmp	r0, #0
+ 185 00ba 41D0     		beq	.L11
+  71:main.c        ****         LCD_PrintString(sdFile);
+ 186              		.loc 1 71 0
+ 187 00bc 3E48     		ldr	r0, .L18+48
+ 188              	.LVL24:
+ 189 00be FFF7FEFF 		bl	LCD_PrintString
+ 190              	.LVL25:
+  72:main.c        ****         LCD_Position(1u, 0u);
+ 191              		.loc 1 72 0
+ 192 00c2 3B48     		ldr	r0, .L18+40
+ 193 00c4 FFF7FEFF 		bl	LCD_PrintString
+ 194              	.LVL26:
+  73:main.c        ****         LCD_PrintString("was opened");
+ 195              		.loc 1 73 0
+ 196 00c8 0120     		movs	r0, #1
+ 197 00ca 0021     		movs	r1, #0
+ 198 00cc FFF7FEFF 		bl	LCD_Position
+ 199              	.LVL27:
+  74:main.c        ****         
+ 200              		.loc 1 74 0
+ 201 00d0 3A48     		ldr	r0, .L18+52
+ 202 00d2 FFF7FEFF 		bl	LCD_PrintString
+ 203              	.LVL28:
+  77:main.c        ****         
+ 204              		.loc 1 77 0
+ 205 00d6 4FF4FA60 		mov	r0, #2000
+ 206 00da FFF7FEFF 		bl	CyDelay
+ 207              	.LVL29:
+  79:main.c        ****         
+ 208              		.loc 1 79 0
+ 209 00de 0120     		movs	r0, #1
+ 210 00e0 FFF7FEFF 		bl	LCD_WriteControl
+ 211              	.LVL30:
+  81:main.c        ****         
+ 212              		.loc 1 81 0
+ 213 00e4 0020     		movs	r0, #0
+ 214 00e6 0146     		mov	r1, r0
+ 215 00e8 FFF7FEFF 		bl	LCD_Position
+ 216              	.LVL31:
+  83:main.c        ****         {
+ 217              		.loc 1 83 0
+ 218 00ec 2046     		mov	r0, r4
+ 219 00ee 3449     		ldr	r1, .L18+56
+ 220 00f0 0A22     		movs	r2, #10
+ 221 00f2 FFF7FEFF 		bl	FS_Write
+ 222              	.LVL32:
+ 223 00f6 68B1     		cbz	r0, .L12
+  86:main.c        ****             LCD_PrintString(sdFile);
+ 224              		.loc 1 86 0
+ 225 00f8 3248     		ldr	r0, .L18+60
+ 226 00fa FFF7FEFF 		bl	LCD_PrintString
+ 227              	.LVL33:
+  87:main.c        ****             LCD_Position(1u, 0u);
+ 228              		.loc 1 87 0
+ 229 00fe 2C48     		ldr	r0, .L18+40
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 8
+
+
+ 230 0100 FFF7FEFF 		bl	LCD_PrintString
+ 231              	.LVL34:
+  88:main.c        ****             LCD_PrintString("written to file");
+ 232              		.loc 1 88 0
+ 233 0104 0120     		movs	r0, #1
+ 234 0106 0021     		movs	r1, #0
+ 235 0108 FFF7FEFF 		bl	LCD_Position
+ 236              	.LVL35:
+  89:main.c        ****         }
+ 237              		.loc 1 89 0
+ 238 010c 2E48     		ldr	r0, .L18+64
+ 239 010e FFF7FEFF 		bl	LCD_PrintString
+ 240              	.LVL36:
+ 241 0112 09E0     		b	.L13
+ 242              	.L12:
+  93:main.c        ****             LCD_Position(1u, 0u);
+ 243              		.loc 1 93 0
+ 244 0114 2D48     		ldr	r0, .L18+68
+ 245 0116 FFF7FEFF 		bl	LCD_PrintString
+ 246              	.LVL37:
+  94:main.c        ****             LCD_PrintString("data to file");
+ 247              		.loc 1 94 0
+ 248 011a 0120     		movs	r0, #1
+ 249 011c 0021     		movs	r1, #0
+ 250 011e FFF7FEFF 		bl	LCD_Position
+ 251              	.LVL38:
+  95:main.c        ****         }
+ 252              		.loc 1 95 0
+ 253 0122 2B48     		ldr	r0, .L18+72
+ 254 0124 FFF7FEFF 		bl	LCD_PrintString
+ 255              	.LVL39:
+ 256              	.L13:
+  99:main.c        ****         
+ 257              		.loc 1 99 0
+ 258 0128 4FF4FA60 		mov	r0, #2000
+ 259 012c FFF7FEFF 		bl	CyDelay
+ 260              	.LVL40:
+ 101:main.c        ****         
+ 261              		.loc 1 101 0
+ 262 0130 0120     		movs	r0, #1
+ 263 0132 FFF7FEFF 		bl	LCD_WriteControl
+ 264              	.LVL41:
+ 103:main.c        ****     }
+ 265              		.loc 1 103 0
+ 266 0136 0020     		movs	r0, #0
+ 267 0138 0146     		mov	r1, r0
+ 268 013a FFF7FEFF 		bl	LCD_Position
+ 269              	.LVL42:
+ 270 013e 09E0     		b	.L14
+ 271              	.LVL43:
+ 272              	.L11:
+ 107:main.c        ****         LCD_Position(1u, 0u);
+ 273              		.loc 1 107 0
+ 274 0140 1948     		ldr	r0, .L18+32
+ 275              	.LVL44:
+ 276 0142 FFF7FEFF 		bl	LCD_PrintString
+ 277              	.LVL45:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 9
+
+
+ 108:main.c        ****         LCD_PrintString("file");
+ 278              		.loc 1 108 0
+ 279 0146 0120     		movs	r0, #1
+ 280 0148 0021     		movs	r1, #0
+ 281 014a FFF7FEFF 		bl	LCD_Position
+ 282              	.LVL46:
+ 109:main.c        ****     }
+ 283              		.loc 1 109 0
+ 284 014e 2148     		ldr	r0, .L18+76
+ 285 0150 FFF7FEFF 		bl	LCD_PrintString
+ 286              	.LVL47:
+ 287              	.L14:
+ 111:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 288              		.loc 1 111 0
+ 289 0154 4FF4FA60 		mov	r0, #2000
+ 290 0158 FFF7FEFF 		bl	CyDelay
+ 291              	.LVL48:
+ 112:main.c        ****     LCD_Start(); // LCD start
+ 292              		.loc 1 112 0
+ 293              	@ 112 "main.c" 1
+ 294 015c 62B6     		CPSIE   i
+ 295              	@ 0 "" 2
+ 113:main.c        ****     Timer_1_Start();    // Timer start
+ 296              		.loc 1 113 0
+ 297              		.thumb
+ 298 015e FFF7FEFF 		bl	LCD_Start
+ 299              	.LVL49:
+ 114:main.c        ****     write_to_StartEx(write); // ISR start
+ 300              		.loc 1 114 0
+ 301 0162 FFF7FEFF 		bl	Timer_1_Start
+ 302              	.LVL50:
+ 115:main.c        **** 
+ 303              		.loc 1 115 0
+ 304 0166 1C48     		ldr	r0, .L18+80
+ 305 0168 FFF7FEFF 		bl	write_to_StartEx
+ 306              	.LVL51:
+ 307              	.L15:
+ 121:main.c        ****             flag = 0;
+ 308              		.loc 1 121 0
+ 309 016c 1B4B     		ldr	r3, .L18+84
+ 310 016e 1B68     		ldr	r3, [r3]
+ 311 0170 002B     		cmp	r3, #0
+ 312 0172 FBD0     		beq	.L15
+ 122:main.c        ****             FS_Write(pFile, "HERE\n", 5u);
+ 313              		.loc 1 122 0
+ 314 0174 0022     		movs	r2, #0
+ 315 0176 194B     		ldr	r3, .L18+84
+ 316 0178 1A60     		str	r2, [r3]
+ 123:main.c        ****         }
+ 317              		.loc 1 123 0
+ 318 017a 2046     		mov	r0, r4
+ 319 017c 1849     		ldr	r1, .L18+88
+ 320 017e 0522     		movs	r2, #5
+ 321 0180 FFF7FEFF 		bl	FS_Write
+ 322              	.LVL52:
+ 323 0184 F2E7     		b	.L15
+ 324              	.L19:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 10
+
+
+ 325 0186 00BF     		.align	2
+ 326              	.L18:
+ 327 0188 00000000 		.word	.LC0
+ 328 018c 10000000 		.word	.LC1
+ 329 0190 20000000 		.word	.LC2
+ 330 0194 30000000 		.word	.LC3
+ 331 0198 40000000 		.word	.LC4
+ 332 019c 4C000000 		.word	.LC5
+ 333 01a0 54000000 		.word	.LC6
+ 334 01a4 58000000 		.word	.LC7
+ 335 01a8 68000000 		.word	.LC8
+ 336 01ac 7C000000 		.word	.LC9
+ 337 01b0 00000000 		.word	.LANCHOR1
+ 338 01b4 88000000 		.word	.LC10
+ 339 01b8 8C000000 		.word	.LC11
+ 340 01bc 94000000 		.word	.LC12
+ 341 01c0 A0000000 		.word	.LC13
+ 342 01c4 AC000000 		.word	.LC14
+ 343 01c8 BC000000 		.word	.LC15
+ 344 01cc CC000000 		.word	.LC16
+ 345 01d0 DC000000 		.word	.LC17
+ 346 01d4 EC000000 		.word	.LC18
+ 347 01d8 00000000 		.word	write
+ 348 01dc 00000000 		.word	.LANCHOR0
+ 349 01e0 F4000000 		.word	.LC19
+ 350              		.cfi_endproc
+ 351              	.LFE63:
+ 352              		.size	main, .-main
+ 353              		.global	sdFile
+ 354              		.global	flag
+ 355              		.data
+ 356              		.align	2
+ 357              		.set	.LANCHOR1,. + 0
+ 358              		.type	sdFile, %object
+ 359              		.size	sdFile, 9
+ 360              	sdFile:
+ 361 0000 46696C65 		.ascii	"File.txt\000"
+ 361      2E747874 
+ 361      00
+ 362 0009 000000   		.section	.rodata.str1.4,"aMS",%progbits,1
+ 363              		.align	2
+ 364              	.LC0:
+ 365 0000 53442063 		.ascii	"SD card name:\000"
+ 365      61726420 
+ 365      6E616D65 
+ 365      3A00
+ 366 000e 0000     		.space	2
+ 367              	.LC1:
+ 368 0010 4661696C 		.ascii	"Failed to get\000"
+ 368      65642074 
+ 368      6F206765 
+ 368      7400
+ 369 001e 0000     		.space	2
+ 370              	.LC2:
+ 371 0020 53442063 		.ascii	"SD card name\000"
+ 371      61726420 
+ 371      6E616D65 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 11
+
+
+ 371      00
+ 372 002d 000000   		.space	3
+ 373              	.LC3:
+ 374 0030 53442063 		.ascii	"SD card format\000"
+ 374      61726420 
+ 374      666F726D 
+ 374      617400
+ 375 003f 00       		.space	1
+ 376              	.LC4:
+ 377 0040 53756363 		.ascii	"Succeeded\000"
+ 377      65656465 
+ 377      6400
+ 378 004a 0000     		.space	2
+ 379              	.LC5:
+ 380 004c 4661696C 		.ascii	"Failed\000"
+ 380      656400
+ 381 0053 00       		.space	1
+ 382              	.LC6:
+ 383 0054 44697200 		.ascii	"Dir\000"
+ 384              	.LC7:
+ 385 0058 22446972 		.ascii	"\"Dir\" created\000"
+ 385      22206372 
+ 385      65617465 
+ 385      6400
+ 386 0066 0000     		.space	2
+ 387              	.LC8:
+ 388 0068 4661696C 		.ascii	"Failed to create\000"
+ 388      65642074 
+ 388      6F206372 
+ 388      65617465 
+ 388      00
+ 389 0079 000000   		.space	3
+ 390              	.LC9:
+ 391 007c 64697265 		.ascii	"directory\000"
+ 391      63746F72 
+ 391      7900
+ 392 0086 0000     		.space	2
+ 393              	.LC10:
+ 394 0088 7700     		.ascii	"w\000"
+ 395 008a 0000     		.space	2
+ 396              	.LC11:
+ 397 008c 46696C65 		.ascii	"File \000"
+ 397      2000
+ 398 0092 0000     		.space	2
+ 399              	.LC12:
+ 400 0094 77617320 		.ascii	"was opened\000"
+ 400      6F70656E 
+ 400      656400
+ 401 009f 00       		.space	1
+ 402              	.LC13:
+ 403 00a0 30313233 		.ascii	"0123456789\000"
+ 403      34353637 
+ 403      383900
+ 404 00ab 00       		.space	1
+ 405              	.LC14:
+ 406 00ac 22303132 		.ascii	"\"0123456789\"\000"
+ 406      33343536 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 12
+
+
+ 406      37383922 
+ 406      00
+ 407 00b9 000000   		.space	3
+ 408              	.LC15:
+ 409 00bc 77726974 		.ascii	"written to file\000"
+ 409      74656E20 
+ 409      746F2066 
+ 409      696C6500 
+ 410              	.LC16:
+ 411 00cc 4661696C 		.ascii	"Failed to write\000"
+ 411      65642074 
+ 411      6F207772 
+ 411      69746500 
+ 412              	.LC17:
+ 413 00dc 64617461 		.ascii	"data to file\000"
+ 413      20746F20 
+ 413      66696C65 
+ 413      00
+ 414 00e9 000000   		.space	3
+ 415              	.LC18:
+ 416 00ec 66696C65 		.ascii	"file\000"
+ 416      00
+ 417 00f1 000000   		.space	3
+ 418              	.LC19:
+ 419 00f4 48455245 		.ascii	"HERE\012\000"
+ 419      0A00
+ 420 00fa 0000     		.bss
+ 421              		.align	2
+ 422              		.set	.LANCHOR0,. + 0
+ 423              		.type	flag, %object
+ 424              		.size	flag, 4
+ 425              	flag:
+ 426 0000 00000000 		.space	4
+ 427              		.text
+ 428              	.Letext0:
+ 429              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 430              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 431              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 432              		.file 5 "..\\emFile_V322c\\emFile_V322c\\Code\\Include\\PSoC5/FS_Types.h"
+ 433              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 434              		.file 7 "Generated_Source\\PSoC5/LCD.h"
+ 435              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 436              		.file 9 "..\\emFile_V322c\\emFile_V322c\\Code\\Include\\PSoC5/FS.h"
+ 437              		.file 10 "Generated_Source\\PSoC5/Timer_1.h"
+ 438              		.file 11 "Generated_Source\\PSoC5/write_to.h"
+ 439              		.section	.debug_info,"",%progbits
+ 440              	.Ldebug_info0:
+ 441 0000 11070000 		.4byte	0x711
+ 442 0004 0400     		.2byte	0x4
+ 443 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 444 000a 04       		.byte	0x4
+ 445 000b 01       		.uleb128 0x1
+ 446 000c 38010000 		.4byte	.LASF38
+ 447 0010 01       		.byte	0x1
+ 448 0011 2E020000 		.4byte	.LASF39
+ 449 0015 56000000 		.4byte	.LASF40
+ 450 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 13
+
+
+ 451 001d 00000000 		.4byte	0
+ 452 0021 00000000 		.4byte	.Ldebug_line0
+ 453 0025 02       		.uleb128 0x2
+ 454 0026 01       		.byte	0x1
+ 455 0027 06       		.byte	0x6
+ 456 0028 74020000 		.4byte	.LASF0
+ 457 002c 02       		.uleb128 0x2
+ 458 002d 01       		.byte	0x1
+ 459 002e 08       		.byte	0x8
+ 460 002f AE000000 		.4byte	.LASF1
+ 461 0033 02       		.uleb128 0x2
+ 462 0034 02       		.byte	0x2
+ 463 0035 05       		.byte	0x5
+ 464 0036 42020000 		.4byte	.LASF2
+ 465 003a 02       		.uleb128 0x2
+ 466 003b 02       		.byte	0x2
+ 467 003c 07       		.byte	0x7
+ 468 003d D3000000 		.4byte	.LASF3
+ 469 0041 03       		.uleb128 0x3
+ 470 0042 28000000 		.4byte	.LASF9
+ 471 0046 02       		.byte	0x2
+ 472 0047 3F       		.byte	0x3f
+ 473 0048 4C000000 		.4byte	0x4c
+ 474 004c 02       		.uleb128 0x2
+ 475 004d 04       		.byte	0x4
+ 476 004e 05       		.byte	0x5
+ 477 004f 64020000 		.4byte	.LASF4
+ 478 0053 02       		.uleb128 0x2
+ 479 0054 04       		.byte	0x4
+ 480 0055 07       		.byte	0x7
+ 481 0056 C1000000 		.4byte	.LASF5
+ 482 005a 02       		.uleb128 0x2
+ 483 005b 08       		.byte	0x8
+ 484 005c 05       		.byte	0x5
+ 485 005d 20020000 		.4byte	.LASF6
+ 486 0061 02       		.uleb128 0x2
+ 487 0062 08       		.byte	0x8
+ 488 0063 07       		.byte	0x7
+ 489 0064 D8010000 		.4byte	.LASF7
+ 490 0068 04       		.uleb128 0x4
+ 491 0069 04       		.byte	0x4
+ 492 006a 05       		.byte	0x5
+ 493 006b 696E7400 		.ascii	"int\000"
+ 494 006f 02       		.uleb128 0x2
+ 495 0070 04       		.byte	0x4
+ 496 0071 07       		.byte	0x7
+ 497 0072 CB010000 		.4byte	.LASF8
+ 498 0076 03       		.uleb128 0x3
+ 499 0077 3A020000 		.4byte	.LASF10
+ 500 007b 03       		.byte	0x3
+ 501 007c 2C       		.byte	0x2c
+ 502 007d 41000000 		.4byte	0x41
+ 503 0081 05       		.uleb128 0x5
+ 504 0082 54020000 		.4byte	.LASF11
+ 505 0086 04       		.byte	0x4
+ 506 0087 9201     		.2byte	0x192
+ 507 0089 2C000000 		.4byte	0x2c
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 14
+
+
+ 508 008d 05       		.uleb128 0x5
+ 509 008e 31010000 		.4byte	.LASF12
+ 510 0092 04       		.byte	0x4
+ 511 0093 9401     		.2byte	0x194
+ 512 0095 53000000 		.4byte	0x53
+ 513 0099 02       		.uleb128 0x2
+ 514 009a 04       		.byte	0x4
+ 515 009b 04       		.byte	0x4
+ 516 009c 9E000000 		.4byte	.LASF13
+ 517 00a0 02       		.uleb128 0x2
+ 518 00a1 08       		.byte	0x8
+ 519 00a2 04       		.byte	0x4
+ 520 00a3 4F000000 		.4byte	.LASF14
+ 521 00a7 05       		.uleb128 0x5
+ 522 00a8 1A020000 		.4byte	.LASF15
+ 523 00ac 04       		.byte	0x4
+ 524 00ad A301     		.2byte	0x1a3
+ 525 00af B3000000 		.4byte	0xb3
+ 526 00b3 02       		.uleb128 0x2
+ 527 00b4 01       		.byte	0x1
+ 528 00b5 08       		.byte	0x8
+ 529 00b6 35020000 		.4byte	.LASF16
+ 530 00ba 05       		.uleb128 0x5
+ 531 00bb BC000000 		.4byte	.LASF17
+ 532 00bf 04       		.byte	0x4
+ 533 00c0 3C02     		.2byte	0x23c
+ 534 00c2 C6000000 		.4byte	0xc6
+ 535 00c6 06       		.uleb128 0x6
+ 536 00c7 81000000 		.4byte	0x81
+ 537 00cb 05       		.uleb128 0x5
+ 538 00cc FC010000 		.4byte	.LASF18
+ 539 00d0 04       		.byte	0x4
+ 540 00d1 4E02     		.2byte	0x24e
+ 541 00d3 D7000000 		.4byte	0xd7
+ 542 00d7 07       		.uleb128 0x7
+ 543 00d8 04       		.byte	0x4
+ 544 00d9 DD000000 		.4byte	0xdd
+ 545 00dd 08       		.uleb128 0x8
+ 546 00de 02       		.uleb128 0x2
+ 547 00df 04       		.byte	0x4
+ 548 00e0 07       		.byte	0x7
+ 549 00e1 11020000 		.4byte	.LASF19
+ 550 00e5 07       		.uleb128 0x7
+ 551 00e6 04       		.byte	0x4
+ 552 00e7 B3000000 		.4byte	0xb3
+ 553 00eb 07       		.uleb128 0x7
+ 554 00ec 04       		.byte	0x4
+ 555 00ed F1000000 		.4byte	0xf1
+ 556 00f1 09       		.uleb128 0x9
+ 557 00f2 B3000000 		.4byte	0xb3
+ 558 00f6 03       		.uleb128 0x3
+ 559 00f7 09020000 		.4byte	.LASF20
+ 560 00fb 05       		.byte	0x5
+ 561 00fc 7E       		.byte	0x7e
+ 562 00fd 01010000 		.4byte	0x101
+ 563 0101 0A       		.uleb128 0xa
+ 564 0102 09020000 		.4byte	.LASF20
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 15
+
+
+ 565 0106 07       		.uleb128 0x7
+ 566 0107 04       		.byte	0x4
+ 567 0108 F6000000 		.4byte	0xf6
+ 568 010c 07       		.uleb128 0x7
+ 569 010d 04       		.byte	0x4
+ 570 010e 12010000 		.4byte	0x112
+ 571 0112 0B       		.uleb128 0xb
+ 572 0113 0C       		.uleb128 0xc
+ 573 0114 F7000000 		.4byte	.LASF41
+ 574 0118 01       		.byte	0x1
+ 575 0119 82       		.byte	0x82
+ 576 011a 00000000 		.4byte	.LFB64
+ 577 011e 14000000 		.4byte	.LFE64-.LFB64
+ 578 0122 01       		.uleb128 0x1
+ 579 0123 9C       		.byte	0x9c
+ 580 0124 0D       		.uleb128 0xd
+ 581 0125 1C010000 		.4byte	.LASF42
+ 582 0129 01       		.byte	0x1
+ 583 012a 14       		.byte	0x14
+ 584 012b 68000000 		.4byte	0x68
+ 585 012f 00000000 		.4byte	.LFB63
+ 586 0133 E4010000 		.4byte	.LFE63-.LFB63
+ 587 0137 01       		.uleb128 0x1
+ 588 0138 9C       		.byte	0x9c
+ 589 0139 C3050000 		.4byte	0x5c3
+ 590 013d 0E       		.uleb128 0xe
+ 591 013e 5A020000 		.4byte	.LASF21
+ 592 0142 01       		.byte	0x1
+ 593 0143 16       		.byte	0x16
+ 594 0144 C3050000 		.4byte	0x5c3
+ 595 0148 02       		.uleb128 0x2
+ 596 0149 91       		.byte	0x91
+ 597 014a 6C       		.sleb128 -20
+ 598 014b 0F       		.uleb128 0xf
+ 599 014c 98000000 		.4byte	.LASF22
+ 600 0150 01       		.byte	0x1
+ 601 0151 17       		.byte	0x17
+ 602 0152 06010000 		.4byte	0x106
+ 603 0156 00000000 		.4byte	.LLST0
+ 604 015a 10       		.uleb128 0x10
+ 605 015b 08000000 		.4byte	.LVL0
+ 606 015f 16060000 		.4byte	0x616
+ 607 0163 11       		.uleb128 0x11
+ 608 0164 12000000 		.4byte	.LVL1
+ 609 0168 1E060000 		.4byte	0x61e
+ 610 016c 81010000 		.4byte	0x181
+ 611 0170 12       		.uleb128 0x12
+ 612 0171 01       		.uleb128 0x1
+ 613 0172 52       		.byte	0x52
+ 614 0173 01       		.uleb128 0x1
+ 615 0174 39       		.byte	0x39
+ 616 0175 12       		.uleb128 0x12
+ 617 0176 01       		.uleb128 0x1
+ 618 0177 51       		.byte	0x51
+ 619 0178 02       		.uleb128 0x2
+ 620 0179 91       		.byte	0x91
+ 621 017a 6C       		.sleb128 -20
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 16
+
+
+ 622 017b 12       		.uleb128 0x12
+ 623 017c 01       		.uleb128 0x1
+ 624 017d 50       		.byte	0x50
+ 625 017e 01       		.uleb128 0x1
+ 626 017f 30       		.byte	0x30
+ 627 0180 00       		.byte	0
+ 628 0181 11       		.uleb128 0x11
+ 629 0182 1A000000 		.4byte	.LVL2
+ 630 0186 3E060000 		.4byte	0x63e
+ 631 018a 98010000 		.4byte	0x198
+ 632 018e 12       		.uleb128 0x12
+ 633 018f 01       		.uleb128 0x1
+ 634 0190 50       		.byte	0x50
+ 635 0191 05       		.uleb128 0x5
+ 636 0192 03       		.byte	0x3
+ 637 0193 00000000 		.4byte	.LC0
+ 638 0197 00       		.byte	0
+ 639 0198 11       		.uleb128 0x11
+ 640 0199 22000000 		.4byte	.LVL3
+ 641 019d 5A060000 		.4byte	0x65a
+ 642 01a1 B0010000 		.4byte	0x1b0
+ 643 01a5 12       		.uleb128 0x12
+ 644 01a6 01       		.uleb128 0x1
+ 645 01a7 51       		.byte	0x51
+ 646 01a8 01       		.uleb128 0x1
+ 647 01a9 30       		.byte	0x30
+ 648 01aa 12       		.uleb128 0x12
+ 649 01ab 01       		.uleb128 0x1
+ 650 01ac 50       		.byte	0x50
+ 651 01ad 01       		.uleb128 0x1
+ 652 01ae 31       		.byte	0x31
+ 653 01af 00       		.byte	0
+ 654 01b0 11       		.uleb128 0x11
+ 655 01b1 28000000 		.4byte	.LVL4
+ 656 01b5 3E060000 		.4byte	0x63e
+ 657 01b9 C4010000 		.4byte	0x1c4
+ 658 01bd 12       		.uleb128 0x12
+ 659 01be 01       		.uleb128 0x1
+ 660 01bf 50       		.byte	0x50
+ 661 01c0 02       		.uleb128 0x2
+ 662 01c1 91       		.byte	0x91
+ 663 01c2 6C       		.sleb128 -20
+ 664 01c3 00       		.byte	0
+ 665 01c4 11       		.uleb128 0x11
+ 666 01c5 30000000 		.4byte	.LVL5
+ 667 01c9 3E060000 		.4byte	0x63e
+ 668 01cd DB010000 		.4byte	0x1db
+ 669 01d1 12       		.uleb128 0x12
+ 670 01d2 01       		.uleb128 0x1
+ 671 01d3 50       		.byte	0x50
+ 672 01d4 05       		.uleb128 0x5
+ 673 01d5 03       		.byte	0x3
+ 674 01d6 10000000 		.4byte	.LC1
+ 675 01da 00       		.byte	0
+ 676 01db 11       		.uleb128 0x11
+ 677 01dc 38000000 		.4byte	.LVL6
+ 678 01e0 5A060000 		.4byte	0x65a
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 17
+
+
+ 679 01e4 F3010000 		.4byte	0x1f3
+ 680 01e8 12       		.uleb128 0x12
+ 681 01e9 01       		.uleb128 0x1
+ 682 01ea 51       		.byte	0x51
+ 683 01eb 01       		.uleb128 0x1
+ 684 01ec 30       		.byte	0x30
+ 685 01ed 12       		.uleb128 0x12
+ 686 01ee 01       		.uleb128 0x1
+ 687 01ef 50       		.byte	0x50
+ 688 01f0 01       		.uleb128 0x1
+ 689 01f1 31       		.byte	0x31
+ 690 01f2 00       		.byte	0
+ 691 01f3 11       		.uleb128 0x11
+ 692 01f4 3E000000 		.4byte	.LVL7
+ 693 01f8 3E060000 		.4byte	0x63e
+ 694 01fc 0A020000 		.4byte	0x20a
+ 695 0200 12       		.uleb128 0x12
+ 696 0201 01       		.uleb128 0x1
+ 697 0202 50       		.byte	0x50
+ 698 0203 05       		.uleb128 0x5
+ 699 0204 03       		.byte	0x3
+ 700 0205 20000000 		.4byte	.LC2
+ 701 0209 00       		.byte	0
+ 702 020a 11       		.uleb128 0x11
+ 703 020b 46000000 		.4byte	.LVL8
+ 704 020f 70060000 		.4byte	0x670
+ 705 0213 1F020000 		.4byte	0x21f
+ 706 0217 12       		.uleb128 0x12
+ 707 0218 01       		.uleb128 0x1
+ 708 0219 50       		.byte	0x50
+ 709 021a 03       		.uleb128 0x3
+ 710 021b 0A       		.byte	0xa
+ 711 021c D007     		.2byte	0x7d0
+ 712 021e 00       		.byte	0
+ 713 021f 11       		.uleb128 0x11
+ 714 0220 4E000000 		.4byte	.LVL9
+ 715 0224 5A060000 		.4byte	0x65a
+ 716 0228 37020000 		.4byte	0x237
+ 717 022c 12       		.uleb128 0x12
+ 718 022d 01       		.uleb128 0x1
+ 719 022e 51       		.byte	0x51
+ 720 022f 01       		.uleb128 0x1
+ 721 0230 30       		.byte	0x30
+ 722 0231 12       		.uleb128 0x12
+ 723 0232 01       		.uleb128 0x1
+ 724 0233 50       		.byte	0x50
+ 725 0234 01       		.uleb128 0x1
+ 726 0235 30       		.byte	0x30
+ 727 0236 00       		.byte	0
+ 728 0237 11       		.uleb128 0x11
+ 729 0238 54000000 		.4byte	.LVL10
+ 730 023c 3E060000 		.4byte	0x63e
+ 731 0240 4E020000 		.4byte	0x24e
+ 732 0244 12       		.uleb128 0x12
+ 733 0245 01       		.uleb128 0x1
+ 734 0246 50       		.byte	0x50
+ 735 0247 05       		.uleb128 0x5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 18
+
+
+ 736 0248 03       		.byte	0x3
+ 737 0249 30000000 		.4byte	.LC3
+ 738 024d 00       		.byte	0
+ 739 024e 11       		.uleb128 0x11
+ 740 024f 5A000000 		.4byte	.LVL11
+ 741 0253 81060000 		.4byte	0x681
+ 742 0257 62020000 		.4byte	0x262
+ 743 025b 12       		.uleb128 0x12
+ 744 025c 01       		.uleb128 0x1
+ 745 025d 50       		.byte	0x50
+ 746 025e 02       		.uleb128 0x2
+ 747 025f 91       		.byte	0x91
+ 748 0260 6C       		.sleb128 -20
+ 749 0261 00       		.byte	0
+ 750 0262 11       		.uleb128 0x11
+ 751 0263 64000000 		.4byte	.LVL12
+ 752 0267 5A060000 		.4byte	0x65a
+ 753 026b 7A020000 		.4byte	0x27a
+ 754 026f 12       		.uleb128 0x12
+ 755 0270 01       		.uleb128 0x1
+ 756 0271 51       		.byte	0x51
+ 757 0272 01       		.uleb128 0x1
+ 758 0273 30       		.byte	0x30
+ 759 0274 12       		.uleb128 0x12
+ 760 0275 01       		.uleb128 0x1
+ 761 0276 50       		.byte	0x50
+ 762 0277 01       		.uleb128 0x1
+ 763 0278 31       		.byte	0x31
+ 764 0279 00       		.byte	0
+ 765 027a 11       		.uleb128 0x11
+ 766 027b 6A000000 		.4byte	.LVL13
+ 767 027f 3E060000 		.4byte	0x63e
+ 768 0283 91020000 		.4byte	0x291
+ 769 0287 12       		.uleb128 0x12
+ 770 0288 01       		.uleb128 0x1
+ 771 0289 50       		.byte	0x50
+ 772 028a 05       		.uleb128 0x5
+ 773 028b 03       		.byte	0x3
+ 774 028c 40000000 		.4byte	.LC4
+ 775 0290 00       		.byte	0
+ 776 0291 11       		.uleb128 0x11
+ 777 0292 74000000 		.4byte	.LVL14
+ 778 0296 5A060000 		.4byte	0x65a
+ 779 029a A9020000 		.4byte	0x2a9
+ 780 029e 12       		.uleb128 0x12
+ 781 029f 01       		.uleb128 0x1
+ 782 02a0 51       		.byte	0x51
+ 783 02a1 01       		.uleb128 0x1
+ 784 02a2 30       		.byte	0x30
+ 785 02a3 12       		.uleb128 0x12
+ 786 02a4 01       		.uleb128 0x1
+ 787 02a5 50       		.byte	0x50
+ 788 02a6 01       		.uleb128 0x1
+ 789 02a7 31       		.byte	0x31
+ 790 02a8 00       		.byte	0
+ 791 02a9 11       		.uleb128 0x11
+ 792 02aa 7A000000 		.4byte	.LVL15
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 19
+
+
+ 793 02ae 3E060000 		.4byte	0x63e
+ 794 02b2 C0020000 		.4byte	0x2c0
+ 795 02b6 12       		.uleb128 0x12
+ 796 02b7 01       		.uleb128 0x1
+ 797 02b8 50       		.byte	0x50
+ 798 02b9 05       		.uleb128 0x5
+ 799 02ba 03       		.byte	0x3
+ 800 02bb 4C000000 		.4byte	.LC5
+ 801 02bf 00       		.byte	0
+ 802 02c0 11       		.uleb128 0x11
+ 803 02c1 82000000 		.4byte	.LVL16
+ 804 02c5 70060000 		.4byte	0x670
+ 805 02c9 D5020000 		.4byte	0x2d5
+ 806 02cd 12       		.uleb128 0x12
+ 807 02ce 01       		.uleb128 0x1
+ 808 02cf 50       		.byte	0x50
+ 809 02d0 03       		.uleb128 0x3
+ 810 02d1 0A       		.byte	0xa
+ 811 02d2 D007     		.2byte	0x7d0
+ 812 02d4 00       		.byte	0
+ 813 02d5 11       		.uleb128 0x11
+ 814 02d6 88000000 		.4byte	.LVL17
+ 815 02da 97060000 		.4byte	0x697
+ 816 02de EC020000 		.4byte	0x2ec
+ 817 02e2 12       		.uleb128 0x12
+ 818 02e3 01       		.uleb128 0x1
+ 819 02e4 50       		.byte	0x50
+ 820 02e5 05       		.uleb128 0x5
+ 821 02e6 03       		.byte	0x3
+ 822 02e7 54000000 		.4byte	.LC6
+ 823 02eb 00       		.byte	0
+ 824 02ec 11       		.uleb128 0x11
+ 825 02ed 90000000 		.4byte	.LVL18
+ 826 02f1 3E060000 		.4byte	0x63e
+ 827 02f5 03030000 		.4byte	0x303
+ 828 02f9 12       		.uleb128 0x12
+ 829 02fa 01       		.uleb128 0x1
+ 830 02fb 50       		.byte	0x50
+ 831 02fc 05       		.uleb128 0x5
+ 832 02fd 03       		.byte	0x3
+ 833 02fe 58000000 		.4byte	.LC7
+ 834 0302 00       		.byte	0
+ 835 0303 11       		.uleb128 0x11
+ 836 0304 98000000 		.4byte	.LVL19
+ 837 0308 3E060000 		.4byte	0x63e
+ 838 030c 1A030000 		.4byte	0x31a
+ 839 0310 12       		.uleb128 0x12
+ 840 0311 01       		.uleb128 0x1
+ 841 0312 50       		.byte	0x50
+ 842 0313 05       		.uleb128 0x5
+ 843 0314 03       		.byte	0x3
+ 844 0315 68000000 		.4byte	.LC8
+ 845 0319 00       		.byte	0
+ 846 031a 11       		.uleb128 0x11
+ 847 031b A0000000 		.4byte	.LVL20
+ 848 031f 5A060000 		.4byte	0x65a
+ 849 0323 32030000 		.4byte	0x332
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 20
+
+
+ 850 0327 12       		.uleb128 0x12
+ 851 0328 01       		.uleb128 0x1
+ 852 0329 51       		.byte	0x51
+ 853 032a 01       		.uleb128 0x1
+ 854 032b 30       		.byte	0x30
+ 855 032c 12       		.uleb128 0x12
+ 856 032d 01       		.uleb128 0x1
+ 857 032e 50       		.byte	0x50
+ 858 032f 01       		.uleb128 0x1
+ 859 0330 31       		.byte	0x31
+ 860 0331 00       		.byte	0
+ 861 0332 11       		.uleb128 0x11
+ 862 0333 A6000000 		.4byte	.LVL21
+ 863 0337 3E060000 		.4byte	0x63e
+ 864 033b 49030000 		.4byte	0x349
+ 865 033f 12       		.uleb128 0x12
+ 866 0340 01       		.uleb128 0x1
+ 867 0341 50       		.byte	0x50
+ 868 0342 05       		.uleb128 0x5
+ 869 0343 03       		.byte	0x3
+ 870 0344 7C000000 		.4byte	.LC9
+ 871 0348 00       		.byte	0
+ 872 0349 11       		.uleb128 0x11
+ 873 034a AE000000 		.4byte	.LVL22
+ 874 034e 70060000 		.4byte	0x670
+ 875 0352 5E030000 		.4byte	0x35e
+ 876 0356 12       		.uleb128 0x12
+ 877 0357 01       		.uleb128 0x1
+ 878 0358 50       		.byte	0x50
+ 879 0359 03       		.uleb128 0x3
+ 880 035a 0A       		.byte	0xa
+ 881 035b D007     		.2byte	0x7d0
+ 882 035d 00       		.byte	0
+ 883 035e 11       		.uleb128 0x11
+ 884 035f B6000000 		.4byte	.LVL23
+ 885 0363 AD060000 		.4byte	0x6ad
+ 886 0367 7E030000 		.4byte	0x37e
+ 887 036b 12       		.uleb128 0x12
+ 888 036c 01       		.uleb128 0x1
+ 889 036d 51       		.byte	0x51
+ 890 036e 05       		.uleb128 0x5
+ 891 036f 03       		.byte	0x3
+ 892 0370 88000000 		.4byte	.LC10
+ 893 0374 12       		.uleb128 0x12
+ 894 0375 01       		.uleb128 0x1
+ 895 0376 50       		.byte	0x50
+ 896 0377 05       		.uleb128 0x5
+ 897 0378 03       		.byte	0x3
+ 898 0379 00000000 		.4byte	.LANCHOR1
+ 899 037d 00       		.byte	0
+ 900 037e 11       		.uleb128 0x11
+ 901 037f C2000000 		.4byte	.LVL25
+ 902 0383 3E060000 		.4byte	0x63e
+ 903 0387 95030000 		.4byte	0x395
+ 904 038b 12       		.uleb128 0x12
+ 905 038c 01       		.uleb128 0x1
+ 906 038d 50       		.byte	0x50
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 21
+
+
+ 907 038e 05       		.uleb128 0x5
+ 908 038f 03       		.byte	0x3
+ 909 0390 8C000000 		.4byte	.LC11
+ 910 0394 00       		.byte	0
+ 911 0395 11       		.uleb128 0x11
+ 912 0396 C8000000 		.4byte	.LVL26
+ 913 039a 3E060000 		.4byte	0x63e
+ 914 039e AC030000 		.4byte	0x3ac
+ 915 03a2 12       		.uleb128 0x12
+ 916 03a3 01       		.uleb128 0x1
+ 917 03a4 50       		.byte	0x50
+ 918 03a5 05       		.uleb128 0x5
+ 919 03a6 03       		.byte	0x3
+ 920 03a7 00000000 		.4byte	.LANCHOR1
+ 921 03ab 00       		.byte	0
+ 922 03ac 11       		.uleb128 0x11
+ 923 03ad D0000000 		.4byte	.LVL27
+ 924 03b1 5A060000 		.4byte	0x65a
+ 925 03b5 C4030000 		.4byte	0x3c4
+ 926 03b9 12       		.uleb128 0x12
+ 927 03ba 01       		.uleb128 0x1
+ 928 03bb 51       		.byte	0x51
+ 929 03bc 01       		.uleb128 0x1
+ 930 03bd 30       		.byte	0x30
+ 931 03be 12       		.uleb128 0x12
+ 932 03bf 01       		.uleb128 0x1
+ 933 03c0 50       		.byte	0x50
+ 934 03c1 01       		.uleb128 0x1
+ 935 03c2 31       		.byte	0x31
+ 936 03c3 00       		.byte	0
+ 937 03c4 11       		.uleb128 0x11
+ 938 03c5 D6000000 		.4byte	.LVL28
+ 939 03c9 3E060000 		.4byte	0x63e
+ 940 03cd DB030000 		.4byte	0x3db
+ 941 03d1 12       		.uleb128 0x12
+ 942 03d2 01       		.uleb128 0x1
+ 943 03d3 50       		.byte	0x50
+ 944 03d4 05       		.uleb128 0x5
+ 945 03d5 03       		.byte	0x3
+ 946 03d6 94000000 		.4byte	.LC12
+ 947 03da 00       		.byte	0
+ 948 03db 11       		.uleb128 0x11
+ 949 03dc DE000000 		.4byte	.LVL29
+ 950 03e0 70060000 		.4byte	0x670
+ 951 03e4 F0030000 		.4byte	0x3f0
+ 952 03e8 12       		.uleb128 0x12
+ 953 03e9 01       		.uleb128 0x1
+ 954 03ea 50       		.byte	0x50
+ 955 03eb 03       		.uleb128 0x3
+ 956 03ec 0A       		.byte	0xa
+ 957 03ed D007     		.2byte	0x7d0
+ 958 03ef 00       		.byte	0
+ 959 03f0 11       		.uleb128 0x11
+ 960 03f1 E4000000 		.4byte	.LVL30
+ 961 03f5 C8060000 		.4byte	0x6c8
+ 962 03f9 03040000 		.4byte	0x403
+ 963 03fd 12       		.uleb128 0x12
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 22
+
+
+ 964 03fe 01       		.uleb128 0x1
+ 965 03ff 50       		.byte	0x50
+ 966 0400 01       		.uleb128 0x1
+ 967 0401 31       		.byte	0x31
+ 968 0402 00       		.byte	0
+ 969 0403 11       		.uleb128 0x11
+ 970 0404 EC000000 		.4byte	.LVL31
+ 971 0408 5A060000 		.4byte	0x65a
+ 972 040c 1B040000 		.4byte	0x41b
+ 973 0410 12       		.uleb128 0x12
+ 974 0411 01       		.uleb128 0x1
+ 975 0412 51       		.byte	0x51
+ 976 0413 01       		.uleb128 0x1
+ 977 0414 30       		.byte	0x30
+ 978 0415 12       		.uleb128 0x12
+ 979 0416 01       		.uleb128 0x1
+ 980 0417 50       		.byte	0x50
+ 981 0418 01       		.uleb128 0x1
+ 982 0419 30       		.byte	0x30
+ 983 041a 00       		.byte	0
+ 984 041b 11       		.uleb128 0x11
+ 985 041c F6000000 		.4byte	.LVL32
+ 986 0420 D9060000 		.4byte	0x6d9
+ 987 0424 3D040000 		.4byte	0x43d
+ 988 0428 12       		.uleb128 0x12
+ 989 0429 01       		.uleb128 0x1
+ 990 042a 52       		.byte	0x52
+ 991 042b 01       		.uleb128 0x1
+ 992 042c 3A       		.byte	0x3a
+ 993 042d 12       		.uleb128 0x12
+ 994 042e 01       		.uleb128 0x1
+ 995 042f 51       		.byte	0x51
+ 996 0430 05       		.uleb128 0x5
+ 997 0431 03       		.byte	0x3
+ 998 0432 A0000000 		.4byte	.LC13
+ 999 0436 12       		.uleb128 0x12
+ 1000 0437 01       		.uleb128 0x1
+ 1001 0438 50       		.byte	0x50
+ 1002 0439 02       		.uleb128 0x2
+ 1003 043a 74       		.byte	0x74
+ 1004 043b 00       		.sleb128 0
+ 1005 043c 00       		.byte	0
+ 1006 043d 11       		.uleb128 0x11
+ 1007 043e FE000000 		.4byte	.LVL33
+ 1008 0442 3E060000 		.4byte	0x63e
+ 1009 0446 54040000 		.4byte	0x454
+ 1010 044a 12       		.uleb128 0x12
+ 1011 044b 01       		.uleb128 0x1
+ 1012 044c 50       		.byte	0x50
+ 1013 044d 05       		.uleb128 0x5
+ 1014 044e 03       		.byte	0x3
+ 1015 044f AC000000 		.4byte	.LC14
+ 1016 0453 00       		.byte	0
+ 1017 0454 11       		.uleb128 0x11
+ 1018 0455 04010000 		.4byte	.LVL34
+ 1019 0459 3E060000 		.4byte	0x63e
+ 1020 045d 6B040000 		.4byte	0x46b
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 23
+
+
+ 1021 0461 12       		.uleb128 0x12
+ 1022 0462 01       		.uleb128 0x1
+ 1023 0463 50       		.byte	0x50
+ 1024 0464 05       		.uleb128 0x5
+ 1025 0465 03       		.byte	0x3
+ 1026 0466 00000000 		.4byte	.LANCHOR1
+ 1027 046a 00       		.byte	0
+ 1028 046b 11       		.uleb128 0x11
+ 1029 046c 0C010000 		.4byte	.LVL35
+ 1030 0470 5A060000 		.4byte	0x65a
+ 1031 0474 83040000 		.4byte	0x483
+ 1032 0478 12       		.uleb128 0x12
+ 1033 0479 01       		.uleb128 0x1
+ 1034 047a 51       		.byte	0x51
+ 1035 047b 01       		.uleb128 0x1
+ 1036 047c 30       		.byte	0x30
+ 1037 047d 12       		.uleb128 0x12
+ 1038 047e 01       		.uleb128 0x1
+ 1039 047f 50       		.byte	0x50
+ 1040 0480 01       		.uleb128 0x1
+ 1041 0481 31       		.byte	0x31
+ 1042 0482 00       		.byte	0
+ 1043 0483 11       		.uleb128 0x11
+ 1044 0484 12010000 		.4byte	.LVL36
+ 1045 0488 3E060000 		.4byte	0x63e
+ 1046 048c 9A040000 		.4byte	0x49a
+ 1047 0490 12       		.uleb128 0x12
+ 1048 0491 01       		.uleb128 0x1
+ 1049 0492 50       		.byte	0x50
+ 1050 0493 05       		.uleb128 0x5
+ 1051 0494 03       		.byte	0x3
+ 1052 0495 BC000000 		.4byte	.LC15
+ 1053 0499 00       		.byte	0
+ 1054 049a 11       		.uleb128 0x11
+ 1055 049b 1A010000 		.4byte	.LVL37
+ 1056 049f 3E060000 		.4byte	0x63e
+ 1057 04a3 B1040000 		.4byte	0x4b1
+ 1058 04a7 12       		.uleb128 0x12
+ 1059 04a8 01       		.uleb128 0x1
+ 1060 04a9 50       		.byte	0x50
+ 1061 04aa 05       		.uleb128 0x5
+ 1062 04ab 03       		.byte	0x3
+ 1063 04ac CC000000 		.4byte	.LC16
+ 1064 04b0 00       		.byte	0
+ 1065 04b1 11       		.uleb128 0x11
+ 1066 04b2 22010000 		.4byte	.LVL38
+ 1067 04b6 5A060000 		.4byte	0x65a
+ 1068 04ba C9040000 		.4byte	0x4c9
+ 1069 04be 12       		.uleb128 0x12
+ 1070 04bf 01       		.uleb128 0x1
+ 1071 04c0 51       		.byte	0x51
+ 1072 04c1 01       		.uleb128 0x1
+ 1073 04c2 30       		.byte	0x30
+ 1074 04c3 12       		.uleb128 0x12
+ 1075 04c4 01       		.uleb128 0x1
+ 1076 04c5 50       		.byte	0x50
+ 1077 04c6 01       		.uleb128 0x1
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 24
+
+
+ 1078 04c7 31       		.byte	0x31
+ 1079 04c8 00       		.byte	0
+ 1080 04c9 11       		.uleb128 0x11
+ 1081 04ca 28010000 		.4byte	.LVL39
+ 1082 04ce 3E060000 		.4byte	0x63e
+ 1083 04d2 E0040000 		.4byte	0x4e0
+ 1084 04d6 12       		.uleb128 0x12
+ 1085 04d7 01       		.uleb128 0x1
+ 1086 04d8 50       		.byte	0x50
+ 1087 04d9 05       		.uleb128 0x5
+ 1088 04da 03       		.byte	0x3
+ 1089 04db DC000000 		.4byte	.LC17
+ 1090 04df 00       		.byte	0
+ 1091 04e0 11       		.uleb128 0x11
+ 1092 04e1 30010000 		.4byte	.LVL40
+ 1093 04e5 70060000 		.4byte	0x670
+ 1094 04e9 F5040000 		.4byte	0x4f5
+ 1095 04ed 12       		.uleb128 0x12
+ 1096 04ee 01       		.uleb128 0x1
+ 1097 04ef 50       		.byte	0x50
+ 1098 04f0 03       		.uleb128 0x3
+ 1099 04f1 0A       		.byte	0xa
+ 1100 04f2 D007     		.2byte	0x7d0
+ 1101 04f4 00       		.byte	0
+ 1102 04f5 11       		.uleb128 0x11
+ 1103 04f6 36010000 		.4byte	.LVL41
+ 1104 04fa C8060000 		.4byte	0x6c8
+ 1105 04fe 08050000 		.4byte	0x508
+ 1106 0502 12       		.uleb128 0x12
+ 1107 0503 01       		.uleb128 0x1
+ 1108 0504 50       		.byte	0x50
+ 1109 0505 01       		.uleb128 0x1
+ 1110 0506 31       		.byte	0x31
+ 1111 0507 00       		.byte	0
+ 1112 0508 11       		.uleb128 0x11
+ 1113 0509 3E010000 		.4byte	.LVL42
+ 1114 050d 5A060000 		.4byte	0x65a
+ 1115 0511 20050000 		.4byte	0x520
+ 1116 0515 12       		.uleb128 0x12
+ 1117 0516 01       		.uleb128 0x1
+ 1118 0517 51       		.byte	0x51
+ 1119 0518 01       		.uleb128 0x1
+ 1120 0519 30       		.byte	0x30
+ 1121 051a 12       		.uleb128 0x12
+ 1122 051b 01       		.uleb128 0x1
+ 1123 051c 50       		.byte	0x50
+ 1124 051d 01       		.uleb128 0x1
+ 1125 051e 30       		.byte	0x30
+ 1126 051f 00       		.byte	0
+ 1127 0520 11       		.uleb128 0x11
+ 1128 0521 46010000 		.4byte	.LVL45
+ 1129 0525 3E060000 		.4byte	0x63e
+ 1130 0529 37050000 		.4byte	0x537
+ 1131 052d 12       		.uleb128 0x12
+ 1132 052e 01       		.uleb128 0x1
+ 1133 052f 50       		.byte	0x50
+ 1134 0530 05       		.uleb128 0x5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 25
+
+
+ 1135 0531 03       		.byte	0x3
+ 1136 0532 68000000 		.4byte	.LC8
+ 1137 0536 00       		.byte	0
+ 1138 0537 11       		.uleb128 0x11
+ 1139 0538 4E010000 		.4byte	.LVL46
+ 1140 053c 5A060000 		.4byte	0x65a
+ 1141 0540 4F050000 		.4byte	0x54f
+ 1142 0544 12       		.uleb128 0x12
+ 1143 0545 01       		.uleb128 0x1
+ 1144 0546 51       		.byte	0x51
+ 1145 0547 01       		.uleb128 0x1
+ 1146 0548 30       		.byte	0x30
+ 1147 0549 12       		.uleb128 0x12
+ 1148 054a 01       		.uleb128 0x1
+ 1149 054b 50       		.byte	0x50
+ 1150 054c 01       		.uleb128 0x1
+ 1151 054d 31       		.byte	0x31
+ 1152 054e 00       		.byte	0
+ 1153 054f 11       		.uleb128 0x11
+ 1154 0550 54010000 		.4byte	.LVL47
+ 1155 0554 3E060000 		.4byte	0x63e
+ 1156 0558 66050000 		.4byte	0x566
+ 1157 055c 12       		.uleb128 0x12
+ 1158 055d 01       		.uleb128 0x1
+ 1159 055e 50       		.byte	0x50
+ 1160 055f 05       		.uleb128 0x5
+ 1161 0560 03       		.byte	0x3
+ 1162 0561 EC000000 		.4byte	.LC18
+ 1163 0565 00       		.byte	0
+ 1164 0566 11       		.uleb128 0x11
+ 1165 0567 5C010000 		.4byte	.LVL48
+ 1166 056b 70060000 		.4byte	0x670
+ 1167 056f 7B050000 		.4byte	0x57b
+ 1168 0573 12       		.uleb128 0x12
+ 1169 0574 01       		.uleb128 0x1
+ 1170 0575 50       		.byte	0x50
+ 1171 0576 03       		.uleb128 0x3
+ 1172 0577 0A       		.byte	0xa
+ 1173 0578 D007     		.2byte	0x7d0
+ 1174 057a 00       		.byte	0
+ 1175 057b 10       		.uleb128 0x10
+ 1176 057c 62010000 		.4byte	.LVL49
+ 1177 0580 F9060000 		.4byte	0x6f9
+ 1178 0584 10       		.uleb128 0x10
+ 1179 0585 66010000 		.4byte	.LVL50
+ 1180 0589 00070000 		.4byte	0x700
+ 1181 058d 11       		.uleb128 0x11
+ 1182 058e 6C010000 		.4byte	.LVL51
+ 1183 0592 07070000 		.4byte	0x707
+ 1184 0596 A4050000 		.4byte	0x5a4
+ 1185 059a 12       		.uleb128 0x12
+ 1186 059b 01       		.uleb128 0x1
+ 1187 059c 50       		.byte	0x50
+ 1188 059d 05       		.uleb128 0x5
+ 1189 059e 03       		.byte	0x3
+ 1190 059f 00000000 		.4byte	write
+ 1191 05a3 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 26
+
+
+ 1192 05a4 13       		.uleb128 0x13
+ 1193 05a5 84010000 		.4byte	.LVL52
+ 1194 05a9 D9060000 		.4byte	0x6d9
+ 1195 05ad 12       		.uleb128 0x12
+ 1196 05ae 01       		.uleb128 0x1
+ 1197 05af 52       		.byte	0x52
+ 1198 05b0 01       		.uleb128 0x1
+ 1199 05b1 35       		.byte	0x35
+ 1200 05b2 12       		.uleb128 0x12
+ 1201 05b3 01       		.uleb128 0x1
+ 1202 05b4 51       		.byte	0x51
+ 1203 05b5 05       		.uleb128 0x5
+ 1204 05b6 03       		.byte	0x3
+ 1205 05b7 F4000000 		.4byte	.LC19
+ 1206 05bb 12       		.uleb128 0x12
+ 1207 05bc 01       		.uleb128 0x1
+ 1208 05bd 50       		.byte	0x50
+ 1209 05be 02       		.uleb128 0x2
+ 1210 05bf 74       		.byte	0x74
+ 1211 05c0 00       		.sleb128 0
+ 1212 05c1 00       		.byte	0
+ 1213 05c2 00       		.byte	0
+ 1214 05c3 14       		.uleb128 0x14
+ 1215 05c4 B3000000 		.4byte	0xb3
+ 1216 05c8 D3050000 		.4byte	0x5d3
+ 1217 05cc 15       		.uleb128 0x15
+ 1218 05cd DE000000 		.4byte	0xde
+ 1219 05d1 09       		.byte	0x9
+ 1220 05d2 00       		.byte	0
+ 1221 05d3 16       		.uleb128 0x16
+ 1222 05d4 FD000000 		.4byte	.LASF23
+ 1223 05d8 06       		.byte	0x6
+ 1224 05d9 9606     		.2byte	0x696
+ 1225 05db DF050000 		.4byte	0x5df
+ 1226 05df 06       		.uleb128 0x6
+ 1227 05e0 76000000 		.4byte	0x76
+ 1228 05e4 17       		.uleb128 0x17
+ 1229 05e5 C6010000 		.4byte	.LASF24
+ 1230 05e9 01       		.byte	0x1
+ 1231 05ea 11       		.byte	0x11
+ 1232 05eb 68000000 		.4byte	0x68
+ 1233 05ef 05       		.uleb128 0x5
+ 1234 05f0 03       		.byte	0x3
+ 1235 05f1 00000000 		.4byte	flag
+ 1236 05f5 14       		.uleb128 0x14
+ 1237 05f6 B3000000 		.4byte	0xb3
+ 1238 05fa 05060000 		.4byte	0x605
+ 1239 05fe 15       		.uleb128 0x15
+ 1240 05ff DE000000 		.4byte	0xde
+ 1241 0603 08       		.byte	0x8
+ 1242 0604 00       		.byte	0
+ 1243 0605 17       		.uleb128 0x17
+ 1244 0606 6D020000 		.4byte	.LASF25
+ 1245 060a 01       		.byte	0x1
+ 1246 060b 12       		.byte	0x12
+ 1247 060c F5050000 		.4byte	0x5f5
+ 1248 0610 05       		.uleb128 0x5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 27
+
+
+ 1249 0611 03       		.byte	0x3
+ 1250 0612 00000000 		.4byte	sdFile
+ 1251 0616 18       		.uleb128 0x18
+ 1252 0617 4C020000 		.4byte	.LASF35
+ 1253 061b 09       		.byte	0x9
+ 1254 061c DA01     		.2byte	0x1da
+ 1255 061e 19       		.uleb128 0x19
+ 1256 061f E6000000 		.4byte	.LASF29
+ 1257 0623 09       		.byte	0x9
+ 1258 0624 7001     		.2byte	0x170
+ 1259 0626 68000000 		.4byte	0x68
+ 1260 062a 3E060000 		.4byte	0x63e
+ 1261 062e 1A       		.uleb128 0x1a
+ 1262 062f 68000000 		.4byte	0x68
+ 1263 0633 1A       		.uleb128 0x1a
+ 1264 0634 E5000000 		.4byte	0xe5
+ 1265 0638 1A       		.uleb128 0x1a
+ 1266 0639 68000000 		.4byte	0x68
+ 1267 063d 00       		.byte	0
+ 1268 063e 1B       		.uleb128 0x1b
+ 1269 063f 21010000 		.4byte	.LASF26
+ 1270 0643 07       		.byte	0x7
+ 1271 0644 3C       		.byte	0x3c
+ 1272 0645 4F060000 		.4byte	0x64f
+ 1273 0649 1A       		.uleb128 0x1a
+ 1274 064a 4F060000 		.4byte	0x64f
+ 1275 064e 00       		.byte	0
+ 1276 064f 07       		.uleb128 0x7
+ 1277 0650 04       		.byte	0x4
+ 1278 0651 55060000 		.4byte	0x655
+ 1279 0655 09       		.uleb128 0x9
+ 1280 0656 A7000000 		.4byte	0xa7
+ 1281 065a 1B       		.uleb128 0x1b
+ 1282 065b EF010000 		.4byte	.LASF27
+ 1283 065f 07       		.byte	0x7
+ 1284 0660 3D       		.byte	0x3d
+ 1285 0661 70060000 		.4byte	0x670
+ 1286 0665 1A       		.uleb128 0x1a
+ 1287 0666 81000000 		.4byte	0x81
+ 1288 066a 1A       		.uleb128 0x1a
+ 1289 066b 81000000 		.4byte	0x81
+ 1290 066f 00       		.byte	0
+ 1291 0670 1B       		.uleb128 0x1b
+ 1292 0671 80020000 		.4byte	.LASF28
+ 1293 0675 08       		.byte	0x8
+ 1294 0676 76       		.byte	0x76
+ 1295 0677 81060000 		.4byte	0x681
+ 1296 067b 1A       		.uleb128 0x1a
+ 1297 067c 8D000000 		.4byte	0x8d
+ 1298 0680 00       		.byte	0
+ 1299 0681 19       		.uleb128 0x19
+ 1300 0682 43000000 		.4byte	.LASF30
+ 1301 0686 09       		.byte	0x9
+ 1302 0687 E601     		.2byte	0x1e6
+ 1303 0689 68000000 		.4byte	0x68
+ 1304 068d 97060000 		.4byte	0x697
+ 1305 0691 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 28
+
+
+ 1306 0692 EB000000 		.4byte	0xeb
+ 1307 0696 00       		.byte	0
+ 1308 0697 19       		.uleb128 0x19
+ 1309 0698 00000000 		.4byte	.LASF31
+ 1310 069c 09       		.byte	0x9
+ 1311 069d B701     		.2byte	0x1b7
+ 1312 069f 68000000 		.4byte	0x68
+ 1313 06a3 AD060000 		.4byte	0x6ad
+ 1314 06a7 1A       		.uleb128 0x1a
+ 1315 06a8 EB000000 		.4byte	0xeb
+ 1316 06ac 00       		.byte	0
+ 1317 06ad 19       		.uleb128 0x19
+ 1318 06ae 0A010000 		.4byte	.LASF32
+ 1319 06b2 09       		.byte	0x9
+ 1320 06b3 3A01     		.2byte	0x13a
+ 1321 06b5 06010000 		.4byte	0x106
+ 1322 06b9 C8060000 		.4byte	0x6c8
+ 1323 06bd 1A       		.uleb128 0x1a
+ 1324 06be EB000000 		.4byte	0xeb
+ 1325 06c2 1A       		.uleb128 0x1a
+ 1326 06c3 EB000000 		.4byte	0xeb
+ 1327 06c7 00       		.byte	0
+ 1328 06c8 1B       		.uleb128 0x1b
+ 1329 06c9 17000000 		.4byte	.LASF33
+ 1330 06cd 07       		.byte	0x7
+ 1331 06ce 3A       		.byte	0x3a
+ 1332 06cf D9060000 		.4byte	0x6d9
+ 1333 06d3 1A       		.uleb128 0x1a
+ 1334 06d4 81000000 		.4byte	0x81
+ 1335 06d8 00       		.byte	0
+ 1336 06d9 19       		.uleb128 0x19
+ 1337 06da 13010000 		.4byte	.LASF34
+ 1338 06de 09       		.byte	0x9
+ 1339 06df 4401     		.2byte	0x144
+ 1340 06e1 53000000 		.4byte	0x53
+ 1341 06e5 F9060000 		.4byte	0x6f9
+ 1342 06e9 1A       		.uleb128 0x1a
+ 1343 06ea 06010000 		.4byte	0x106
+ 1344 06ee 1A       		.uleb128 0x1a
+ 1345 06ef 0C010000 		.4byte	0x10c
+ 1346 06f3 1A       		.uleb128 0x1a
+ 1347 06f4 53000000 		.4byte	0x53
+ 1348 06f8 00       		.byte	0
+ 1349 06f9 1C       		.uleb128 0x1c
+ 1350 06fa A4000000 		.4byte	.LASF36
+ 1351 06fe 07       		.byte	0x7
+ 1352 06ff 38       		.byte	0x38
+ 1353 0700 1C       		.uleb128 0x1c
+ 1354 0701 09000000 		.4byte	.LASF37
+ 1355 0705 0A       		.byte	0xa
+ 1356 0706 5A       		.byte	0x5a
+ 1357 0707 1D       		.uleb128 0x1d
+ 1358 0708 32000000 		.4byte	.LASF43
+ 1359 070c 0B       		.byte	0xb
+ 1360 070d 18       		.byte	0x18
+ 1361 070e 1A       		.uleb128 0x1a
+ 1362 070f CB000000 		.4byte	0xcb
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 29
+
+
+ 1363 0713 00       		.byte	0
+ 1364 0714 00       		.byte	0
+ 1365              		.section	.debug_abbrev,"",%progbits
+ 1366              	.Ldebug_abbrev0:
+ 1367 0000 01       		.uleb128 0x1
+ 1368 0001 11       		.uleb128 0x11
+ 1369 0002 01       		.byte	0x1
+ 1370 0003 25       		.uleb128 0x25
+ 1371 0004 0E       		.uleb128 0xe
+ 1372 0005 13       		.uleb128 0x13
+ 1373 0006 0B       		.uleb128 0xb
+ 1374 0007 03       		.uleb128 0x3
+ 1375 0008 0E       		.uleb128 0xe
+ 1376 0009 1B       		.uleb128 0x1b
+ 1377 000a 0E       		.uleb128 0xe
+ 1378 000b 55       		.uleb128 0x55
+ 1379 000c 17       		.uleb128 0x17
+ 1380 000d 11       		.uleb128 0x11
+ 1381 000e 01       		.uleb128 0x1
+ 1382 000f 10       		.uleb128 0x10
+ 1383 0010 17       		.uleb128 0x17
+ 1384 0011 00       		.byte	0
+ 1385 0012 00       		.byte	0
+ 1386 0013 02       		.uleb128 0x2
+ 1387 0014 24       		.uleb128 0x24
+ 1388 0015 00       		.byte	0
+ 1389 0016 0B       		.uleb128 0xb
+ 1390 0017 0B       		.uleb128 0xb
+ 1391 0018 3E       		.uleb128 0x3e
+ 1392 0019 0B       		.uleb128 0xb
+ 1393 001a 03       		.uleb128 0x3
+ 1394 001b 0E       		.uleb128 0xe
+ 1395 001c 00       		.byte	0
+ 1396 001d 00       		.byte	0
+ 1397 001e 03       		.uleb128 0x3
+ 1398 001f 16       		.uleb128 0x16
+ 1399 0020 00       		.byte	0
+ 1400 0021 03       		.uleb128 0x3
+ 1401 0022 0E       		.uleb128 0xe
+ 1402 0023 3A       		.uleb128 0x3a
+ 1403 0024 0B       		.uleb128 0xb
+ 1404 0025 3B       		.uleb128 0x3b
+ 1405 0026 0B       		.uleb128 0xb
+ 1406 0027 49       		.uleb128 0x49
+ 1407 0028 13       		.uleb128 0x13
+ 1408 0029 00       		.byte	0
+ 1409 002a 00       		.byte	0
+ 1410 002b 04       		.uleb128 0x4
+ 1411 002c 24       		.uleb128 0x24
+ 1412 002d 00       		.byte	0
+ 1413 002e 0B       		.uleb128 0xb
+ 1414 002f 0B       		.uleb128 0xb
+ 1415 0030 3E       		.uleb128 0x3e
+ 1416 0031 0B       		.uleb128 0xb
+ 1417 0032 03       		.uleb128 0x3
+ 1418 0033 08       		.uleb128 0x8
+ 1419 0034 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 30
+
+
+ 1420 0035 00       		.byte	0
+ 1421 0036 05       		.uleb128 0x5
+ 1422 0037 16       		.uleb128 0x16
+ 1423 0038 00       		.byte	0
+ 1424 0039 03       		.uleb128 0x3
+ 1425 003a 0E       		.uleb128 0xe
+ 1426 003b 3A       		.uleb128 0x3a
+ 1427 003c 0B       		.uleb128 0xb
+ 1428 003d 3B       		.uleb128 0x3b
+ 1429 003e 05       		.uleb128 0x5
+ 1430 003f 49       		.uleb128 0x49
+ 1431 0040 13       		.uleb128 0x13
+ 1432 0041 00       		.byte	0
+ 1433 0042 00       		.byte	0
+ 1434 0043 06       		.uleb128 0x6
+ 1435 0044 35       		.uleb128 0x35
+ 1436 0045 00       		.byte	0
+ 1437 0046 49       		.uleb128 0x49
+ 1438 0047 13       		.uleb128 0x13
+ 1439 0048 00       		.byte	0
+ 1440 0049 00       		.byte	0
+ 1441 004a 07       		.uleb128 0x7
+ 1442 004b 0F       		.uleb128 0xf
+ 1443 004c 00       		.byte	0
+ 1444 004d 0B       		.uleb128 0xb
+ 1445 004e 0B       		.uleb128 0xb
+ 1446 004f 49       		.uleb128 0x49
+ 1447 0050 13       		.uleb128 0x13
+ 1448 0051 00       		.byte	0
+ 1449 0052 00       		.byte	0
+ 1450 0053 08       		.uleb128 0x8
+ 1451 0054 15       		.uleb128 0x15
+ 1452 0055 00       		.byte	0
+ 1453 0056 27       		.uleb128 0x27
+ 1454 0057 19       		.uleb128 0x19
+ 1455 0058 00       		.byte	0
+ 1456 0059 00       		.byte	0
+ 1457 005a 09       		.uleb128 0x9
+ 1458 005b 26       		.uleb128 0x26
+ 1459 005c 00       		.byte	0
+ 1460 005d 49       		.uleb128 0x49
+ 1461 005e 13       		.uleb128 0x13
+ 1462 005f 00       		.byte	0
+ 1463 0060 00       		.byte	0
+ 1464 0061 0A       		.uleb128 0xa
+ 1465 0062 13       		.uleb128 0x13
+ 1466 0063 00       		.byte	0
+ 1467 0064 03       		.uleb128 0x3
+ 1468 0065 0E       		.uleb128 0xe
+ 1469 0066 3C       		.uleb128 0x3c
+ 1470 0067 19       		.uleb128 0x19
+ 1471 0068 00       		.byte	0
+ 1472 0069 00       		.byte	0
+ 1473 006a 0B       		.uleb128 0xb
+ 1474 006b 26       		.uleb128 0x26
+ 1475 006c 00       		.byte	0
+ 1476 006d 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 31
+
+
+ 1477 006e 00       		.byte	0
+ 1478 006f 0C       		.uleb128 0xc
+ 1479 0070 2E       		.uleb128 0x2e
+ 1480 0071 00       		.byte	0
+ 1481 0072 3F       		.uleb128 0x3f
+ 1482 0073 19       		.uleb128 0x19
+ 1483 0074 03       		.uleb128 0x3
+ 1484 0075 0E       		.uleb128 0xe
+ 1485 0076 3A       		.uleb128 0x3a
+ 1486 0077 0B       		.uleb128 0xb
+ 1487 0078 3B       		.uleb128 0x3b
+ 1488 0079 0B       		.uleb128 0xb
+ 1489 007a 27       		.uleb128 0x27
+ 1490 007b 19       		.uleb128 0x19
+ 1491 007c 11       		.uleb128 0x11
+ 1492 007d 01       		.uleb128 0x1
+ 1493 007e 12       		.uleb128 0x12
+ 1494 007f 06       		.uleb128 0x6
+ 1495 0080 40       		.uleb128 0x40
+ 1496 0081 18       		.uleb128 0x18
+ 1497 0082 9742     		.uleb128 0x2117
+ 1498 0084 19       		.uleb128 0x19
+ 1499 0085 00       		.byte	0
+ 1500 0086 00       		.byte	0
+ 1501 0087 0D       		.uleb128 0xd
+ 1502 0088 2E       		.uleb128 0x2e
+ 1503 0089 01       		.byte	0x1
+ 1504 008a 3F       		.uleb128 0x3f
+ 1505 008b 19       		.uleb128 0x19
+ 1506 008c 03       		.uleb128 0x3
+ 1507 008d 0E       		.uleb128 0xe
+ 1508 008e 3A       		.uleb128 0x3a
+ 1509 008f 0B       		.uleb128 0xb
+ 1510 0090 3B       		.uleb128 0x3b
+ 1511 0091 0B       		.uleb128 0xb
+ 1512 0092 27       		.uleb128 0x27
+ 1513 0093 19       		.uleb128 0x19
+ 1514 0094 49       		.uleb128 0x49
+ 1515 0095 13       		.uleb128 0x13
+ 1516 0096 11       		.uleb128 0x11
+ 1517 0097 01       		.uleb128 0x1
+ 1518 0098 12       		.uleb128 0x12
+ 1519 0099 06       		.uleb128 0x6
+ 1520 009a 40       		.uleb128 0x40
+ 1521 009b 18       		.uleb128 0x18
+ 1522 009c 9742     		.uleb128 0x2117
+ 1523 009e 19       		.uleb128 0x19
+ 1524 009f 01       		.uleb128 0x1
+ 1525 00a0 13       		.uleb128 0x13
+ 1526 00a1 00       		.byte	0
+ 1527 00a2 00       		.byte	0
+ 1528 00a3 0E       		.uleb128 0xe
+ 1529 00a4 34       		.uleb128 0x34
+ 1530 00a5 00       		.byte	0
+ 1531 00a6 03       		.uleb128 0x3
+ 1532 00a7 0E       		.uleb128 0xe
+ 1533 00a8 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 32
+
+
+ 1534 00a9 0B       		.uleb128 0xb
+ 1535 00aa 3B       		.uleb128 0x3b
+ 1536 00ab 0B       		.uleb128 0xb
+ 1537 00ac 49       		.uleb128 0x49
+ 1538 00ad 13       		.uleb128 0x13
+ 1539 00ae 02       		.uleb128 0x2
+ 1540 00af 18       		.uleb128 0x18
+ 1541 00b0 00       		.byte	0
+ 1542 00b1 00       		.byte	0
+ 1543 00b2 0F       		.uleb128 0xf
+ 1544 00b3 34       		.uleb128 0x34
+ 1545 00b4 00       		.byte	0
+ 1546 00b5 03       		.uleb128 0x3
+ 1547 00b6 0E       		.uleb128 0xe
+ 1548 00b7 3A       		.uleb128 0x3a
+ 1549 00b8 0B       		.uleb128 0xb
+ 1550 00b9 3B       		.uleb128 0x3b
+ 1551 00ba 0B       		.uleb128 0xb
+ 1552 00bb 49       		.uleb128 0x49
+ 1553 00bc 13       		.uleb128 0x13
+ 1554 00bd 02       		.uleb128 0x2
+ 1555 00be 17       		.uleb128 0x17
+ 1556 00bf 00       		.byte	0
+ 1557 00c0 00       		.byte	0
+ 1558 00c1 10       		.uleb128 0x10
+ 1559 00c2 898201   		.uleb128 0x4109
+ 1560 00c5 00       		.byte	0
+ 1561 00c6 11       		.uleb128 0x11
+ 1562 00c7 01       		.uleb128 0x1
+ 1563 00c8 31       		.uleb128 0x31
+ 1564 00c9 13       		.uleb128 0x13
+ 1565 00ca 00       		.byte	0
+ 1566 00cb 00       		.byte	0
+ 1567 00cc 11       		.uleb128 0x11
+ 1568 00cd 898201   		.uleb128 0x4109
+ 1569 00d0 01       		.byte	0x1
+ 1570 00d1 11       		.uleb128 0x11
+ 1571 00d2 01       		.uleb128 0x1
+ 1572 00d3 31       		.uleb128 0x31
+ 1573 00d4 13       		.uleb128 0x13
+ 1574 00d5 01       		.uleb128 0x1
+ 1575 00d6 13       		.uleb128 0x13
+ 1576 00d7 00       		.byte	0
+ 1577 00d8 00       		.byte	0
+ 1578 00d9 12       		.uleb128 0x12
+ 1579 00da 8A8201   		.uleb128 0x410a
+ 1580 00dd 00       		.byte	0
+ 1581 00de 02       		.uleb128 0x2
+ 1582 00df 18       		.uleb128 0x18
+ 1583 00e0 9142     		.uleb128 0x2111
+ 1584 00e2 18       		.uleb128 0x18
+ 1585 00e3 00       		.byte	0
+ 1586 00e4 00       		.byte	0
+ 1587 00e5 13       		.uleb128 0x13
+ 1588 00e6 898201   		.uleb128 0x4109
+ 1589 00e9 01       		.byte	0x1
+ 1590 00ea 11       		.uleb128 0x11
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 33
+
+
+ 1591 00eb 01       		.uleb128 0x1
+ 1592 00ec 31       		.uleb128 0x31
+ 1593 00ed 13       		.uleb128 0x13
+ 1594 00ee 00       		.byte	0
+ 1595 00ef 00       		.byte	0
+ 1596 00f0 14       		.uleb128 0x14
+ 1597 00f1 01       		.uleb128 0x1
+ 1598 00f2 01       		.byte	0x1
+ 1599 00f3 49       		.uleb128 0x49
+ 1600 00f4 13       		.uleb128 0x13
+ 1601 00f5 01       		.uleb128 0x1
+ 1602 00f6 13       		.uleb128 0x13
+ 1603 00f7 00       		.byte	0
+ 1604 00f8 00       		.byte	0
+ 1605 00f9 15       		.uleb128 0x15
+ 1606 00fa 21       		.uleb128 0x21
+ 1607 00fb 00       		.byte	0
+ 1608 00fc 49       		.uleb128 0x49
+ 1609 00fd 13       		.uleb128 0x13
+ 1610 00fe 2F       		.uleb128 0x2f
+ 1611 00ff 0B       		.uleb128 0xb
+ 1612 0100 00       		.byte	0
+ 1613 0101 00       		.byte	0
+ 1614 0102 16       		.uleb128 0x16
+ 1615 0103 34       		.uleb128 0x34
+ 1616 0104 00       		.byte	0
+ 1617 0105 03       		.uleb128 0x3
+ 1618 0106 0E       		.uleb128 0xe
+ 1619 0107 3A       		.uleb128 0x3a
+ 1620 0108 0B       		.uleb128 0xb
+ 1621 0109 3B       		.uleb128 0x3b
+ 1622 010a 05       		.uleb128 0x5
+ 1623 010b 49       		.uleb128 0x49
+ 1624 010c 13       		.uleb128 0x13
+ 1625 010d 3F       		.uleb128 0x3f
+ 1626 010e 19       		.uleb128 0x19
+ 1627 010f 3C       		.uleb128 0x3c
+ 1628 0110 19       		.uleb128 0x19
+ 1629 0111 00       		.byte	0
+ 1630 0112 00       		.byte	0
+ 1631 0113 17       		.uleb128 0x17
+ 1632 0114 34       		.uleb128 0x34
+ 1633 0115 00       		.byte	0
+ 1634 0116 03       		.uleb128 0x3
+ 1635 0117 0E       		.uleb128 0xe
+ 1636 0118 3A       		.uleb128 0x3a
+ 1637 0119 0B       		.uleb128 0xb
+ 1638 011a 3B       		.uleb128 0x3b
+ 1639 011b 0B       		.uleb128 0xb
+ 1640 011c 49       		.uleb128 0x49
+ 1641 011d 13       		.uleb128 0x13
+ 1642 011e 3F       		.uleb128 0x3f
+ 1643 011f 19       		.uleb128 0x19
+ 1644 0120 02       		.uleb128 0x2
+ 1645 0121 18       		.uleb128 0x18
+ 1646 0122 00       		.byte	0
+ 1647 0123 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 34
+
+
+ 1648 0124 18       		.uleb128 0x18
+ 1649 0125 2E       		.uleb128 0x2e
+ 1650 0126 00       		.byte	0
+ 1651 0127 3F       		.uleb128 0x3f
+ 1652 0128 19       		.uleb128 0x19
+ 1653 0129 03       		.uleb128 0x3
+ 1654 012a 0E       		.uleb128 0xe
+ 1655 012b 3A       		.uleb128 0x3a
+ 1656 012c 0B       		.uleb128 0xb
+ 1657 012d 3B       		.uleb128 0x3b
+ 1658 012e 05       		.uleb128 0x5
+ 1659 012f 27       		.uleb128 0x27
+ 1660 0130 19       		.uleb128 0x19
+ 1661 0131 3C       		.uleb128 0x3c
+ 1662 0132 19       		.uleb128 0x19
+ 1663 0133 00       		.byte	0
+ 1664 0134 00       		.byte	0
+ 1665 0135 19       		.uleb128 0x19
+ 1666 0136 2E       		.uleb128 0x2e
+ 1667 0137 01       		.byte	0x1
+ 1668 0138 3F       		.uleb128 0x3f
+ 1669 0139 19       		.uleb128 0x19
+ 1670 013a 03       		.uleb128 0x3
+ 1671 013b 0E       		.uleb128 0xe
+ 1672 013c 3A       		.uleb128 0x3a
+ 1673 013d 0B       		.uleb128 0xb
+ 1674 013e 3B       		.uleb128 0x3b
+ 1675 013f 05       		.uleb128 0x5
+ 1676 0140 27       		.uleb128 0x27
+ 1677 0141 19       		.uleb128 0x19
+ 1678 0142 49       		.uleb128 0x49
+ 1679 0143 13       		.uleb128 0x13
+ 1680 0144 3C       		.uleb128 0x3c
+ 1681 0145 19       		.uleb128 0x19
+ 1682 0146 01       		.uleb128 0x1
+ 1683 0147 13       		.uleb128 0x13
+ 1684 0148 00       		.byte	0
+ 1685 0149 00       		.byte	0
+ 1686 014a 1A       		.uleb128 0x1a
+ 1687 014b 05       		.uleb128 0x5
+ 1688 014c 00       		.byte	0
+ 1689 014d 49       		.uleb128 0x49
+ 1690 014e 13       		.uleb128 0x13
+ 1691 014f 00       		.byte	0
+ 1692 0150 00       		.byte	0
+ 1693 0151 1B       		.uleb128 0x1b
+ 1694 0152 2E       		.uleb128 0x2e
+ 1695 0153 01       		.byte	0x1
+ 1696 0154 3F       		.uleb128 0x3f
+ 1697 0155 19       		.uleb128 0x19
+ 1698 0156 03       		.uleb128 0x3
+ 1699 0157 0E       		.uleb128 0xe
+ 1700 0158 3A       		.uleb128 0x3a
+ 1701 0159 0B       		.uleb128 0xb
+ 1702 015a 3B       		.uleb128 0x3b
+ 1703 015b 0B       		.uleb128 0xb
+ 1704 015c 27       		.uleb128 0x27
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 35
+
+
+ 1705 015d 19       		.uleb128 0x19
+ 1706 015e 3C       		.uleb128 0x3c
+ 1707 015f 19       		.uleb128 0x19
+ 1708 0160 01       		.uleb128 0x1
+ 1709 0161 13       		.uleb128 0x13
+ 1710 0162 00       		.byte	0
+ 1711 0163 00       		.byte	0
+ 1712 0164 1C       		.uleb128 0x1c
+ 1713 0165 2E       		.uleb128 0x2e
+ 1714 0166 00       		.byte	0
+ 1715 0167 3F       		.uleb128 0x3f
+ 1716 0168 19       		.uleb128 0x19
+ 1717 0169 03       		.uleb128 0x3
+ 1718 016a 0E       		.uleb128 0xe
+ 1719 016b 3A       		.uleb128 0x3a
+ 1720 016c 0B       		.uleb128 0xb
+ 1721 016d 3B       		.uleb128 0x3b
+ 1722 016e 0B       		.uleb128 0xb
+ 1723 016f 27       		.uleb128 0x27
+ 1724 0170 19       		.uleb128 0x19
+ 1725 0171 3C       		.uleb128 0x3c
+ 1726 0172 19       		.uleb128 0x19
+ 1727 0173 00       		.byte	0
+ 1728 0174 00       		.byte	0
+ 1729 0175 1D       		.uleb128 0x1d
+ 1730 0176 2E       		.uleb128 0x2e
+ 1731 0177 01       		.byte	0x1
+ 1732 0178 3F       		.uleb128 0x3f
+ 1733 0179 19       		.uleb128 0x19
+ 1734 017a 03       		.uleb128 0x3
+ 1735 017b 0E       		.uleb128 0xe
+ 1736 017c 3A       		.uleb128 0x3a
+ 1737 017d 0B       		.uleb128 0xb
+ 1738 017e 3B       		.uleb128 0x3b
+ 1739 017f 0B       		.uleb128 0xb
+ 1740 0180 27       		.uleb128 0x27
+ 1741 0181 19       		.uleb128 0x19
+ 1742 0182 3C       		.uleb128 0x3c
+ 1743 0183 19       		.uleb128 0x19
+ 1744 0184 00       		.byte	0
+ 1745 0185 00       		.byte	0
+ 1746 0186 00       		.byte	0
+ 1747              		.section	.debug_loc,"",%progbits
+ 1748              	.Ldebug_loc0:
+ 1749              	.LLST0:
+ 1750 0000 B6000000 		.4byte	.LVL23
+ 1751 0004 BE000000 		.4byte	.LVL24
+ 1752 0008 0100     		.2byte	0x1
+ 1753 000a 50       		.byte	0x50
+ 1754 000b BE000000 		.4byte	.LVL24
+ 1755 000f 40010000 		.4byte	.LVL43
+ 1756 0013 0100     		.2byte	0x1
+ 1757 0015 54       		.byte	0x54
+ 1758 0016 40010000 		.4byte	.LVL43
+ 1759 001a 42010000 		.4byte	.LVL44
+ 1760 001e 0100     		.2byte	0x1
+ 1761 0020 50       		.byte	0x50
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 36
+
+
+ 1762 0021 42010000 		.4byte	.LVL44
+ 1763 0025 E4010000 		.4byte	.LFE63
+ 1764 0029 0100     		.2byte	0x1
+ 1765 002b 54       		.byte	0x54
+ 1766 002c 00000000 		.4byte	0
+ 1767 0030 00000000 		.4byte	0
+ 1768              		.section	.debug_aranges,"",%progbits
+ 1769 0000 24000000 		.4byte	0x24
+ 1770 0004 0200     		.2byte	0x2
+ 1771 0006 00000000 		.4byte	.Ldebug_info0
+ 1772 000a 04       		.byte	0x4
+ 1773 000b 00       		.byte	0
+ 1774 000c 0000     		.2byte	0
+ 1775 000e 0000     		.2byte	0
+ 1776 0010 00000000 		.4byte	.LFB64
+ 1777 0014 14000000 		.4byte	.LFE64-.LFB64
+ 1778 0018 00000000 		.4byte	.LFB63
+ 1779 001c E4010000 		.4byte	.LFE63-.LFB63
+ 1780 0020 00000000 		.4byte	0
+ 1781 0024 00000000 		.4byte	0
+ 1782              		.section	.debug_ranges,"",%progbits
+ 1783              	.Ldebug_ranges0:
+ 1784 0000 00000000 		.4byte	.LFB64
+ 1785 0004 14000000 		.4byte	.LFE64
+ 1786 0008 00000000 		.4byte	.LFB63
+ 1787 000c E4010000 		.4byte	.LFE63
+ 1788 0010 00000000 		.4byte	0
+ 1789 0014 00000000 		.4byte	0
+ 1790              		.section	.debug_line,"",%progbits
+ 1791              	.Ldebug_line0:
+ 1792 0000 19020000 		.section	.debug_str,"MS",%progbits,1
+ 1792      0200BC01 
+ 1792      00000201 
+ 1792      FB0E0D00 
+ 1792      01010101 
+ 1793              	.LASF31:
+ 1794 0000 46535F4D 		.ascii	"FS_MkDir\000"
+ 1794      6B446972 
+ 1794      00
+ 1795              	.LASF37:
+ 1796 0009 54696D65 		.ascii	"Timer_1_Start\000"
+ 1796      725F315F 
+ 1796      53746172 
+ 1796      7400
+ 1797              	.LASF33:
+ 1798 0017 4C43445F 		.ascii	"LCD_WriteControl\000"
+ 1798      57726974 
+ 1798      65436F6E 
+ 1798      74726F6C 
+ 1798      00
+ 1799              	.LASF9:
+ 1800 0028 5F5F696E 		.ascii	"__int32_t\000"
+ 1800      7433325F 
+ 1800      7400
+ 1801              	.LASF43:
+ 1802 0032 77726974 		.ascii	"write_to_StartEx\000"
+ 1802      655F746F 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 37
+
+
+ 1802      5F537461 
+ 1802      72744578 
+ 1802      00
+ 1803              	.LASF30:
+ 1804 0043 46535F46 		.ascii	"FS_FormatSD\000"
+ 1804      6F726D61 
+ 1804      74534400 
+ 1805              	.LASF14:
+ 1806 004f 646F7562 		.ascii	"double\000"
+ 1806      6C6500
+ 1807              	.LASF40:
+ 1808 0056 433A5C55 		.ascii	"C:\\Users\\gding\\Documents\\O-Vac\\PSoC\\SD card e"
+ 1808      73657273 
+ 1808      5C676469 
+ 1808      6E675C44 
+ 1808      6F63756D 
+ 1809 0083 78616D70 		.ascii	"xample\\SD_Card.cydsn\000"
+ 1809      6C655C53 
+ 1809      445F4361 
+ 1809      72642E63 
+ 1809      7964736E 
+ 1810              	.LASF22:
+ 1811 0098 7046696C 		.ascii	"pFile\000"
+ 1811      6500
+ 1812              	.LASF13:
+ 1813 009e 666C6F61 		.ascii	"float\000"
+ 1813      7400
+ 1814              	.LASF36:
+ 1815 00a4 4C43445F 		.ascii	"LCD_Start\000"
+ 1815      53746172 
+ 1815      7400
+ 1816              	.LASF1:
+ 1817 00ae 756E7369 		.ascii	"unsigned char\000"
+ 1817      676E6564 
+ 1817      20636861 
+ 1817      7200
+ 1818              	.LASF17:
+ 1819 00bc 72656738 		.ascii	"reg8\000"
+ 1819      00
+ 1820              	.LASF5:
+ 1821 00c1 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1821      20756E73 
+ 1821      69676E65 
+ 1821      6420696E 
+ 1821      7400
+ 1822              	.LASF3:
+ 1823 00d3 73686F72 		.ascii	"short unsigned int\000"
+ 1823      7420756E 
+ 1823      7369676E 
+ 1823      65642069 
+ 1823      6E7400
+ 1824              	.LASF29:
+ 1825 00e6 46535F47 		.ascii	"FS_GetVolumeName\000"
+ 1825      6574566F 
+ 1825      6C756D65 
+ 1825      4E616D65 
+ 1825      00
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 38
+
+
+ 1826              	.LASF41:
+ 1827 00f7 77726974 		.ascii	"write\000"
+ 1827      6500
+ 1828              	.LASF23:
+ 1829 00fd 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1829      52784275 
+ 1829      66666572 
+ 1829      00
+ 1830              	.LASF32:
+ 1831 010a 46535F46 		.ascii	"FS_FOpen\000"
+ 1831      4F70656E 
+ 1831      00
+ 1832              	.LASF34:
+ 1833 0113 46535F57 		.ascii	"FS_Write\000"
+ 1833      72697465 
+ 1833      00
+ 1834              	.LASF42:
+ 1835 011c 6D61696E 		.ascii	"main\000"
+ 1835      00
+ 1836              	.LASF26:
+ 1837 0121 4C43445F 		.ascii	"LCD_PrintString\000"
+ 1837      5072696E 
+ 1837      74537472 
+ 1837      696E6700 
+ 1838              	.LASF12:
+ 1839 0131 75696E74 		.ascii	"uint32\000"
+ 1839      333200
+ 1840              	.LASF38:
+ 1841 0138 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1841      4320342E 
+ 1841      392E3320 
+ 1841      32303135 
+ 1841      30333033 
+ 1842 016b 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1842      20726576 
+ 1842      6973696F 
+ 1842      6E203232 
+ 1842      31323230 
+ 1843 019e 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1843      66756E63 
+ 1843      74696F6E 
+ 1843      2D736563 
+ 1843      74696F6E 
+ 1844              	.LASF24:
+ 1845 01c6 666C6167 		.ascii	"flag\000"
+ 1845      00
+ 1846              	.LASF8:
+ 1847 01cb 756E7369 		.ascii	"unsigned int\000"
+ 1847      676E6564 
+ 1847      20696E74 
+ 1847      00
+ 1848              	.LASF7:
+ 1849 01d8 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1849      206C6F6E 
+ 1849      6720756E 
+ 1849      7369676E 
+ 1849      65642069 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 39
+
+
+ 1850              	.LASF27:
+ 1851 01ef 4C43445F 		.ascii	"LCD_Position\000"
+ 1851      506F7369 
+ 1851      74696F6E 
+ 1851      00
+ 1852              	.LASF18:
+ 1853 01fc 63796973 		.ascii	"cyisraddress\000"
+ 1853      72616464 
+ 1853      72657373 
+ 1853      00
+ 1854              	.LASF20:
+ 1855 0209 46535F46 		.ascii	"FS_FILE\000"
+ 1855      494C4500 
+ 1856              	.LASF19:
+ 1857 0211 73697A65 		.ascii	"sizetype\000"
+ 1857      74797065 
+ 1857      00
+ 1858              	.LASF15:
+ 1859 021a 63686172 		.ascii	"char8\000"
+ 1859      3800
+ 1860              	.LASF6:
+ 1861 0220 6C6F6E67 		.ascii	"long long int\000"
+ 1861      206C6F6E 
+ 1861      6720696E 
+ 1861      7400
+ 1862              	.LASF39:
+ 1863 022e 6D61696E 		.ascii	"main.c\000"
+ 1863      2E6300
+ 1864              	.LASF16:
+ 1865 0235 63686172 		.ascii	"char\000"
+ 1865      00
+ 1866              	.LASF10:
+ 1867 023a 696E7433 		.ascii	"int32_t\000"
+ 1867      325F7400 
+ 1868              	.LASF2:
+ 1869 0242 73686F72 		.ascii	"short int\000"
+ 1869      7420696E 
+ 1869      7400
+ 1870              	.LASF35:
+ 1871 024c 46535F49 		.ascii	"FS_Init\000"
+ 1871      6E697400 
+ 1872              	.LASF11:
+ 1873 0254 75696E74 		.ascii	"uint8\000"
+ 1873      3800
+ 1874              	.LASF21:
+ 1875 025a 7364566F 		.ascii	"sdVolName\000"
+ 1875      6C4E616D 
+ 1875      6500
+ 1876              	.LASF4:
+ 1877 0264 6C6F6E67 		.ascii	"long int\000"
+ 1877      20696E74 
+ 1877      00
+ 1878              	.LASF25:
+ 1879 026d 73644669 		.ascii	"sdFile\000"
+ 1879      6C6500
+ 1880              	.LASF0:
+ 1881 0274 7369676E 		.ascii	"signed char\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccJSlg91.s 			page 40
+
+
+ 1881      65642063 
+ 1881      68617200 
+ 1882              	.LASF28:
+ 1883 0280 43794465 		.ascii	"CyDelay\000"
+ 1883      6C617900 
+ 1884              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="SD card example">
+<ExpandedNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\TopDesign</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Pins</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Analog</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Clocks</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Interrupts</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\DMA</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\System</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Directives</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\Flash Security</v>
+<v>SD card example\SD_Card\SD_Card.cydwr\EEPROM</v>
+<v>SD card example\SD_Card\Header Files</v>
+<v>SD card example\SD_Card\Header Files\cyapicallbacks.h</v>
+<v>SD card example\SD_Card\Header Files\functions.h</v>
+<v>SD card example\SD_Card\Source Files</v>
+<v>SD card example\SD_Card\Source Files\functions.c</v>
+<v>SD card example\SD_Card\Source Files\main.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cm3gcc.ld</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\Cm3Iar.icf</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\Cm3RealView.scat</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\Cm3Start.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cmsis_armcc.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cmsis_gcc.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\core_cm3.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\core_cm3_psoc5.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\core_cmFunc.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\core_cmInstr.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyBootAsmGnu.s</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyBootAsmIar.s</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyBootAsmRv.s</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyDmac.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyDmac.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyFlash.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyFlash.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyLib.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CyLib.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cypins.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cyPm.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cyPm.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CySpc.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\CySpc.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cytypes.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cy_boot\cyutils.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile\emFile.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile\emFile_ConfigMMC_SPI.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile\emFile_MMC_HW_SPI.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile\emFile_PM.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_Clock_1\emFile_Clock_1.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_Clock_1\emFile_Clock_1.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_miso0\emFile_miso0.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_miso0\emFile_miso0.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_miso0\emFile_miso0_aliases.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_mosi0\emFile_mosi0.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_mosi0\emFile_mosi0.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_mosi0\emFile_mosi0_aliases.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_sclk0\emFile_sclk0.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_sclk0\emFile_sclk0.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_sclk0\emFile_sclk0_aliases.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0\emFile_SPI0.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0\emFile_SPI0.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0\emFile_SPI0_INT.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0\emFile_SPI0_PM.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0\emFile_SPI0_PVT.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0_CS\emFile_SPI0_CS.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0_CS\emFile_SPI0_CS.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\emFile_SPI0_CS\emFile_SPI0_CS_aliases.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD\LCD.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD\LCD.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD\LCD_PM.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD_LCDPort</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD_LCDPort\LCD_LCDPort.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD_LCDPort\LCD_LCDPort.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\LCD_LCDPort\LCD_LCDPort_aliases.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\Timer_1\Timer_1.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\Timer_1\Timer_1.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\Timer_1\Timer_1_PM.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\write_to\write_to.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\write_to\write_to.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cycodeshareexport.ld</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cycodeshareimport.ld</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cycodeshareimport.scat</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevice.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevice_trm.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevicegnu.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevicegnu_trm.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydeviceiar.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydeviceiar_trm.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevicerv.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydevicerv_trm.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cydisabledsheets.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfitter.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfitter_cfg.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfitter_cfg.h</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfittergnu.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfitteriar.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cyfitterrv.inc</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\cymetadata.c</v>
+<v>SD card example\SD_Card\Generated_Source\PSoC5\project.h</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\TopDesign</v>
+<v>SD card example\SD_Card\SD_Card.cydwr</v>
+<v>SD card example\SD_Card\Header Files</v>
+<v>SD card example\SD_Card\Header Files\cyapicallbacks.h</v>
+<v>SD card example\SD_Card\Header Files\functions.h</v>
+<v>SD card example\SD_Card\Source Files</v>
+<v>SD card example\SD_Card\Source Files\functions.c</v>
+<v>SD card example\SD_Card\Source Files\main.c</v>
+<v>SD card example\SD_Card\Generated_Source</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\TopDesign</v>
+<v>SD card example\SD_Card\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\TopDesign</v>
+<v>SD card example\SD_Card\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\CortexM3</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Cm3Start.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyDmac.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyFlash.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyLib.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cymetadata.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyPm.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CySpc.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyutils.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_Clock_1.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_ConfigMMC_SPI.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_miso0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_MMC_HW_SPI.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_mosi0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_sclk0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_CS.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_INT.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD_LCDPort.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\main.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Timer_1.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Timer_1_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\write_to.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.elf</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.hex</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.map</v>
+<v>SD card example\SD_Card\SD_Card.gpdsc</v>
+<v>SD card example\SD_Card\SD_Card.rpt</v>
+<v>SD card example\SD_Card\SD_Card_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\CortexM3</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Cm3Start.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyDmac.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyFlash.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CyLib.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cymetadata.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyPm.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\CySpc.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\cyutils.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_Clock_1.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_ConfigMMC_SPI.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_miso0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_MMC_HW_SPI.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_mosi0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_sclk0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_CS.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_INT.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\emFile_SPI0_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD_LCDPort.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\LCD_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\main.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Timer_1.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\Timer_1_PM.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\Listing Files\write_to.lst</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.elf</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.hex</v>
+<v>SD card example\SD_Card\CortexM3\ARM_GCC_493\Debug\SD_Card.map</v>
+<v>SD card example\SD_Card\SD_Card.gpdsc</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\PSoC 5LP Architecture TRM</v>
+<v>SD card example\SD_Card\CY8C58LP Family Datasheet</v>
+<v>SD card example\SD_Card\System Reference Guides</v>
+<v>SD card example\SD_Card\System Reference Guides\cy_boot_v5_50</v>
+<v>SD card example\SD_Card\CharLCD_v2_20.pdf</v>
+<v>SD card example\SD_Card\cy_clock_v2_20.pdf</v>
+<v>SD card example\SD_Card\cy_isr_v1_70.pdf</v>
+<v>SD card example\SD_Card\emFile_v1_20.pdf</v>
+<v>SD card example\SD_Card\Timer_v2_70.pdf</v>
+<v>SD card example\SD_Card\ZeroTerminal.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SD card example</v>
+<v>SD card example\SD_Card</v>
+<v>SD card example\SD_Card\PSoC 5LP Architecture TRM</v>
+<v>SD card example\SD_Card\CY8C58LP Family Datasheet</v>
+<v>SD card example\SD_Card\System Reference Guides</v>
+<v>SD card example\SD_Card\System Reference Guides\cy_boot_v5_50</v>
+<v>SD card example\SD_Card\CharLCD_v2_20.pdf</v>
+<v>SD card example\SD_Card\cy_clock_v2_20.pdf</v>
+<v>SD card example\SD_Card\cy_isr_v1_70.pdf</v>
+<v>SD card example\SD_Card\emFile_v1_20.pdf</v>
+<v>SD card example\SD_Card\Timer_v2_70.pdf</v>
+<v>SD card example\SD_Card\ZeroTerminal.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\SD_Card.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\SD_Card.cydsn\main.c" />
+<name v=".\SD_Card.cydsn\functions.c" />
+<name v=".\SD_Card.cydsn\functions.h" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1035, 704" SelectedTabbedMdiWindow="d09a6ab5-bb56-4f4e-b381-d541aa4082a4"><DocumentWindow Key="307ef92e-9887-4400-8c8b-d86d42d190f5" Guid="8b991d51-09b2-4d03-9a23-25be5e400bc9" /><DocumentWindow Key="652a4368-9202-4dd8-bd83-3ba578459b40" Guid="1dc6b1ed-e26e-4f79-8fa7-f0e28ed77a3b" /><DocumentWindow Key="8f8206c7-d355-4155-bc5f-215aaa8cdb38" Guid="2c1dfc6b-1c77-4e03-87ed-dae14642893a" /><DocumentWindow Key="2d2e49dc-4a62-4bb1-9c37-ee026bedf88c" Guid="d09a6ab5-bb56-4f4e-b381-d541aa4082a4" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

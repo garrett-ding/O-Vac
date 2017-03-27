@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|62308e99-d555-46ed-8069-b0ba79d17490
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|ecd76d5c-6428-44a9-8990-8c79a3e491bf
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b29f1ed2-9fd3-4724-9706-90f517110777
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|84db7b90-2dfe-45a2-99d9-19e2b9393edb
+C:\Users\gding\Documents\O-Vac\PSoC\SD card example\SD_Card.cydsn\SD_Card.cyprj|43761ae4-923f-4539-9459-a6d106e22d7f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|dd4605e0-2d8b-47d6-8fe9-541113a61a11
+C:\Users\gding\Documents\O-Vac\PSoC\SD card example\emFile_Example01.cydsn\emFile_Example01.cyprj|39851f52-f04d-47d8-b3f8-b1d3668bdf0d
