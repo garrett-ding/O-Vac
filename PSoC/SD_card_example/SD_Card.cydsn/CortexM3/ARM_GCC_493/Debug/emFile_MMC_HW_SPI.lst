@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
   30:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** #define emFile_STARTUP_FREQ                   (400u)
   31:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
   32:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 2
 
 
   33:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** /*********************************************************************
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
   35              		.loc 1 77 0
   36 0002 80B9     		cbnz	r0, .L5
   78:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     {
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 3
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 3
 
 
   79:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     case 0u:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  108:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                 {
  109:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                     /* Indicate that SPI 1 was initialized */
  110:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                     emFile_isInited1 = 1u;
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 4
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 4
 
 
  111:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  165:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                     emFile_Clock_4_Stop();
  166:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  167:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                     /* Set the inital clock frequency to 400 KHz */
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 5
 
 
  168:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****                     emFile_Clock_4_SetDividerValue(BCLK__BUS_CLK__KHZ/emFile_STARTUP_FREQ);
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
   85 0046 10BD     		pop	{r4, pc}
   86              	.L8:
   87              		.align	2
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 6
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 6
 
 
   88              	.L7:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  230:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     case 0u:
  231:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  232:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****         /* Send Data */
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 7
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 7
 
 
  233:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****         emFile_SPI0_WriteTxData(Data);
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  269:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  270:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             /* Read data */
  271:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             spiData = emFile_SPI2_ReadRxData();
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 8
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 8
 
 
  272:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  145              		.cfi_endproc
  146              	.LFE64:
  147              		.size	emFile_ReadWriteSPI, .-emFile_ReadWriteSPI
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 9
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 9
 
 
  148              		.section	.text.FS_MMC_HW_X_EnableCS,"ax",%progbits
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  173              	.L21:
  339:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  340:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****         #if (emFile_NUMBER_SD_CARDS >= 2u)
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 10
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 10
 
 
  341:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  378:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     }
  379:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** }
  380:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 11
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 11
 
 
  381:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  415:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  416:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             break;
  417:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 12
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 12
 
 
  418:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     #endif /* (emFile_NUMBER_SD_CARDS >= 2u) */
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  455:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  protection of the SD cards.
  456:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *
  457:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** * Parameters:
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 13
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 13
 
 
  458:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  Unit      - Device Index.
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  506:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     #endif /* (emFile_NUMBER_SD_CARDS >= 2u) */
  507:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
  508:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     #if (emFile_NUMBER_SD_CARDS >= 3u)
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 14
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 14
 
 
  509:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** 
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  563:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** }
  234              		.loc 1 563 0
  235 0000 0020     		movs	r0, #0
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 15
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 15
 
 
  236              	.LVL32:
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  261              		.loc 1 592 0
  262 0004 B1F5C87F 		cmp	r1, #400
  263 0008 03D3     		bcc	.L35
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 16
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 16
 
 
  593:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     {
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  614:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             emFile_Clock_1_Start();
  296              		.loc 1 614 0
  297 0038 FFF7FEFF 		bl	emFile_Clock_1_Start
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 17
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 17
 
 
  298              	.LVL39:
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  313 004c FFF7FEFF 		bl	emFile_Clock_1_Start
  314              	.LVL43:
  315              	.L34:
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 18
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 18
 
 
  654:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             break;
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  688:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****     switch(Unit)
  336              		.loc 1 688 0
  337 0000 0328     		cmp	r0, #3
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 19
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 19
 
 
  338 0002 09D8     		bhi	.L40
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  361              		.loc 1 719 0 is_stmt 1
  362 0028 0020     		movs	r0, #0
  363              	.LVL47:
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 20
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 20
 
 
  364 002a 7047     		bx	lr
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  734:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  Returns the state of the media. If you do not know the state, return
  735:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  FS_MEDIA_STATE_UNKNOWN and the higher layer will try to figure out if
  736:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  a media is present.
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 21
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 21
 
 
  737:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  415 0008 08BD     		pop	{r3, pc}
  416              		.cfi_endproc
  417              	.LFE70:
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 22
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 22
 
 
  418              		.size	FS_MMC_HW_X_IsPresent, .-FS_MMC_HW_X_IsPresent
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  804:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c ****             *pData++ = emFile_ReadWriteSPI(Unit, 0xff);
  445              		.loc 1 804 0 discriminator 1
  446 0008 6E1C     		adds	r6, r5, #1
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 23
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 23
 
 
  447              	.LVL60:
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  834:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** * Reentrant:
  835:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *  No
  836:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 24
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 24
 
 
  837:Generated_Source\PSoC5/emFile_MMC_HW_SPI.c **** *******************************************************************************/
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  517              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
  518              		.file 8 "Generated_Source\\PSoC5\\emFile_SPI0_CS.h"
  519              		.section	.debug_info,"",%progbits
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 25
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 25
 
 
  520              	.Ldebug_info0:
@@ -1447,25 +1447,25 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  523 0006 00000000 		.4byte	.Ldebug_abbrev0
  524 000a 04       		.byte	0x4
  525 000b 01       		.uleb128 0x1
- 526 000c E9010000 		.4byte	.LASF45
+ 526 000c A7010000 		.4byte	.LASF45
  527 0010 01       		.byte	0x1
- 528 0011 54010000 		.4byte	.LASF46
- 529 0015 70000000 		.4byte	.LASF47
+ 528 0011 12010000 		.4byte	.LASF46
+ 529 0015 F7020000 		.4byte	.LASF47
  530 0019 00000000 		.4byte	.Ldebug_ranges0+0
  531 001d 00000000 		.4byte	0
  532 0021 00000000 		.4byte	.Ldebug_line0
  533 0025 02       		.uleb128 0x2
  534 0026 02       		.byte	0x2
  535 0027 07       		.byte	0x7
- 536 0028 0C010000 		.4byte	.LASF0
+ 536 0028 CA000000 		.4byte	.LASF0
  537 002c 02       		.uleb128 0x2
  538 002d 04       		.byte	0x4
  539 002e 07       		.byte	0x7
- 540 002f 7F010000 		.4byte	.LASF1
+ 540 002f 3D010000 		.4byte	.LASF1
  541 0033 02       		.uleb128 0x2
  542 0034 04       		.byte	0x4
  543 0035 07       		.byte	0x7
- 544 0036 77020000 		.4byte	.LASF2
+ 544 0036 35020000 		.4byte	.LASF2
  545 003a 03       		.uleb128 0x3
  546 003b 04       		.byte	0x4
  547 003c 05       		.byte	0x5
@@ -1473,19 +1473,19 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  549 0041 02       		.uleb128 0x2
  550 0042 01       		.byte	0x1
  551 0043 08       		.byte	0x8
- 552 0044 DE000000 		.4byte	.LASF3
+ 552 0044 9C000000 		.4byte	.LASF3
  553 0048 02       		.uleb128 0x2
  554 0049 04       		.byte	0x4
  555 004a 07       		.byte	0x7
- 556 004b 0A030000 		.4byte	.LASF4
+ 556 004b C8020000 		.4byte	.LASF4
  557 004f 02       		.uleb128 0x2
  558 0050 01       		.byte	0x1
  559 0051 08       		.byte	0x8
- 560 0052 2A030000 		.4byte	.LASF5
+ 560 0052 E8020000 		.4byte	.LASF5
  561 0056 02       		.uleb128 0x2
  562 0057 02       		.byte	0x2
  563 0058 05       		.byte	0x5
- 564 0059 AF010000 		.4byte	.LASF6
+ 564 0059 6D010000 		.4byte	.LASF6
  565 005d 02       		.uleb128 0x2
  566 005e 04       		.byte	0x4
  567 005f 05       		.byte	0x5
@@ -1496,9 +1496,9 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  572 006a 02       		.uleb128 0x2
  573 006b 01       		.byte	0x1
  574 006c 06       		.byte	0x6
- 575 006d D2000000 		.4byte	.LASF8
+ 575 006d 90000000 		.4byte	.LASF8
  576 0071 05       		.uleb128 0x5
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 26
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 26
 
 
  577 0072 4B000000 		.4byte	.LASF11
@@ -1508,13 +1508,13 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  581 007c 02       		.uleb128 0x2
  582 007d 08       		.byte	0x8
  583 007e 05       		.byte	0x5
- 584 007f 13030000 		.4byte	.LASF9
+ 584 007f D1020000 		.4byte	.LASF9
  585 0083 02       		.uleb128 0x2
  586 0084 08       		.byte	0x8
  587 0085 07       		.byte	0x7
- 588 0086 96020000 		.4byte	.LASF10
+ 588 0086 54020000 		.4byte	.LASF10
  589 008a 05       		.uleb128 0x5
- 590 008b 02030000 		.4byte	.LASF12
+ 590 008b C0020000 		.4byte	.LASF12
  591 008f 03       		.byte	0x3
  592 0090 2C       		.byte	0x2c
  593 0091 71000000 		.4byte	0x71
@@ -1524,14 +1524,14 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  597 009b 9201     		.2byte	0x192
  598 009d 41000000 		.4byte	0x41
  599 00a1 06       		.uleb128 0x6
- 600 00a2 91010000 		.4byte	.LASF14
+ 600 00a2 4F010000 		.4byte	.LASF14
  601 00a6 04       		.byte	0x4
  602 00a7 9301     		.2byte	0x193
  603 00a9 25000000 		.4byte	0x25
  604 00ad 02       		.uleb128 0x2
  605 00ae 04       		.byte	0x4
  606 00af 04       		.byte	0x4
- 607 00b0 CC000000 		.4byte	.LASF15
+ 607 00b0 8A000000 		.4byte	.LASF15
  608 00b4 02       		.uleb128 0x2
  609 00b5 08       		.byte	0x8
  610 00b6 04       		.byte	0x4
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  631 00e9 1C000000 		.4byte	.LVL2
  632 00ed BA040000 		.4byte	0x4ba
  633 00f1 02010000 		.4byte	0x102
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 27
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 27
 
 
  634 00f5 0B       		.uleb128 0xb
@@ -1608,7 +1608,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  678 0145 D7040000 		.4byte	0x4d7
  679 0149 00       		.byte	0
  680 014a 0C       		.uleb128 0xc
- 681 014b B8000000 		.4byte	.LASF49
+ 681 014b 76000000 		.4byte	.LASF49
  682 014f 01       		.byte	0x1
  683 0150 E0       		.byte	0xe0
  684 0151 41000000 		.4byte	0x41
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  688 015e 9C       		.byte	0x9c
  689 015f C7010000 		.4byte	0x1c7
  690 0163 08       		.uleb128 0x8
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 28
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 28
 
 
  691 0164 82030000 		.4byte	.LASF17
@@ -1627,13 +1627,13 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  694 016a 41000000 		.4byte	0x41
  695 016e 3A000000 		.4byte	.LLST1
  696 0172 08       		.uleb128 0x8
- 697 0173 34030000 		.4byte	.LASF18
+ 697 0173 F2020000 		.4byte	.LASF18
  698 0177 01       		.byte	0x1
  699 0178 E0       		.byte	0xe0
  700 0179 41000000 		.4byte	0x41
  701 017d 74000000 		.4byte	.LLST2
  702 0181 0D       		.uleb128 0xd
- 703 0182 04010000 		.4byte	.LASF21
+ 703 0182 C2000000 		.4byte	.LASF21
  704 0186 01       		.byte	0x1
  705 0187 E2       		.byte	0xe2
  706 0188 41000000 		.4byte	0x41
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  745 01f6 10       		.uleb128 0x10
  746 01f7 10000000 		.4byte	.LVL24
  747 01fb 05050000 		.4byte	0x505
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 29
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 29
 
 
  748 01ff 0B       		.uleb128 0xb
@@ -1738,19 +1738,19 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  802 026e 01       		.byte	0x1
  803 026f D401     		.2byte	0x1d4
  804 0271 41000000 		.4byte	0x41
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 30
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 30
 
 
  805 0275 40010000 		.4byte	.LLST6
  806 0279 12       		.uleb128 0x12
- 807 027a B9010000 		.4byte	.LASF22
+ 807 027a 77010000 		.4byte	.LASF22
  808 027e 01       		.byte	0x1
  809 027f D601     		.2byte	0x1d6
  810 0281 3A000000 		.4byte	0x3a
  811 0285 00       		.byte	0
  812 0286 00       		.byte	0
  813 0287 11       		.uleb128 0x11
- 814 0288 EC000000 		.4byte	.LASF24
+ 814 0288 AA000000 		.4byte	.LASF24
  815 028c 01       		.byte	0x1
  816 028d 4B02     		.2byte	0x24b
  817 028f 25000000 		.4byte	0x25
@@ -1766,7 +1766,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  827 02a9 41000000 		.4byte	0x41
  828 02ad 61010000 		.4byte	.LLST7
  829 02b1 0F       		.uleb128 0xf
- 830 02b2 CB010000 		.4byte	.LASF25
+ 830 02b2 89010000 		.4byte	.LASF25
  831 02b6 01       		.byte	0x1
  832 02b7 4B02     		.2byte	0x24b
  833 02b9 25000000 		.4byte	0x25
@@ -1778,7 +1778,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  839 02c9 25000000 		.4byte	0x25
  840 02cd B9010000 		.4byte	.LLST9
  841 02d1 14       		.uleb128 0x14
- 842 02d2 C1010000 		.4byte	.LASF27
+ 842 02d2 7F010000 		.4byte	.LASF27
  843 02d6 01       		.byte	0x1
  844 02d7 4E02     		.2byte	0x24e
  845 02d9 2C000000 		.4byte	0x2c
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  859 02f7 07030000 		.4byte	0x307
  860 02fb 0B       		.uleb128 0xb
  861 02fc 01       		.uleb128 0x1
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 31
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 31
 
 
  862 02fd 51       		.byte	0x51
@@ -1838,7 +1838,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  896 0337 D0040000 		.4byte	0x4d0
  897 033b 00       		.byte	0
  898 033c 11       		.uleb128 0x11
- 899 033d 98010000 		.4byte	.LASF28
+ 899 033d 56010000 		.4byte	.LASF28
  900 0341 01       		.byte	0x1
  901 0342 AC02     		.2byte	0x2ac
  902 0344 3A000000 		.4byte	0x3a
@@ -1854,24 +1854,24 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  912 035e 41000000 		.4byte	0x41
  913 0362 DB010000 		.4byte	.LLST10
  914 0366 15       		.uleb128 0x15
- 915 0367 2F030000 		.4byte	.LASF29
+ 915 0367 ED020000 		.4byte	.LASF29
  916 036b 01       		.byte	0x1
  917 036c AC02     		.2byte	0x2ac
  918 036e 25000000 		.4byte	0x25
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 32
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 32
 
 
  919 0372 01       		.uleb128 0x1
  920 0373 51       		.byte	0x51
  921 0374 15       		.uleb128 0x15
- 922 0375 AD020000 		.4byte	.LASF30
+ 922 0375 6B020000 		.4byte	.LASF30
  923 0379 01       		.byte	0x1
  924 037a AC02     		.2byte	0x2ac
  925 037c 25000000 		.4byte	0x25
  926 0380 01       		.uleb128 0x1
  927 0381 52       		.byte	0x52
  928 0382 14       		.uleb128 0x14
- 929 0383 B2020000 		.4byte	.LASF31
+ 929 0383 70020000 		.4byte	.LASF31
  930 0387 01       		.byte	0x1
  931 0388 AE02     		.2byte	0x2ae
  932 038a 3A000000 		.4byte	0x3a
@@ -1879,7 +1879,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  934 038f 50       		.byte	0x50
  935 0390 00       		.byte	0
  936 0391 11       		.uleb128 0x11
- 937 0392 D3010000 		.4byte	.LASF32
+ 937 0392 91010000 		.4byte	.LASF32
  938 0396 01       		.byte	0x1
  939 0397 EE02     		.2byte	0x2ee
  940 0399 3A000000 		.4byte	0x3a
@@ -1895,7 +1895,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  950 03b3 41000000 		.4byte	0x41
  951 03b7 79020000 		.4byte	.LLST11
  952 03bb 12       		.uleb128 0x12
- 953 03bc B2020000 		.4byte	.LASF31
+ 953 03bc 70020000 		.4byte	.LASF31
  954 03c0 01       		.byte	0x1
  955 03c1 F002     		.2byte	0x2f0
  956 03c3 3A000000 		.4byte	0x3a
@@ -1905,7 +1905,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  960 03cd BB000000 		.4byte	0xbb
  961 03d1 00       		.byte	0
  962 03d2 0E       		.uleb128 0xe
- 963 03d3 1F010000 		.4byte	.LASF33
+ 963 03d3 DD000000 		.4byte	.LASF33
  964 03d7 01       		.byte	0x1
  965 03d8 2003     		.2byte	0x320
  966 03da 00000000 		.4byte	.LFB71
@@ -1918,18 +1918,18 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  973 03ed 01       		.byte	0x1
  974 03ee 2003     		.2byte	0x320
  975 03f0 41000000 		.4byte	0x41
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 33
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 33
 
 
  976 03f4 9A020000 		.4byte	.LLST12
  977 03f8 0F       		.uleb128 0xf
- 978 03f9 B2000000 		.4byte	.LASF34
+ 978 03f9 70000000 		.4byte	.LASF34
  979 03fd 01       		.byte	0x1
  980 03fe 2003     		.2byte	0x320
  981 0400 64000000 		.4byte	0x64
  982 0404 BB020000 		.4byte	.LLST13
  983 0408 0F       		.uleb128 0xf
- 984 0409 21030000 		.4byte	.LASF35
+ 984 0409 DF020000 		.4byte	.LASF35
  985 040d 01       		.byte	0x1
  986 040e 2003     		.2byte	0x320
  987 0410 3A000000 		.4byte	0x3a
@@ -1952,7 +1952,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1004 042d 00       		.byte	0
  1005 042e 00       		.byte	0
  1006 042f 0E       		.uleb128 0xe
- 1007 0430 F0020000 		.4byte	.LASF36
+ 1007 0430 AE020000 		.4byte	.LASF36
  1008 0434 01       		.byte	0x1
  1009 0435 4703     		.2byte	0x347
  1010 0437 00000000 		.4byte	.LFB72
@@ -1967,18 +1967,18 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1019 044d 41000000 		.4byte	0x41
  1020 0451 1A030000 		.4byte	.LLST15
  1021 0455 0F       		.uleb128 0xf
- 1022 0456 B2000000 		.4byte	.LASF34
+ 1022 0456 70000000 		.4byte	.LASF34
  1023 045a 01       		.byte	0x1
  1024 045b 4703     		.2byte	0x347
  1025 045d 86040000 		.4byte	0x486
  1026 0461 3B030000 		.4byte	.LLST16
  1027 0465 0F       		.uleb128 0xf
- 1028 0466 21030000 		.4byte	.LASF35
+ 1028 0466 DF020000 		.4byte	.LASF35
  1029 046a 01       		.byte	0x1
  1030 046b 4703     		.2byte	0x347
  1031 046d 3A000000 		.4byte	0x3a
  1032 0471 59030000 		.4byte	.LLST17
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 34
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 34
 
 
  1033 0475 10       		.uleb128 0x10
@@ -2006,7 +2006,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1055 049d 03       		.byte	0x3
  1056 049e 00000000 		.4byte	emFile_isInited0
  1057 04a2 18       		.uleb128 0x18
- 1058 04a3 47010000 		.4byte	.LASF50
+ 1058 04a3 05010000 		.4byte	.LASF50
  1059 04a7 07       		.byte	0x7
  1060 04a8 9606     		.2byte	0x696
  1061 04aa AE040000 		.4byte	0x4ae
@@ -2017,7 +2017,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1066 04b8 05       		.byte	0x5
  1067 04b9 28       		.byte	0x28
  1068 04ba 1B       		.uleb128 0x1b
- 1069 04bb B9020000 		.4byte	.LASF41
+ 1069 04bb 77020000 		.4byte	.LASF41
  1070 04bf 05       		.byte	0x5
  1071 04c0 2F       		.byte	0x2f
  1072 04c1 D0040000 		.4byte	0x4d0
@@ -2031,14 +2031,14 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1080 04d5 05       		.byte	0x5
  1081 04d6 27       		.byte	0x27
  1082 04d7 1A       		.uleb128 0x1a
- 1083 04d8 84020000 		.4byte	.LASF40
+ 1083 04d8 42020000 		.4byte	.LASF40
  1084 04dc 06       		.byte	0x6
  1085 04dd 58       		.byte	0x58
  1086 04de 1B       		.uleb128 0x1b
  1087 04df 59030000 		.4byte	.LASF42
  1088 04e3 06       		.byte	0x6
  1089 04e4 69       		.byte	0x69
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 35
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 35
 
 
  1090 04e5 EF040000 		.4byte	0x4ef
@@ -2051,12 +2051,12 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1097 04f5 67       		.byte	0x67
  1098 04f6 95000000 		.4byte	0x95
  1099 04fa 1D       		.uleb128 0x1d
- 1100 04fb 30010000 		.4byte	.LASF44
+ 1100 04fb EE000000 		.4byte	.LASF44
  1101 04ff 06       		.byte	0x6
  1102 0500 6B       		.byte	0x6b
  1103 0501 95000000 		.4byte	0x95
  1104 0505 1E       		.uleb128 0x1e
- 1105 0506 DB020000 		.4byte	.LASF51
+ 1105 0506 99020000 		.4byte	.LASF51
  1106 050a 08       		.byte	0x8
  1107 050b 28       		.byte	0x28
  1108 050c 1C       		.uleb128 0x1c
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1144 001e 03       		.uleb128 0x3
  1145 001f 24       		.uleb128 0x24
  1146 0020 00       		.byte	0
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 36
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 36
 
 
  1147 0021 0B       		.uleb128 0xb
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1201 0057 11       		.uleb128 0x11
  1202 0058 01       		.uleb128 0x1
  1203 0059 12       		.uleb128 0x12
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 37
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 37
 
 
  1204 005a 06       		.uleb128 0x6
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1258 0098 2E       		.uleb128 0x2e
  1259 0099 01       		.byte	0x1
  1260 009a 03       		.uleb128 0x3
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 38
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 38
 
 
  1261 009b 0E       		.uleb128 0xe
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1315 00d2 18       		.uleb128 0x18
  1316 00d3 9742     		.uleb128 0x2117
  1317 00d5 19       		.uleb128 0x19
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 39
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 39
 
 
  1318 00d6 01       		.uleb128 0x1
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1372 010f 00       		.byte	0
  1373 0110 12       		.uleb128 0x12
  1374 0111 34       		.uleb128 0x34
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 40
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 40
 
 
  1375 0112 00       		.byte	0
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1429 0148 02       		.uleb128 0x2
  1430 0149 18       		.uleb128 0x18
  1431 014a 00       		.byte	0
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 41
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 41
 
 
  1432 014b 00       		.byte	0
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1486 0181 3A       		.uleb128 0x3a
  1487 0182 0B       		.uleb128 0xb
  1488 0183 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 42
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 42
 
 
  1489 0184 0B       		.uleb128 0xb
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1543 01ba 01       		.byte	0x1
  1544 01bb 3F       		.uleb128 0x3f
  1545 01bc 19       		.uleb128 0x19
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 43
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 43
 
 
  1546 01bd 03       		.uleb128 0x3
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1600 005b 0100     		.2byte	0x1
  1601 005d 50       		.byte	0x50
  1602 005e 1C000000 		.4byte	.LVL16
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 44
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 44
 
 
  1603 0062 30000000 		.4byte	.LFE64
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1657 00e3 50       		.byte	0x50
  1658 00e4 9F       		.byte	0x9f
  1659 00e5 0A000000 		.4byte	.LVL22
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 45
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 45
 
 
  1660 00e9 0C000000 		.4byte	.LVL23
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1714 0169 0100     		.2byte	0x1
  1715 016b 50       		.byte	0x50
  1716 016c 2D000000 		.4byte	.LVL37-1
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 46
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 46
 
 
  1717 0170 3E000000 		.4byte	.LVL40
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1771 01f1 01       		.uleb128 0x1
  1772 01f2 50       		.byte	0x50
  1773 01f3 9F       		.byte	0x9f
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 47
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 47
 
 
  1774 01f4 18000000 		.4byte	.LVL46
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1828 0270 9F       		.byte	0x9f
  1829 0271 00000000 		.4byte	0
  1830 0275 00000000 		.4byte	0
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 48
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 48
 
 
  1831              	.LLST11:
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1885 0302 0300     		.2byte	0x3
  1886 0304 74       		.byte	0x74
  1887 0305 7F       		.sleb128 -1
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 49
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 49
 
 
  1888 0306 9F       		.byte	0x9f
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1942 0000 64000000 		.4byte	0x64
  1943 0004 0200     		.2byte	0x2
  1944 0006 00000000 		.4byte	.Ldebug_info0
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 50
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 50
 
 
  1945 000a 04       		.byte	0x4
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  1997      00000201 
  1997      FB0E0D00 
  1997      01010101 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 51
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 51
 
 
  1998              	.LASF19:
@@ -3032,202 +3032,202 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  2009      6C6F636B 
  2009      5F315F53 
  2009      746F7000 
- 2010              	.LASF47:
- 2011 0070 433A5C55 		.ascii	"C:\\Users\\gding\\Documents\\O-Vac\\PSoC\\SD card e"
- 2011      73657273 
- 2011      5C676469 
- 2011      6E675C44 
- 2011      6F63756D 
- 2012 009d 78616D70 		.ascii	"xample\\SD_Card.cydsn\000"
- 2012      6C655C53 
- 2012      445F4361 
- 2012      72642E63 
- 2012      7964736E 
- 2013              	.LASF34:
- 2014 00b2 70446174 		.ascii	"pData\000"
- 2014      6100
- 2015              	.LASF49:
- 2016 00b8 656D4669 		.ascii	"emFile_ReadWriteSPI\000"
- 2016      6C655F52 
- 2016      65616457 
- 2016      72697465 
- 2016      53504900 
- 2017              	.LASF15:
- 2018 00cc 666C6F61 		.ascii	"float\000"
- 2018      7400
- 2019              	.LASF8:
- 2020 00d2 7369676E 		.ascii	"signed char\000"
- 2020      65642063 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 52
+ 2010              	.LASF34:
+ 2011 0070 70446174 		.ascii	"pData\000"
+ 2011      6100
+ 2012              	.LASF49:
+ 2013 0076 656D4669 		.ascii	"emFile_ReadWriteSPI\000"
+ 2013      6C655F52 
+ 2013      65616457 
+ 2013      72697465 
+ 2013      53504900 
+ 2014              	.LASF15:
+ 2015 008a 666C6F61 		.ascii	"float\000"
+ 2015      7400
+ 2016              	.LASF8:
+ 2017 0090 7369676E 		.ascii	"signed char\000"
+ 2017      65642063 
+ 2017      68617200 
+ 2018              	.LASF3:
+ 2019 009c 756E7369 		.ascii	"unsigned char\000"
+ 2019      676E6564 
+ 2019      20636861 
+ 2019      7200
+ 2020              	.LASF24:
+ 2021 00aa 46535F4D 		.ascii	"FS_MMC_HW_X_SetMaxSpeed\000"
+ 2021      4D435F48 
+ 2021      575F585F 
+ 2021      5365744D 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 52
 
 
- 2020      68617200 
- 2021              	.LASF3:
- 2022 00de 756E7369 		.ascii	"unsigned char\000"
- 2022      676E6564 
- 2022      20636861 
- 2022      7200
- 2023              	.LASF24:
- 2024 00ec 46535F4D 		.ascii	"FS_MMC_HW_X_SetMaxSpeed\000"
- 2024      4D435F48 
- 2024      575F585F 
- 2024      5365744D 
- 2024      61785370 
- 2025              	.LASF21:
- 2026 0104 73706944 		.ascii	"spiData\000"
- 2026      61746100 
- 2027              	.LASF0:
- 2028 010c 73686F72 		.ascii	"short unsigned int\000"
- 2028      7420756E 
- 2028      7369676E 
- 2028      65642069 
- 2028      6E7400
- 2029              	.LASF33:
- 2030 011f 46535F4D 		.ascii	"FS_MMC_HW_X_Read\000"
- 2030      4D435F48 
- 2030      575F585F 
- 2030      52656164 
- 2030      00
- 2031              	.LASF44:
- 2032 0130 656D4669 		.ascii	"emFile_SPI0_ReadRxData\000"
- 2032      6C655F53 
- 2032      5049305F 
- 2032      52656164 
- 2032      52784461 
- 2033              	.LASF50:
- 2034 0147 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 2034      52784275 
- 2034      66666572 
- 2034      00
- 2035              	.LASF46:
- 2036 0154 47656E65 		.ascii	"Generated_Source\\PSoC5\\emFile_MMC_HW_SPI.c\000"
- 2036      72617465 
- 2036      645F536F 
- 2036      75726365 
- 2036      5C50536F 
- 2037              	.LASF1:
- 2038 017f 6C6F6E67 		.ascii	"long unsigned int\000"
- 2038      20756E73 
- 2038      69676E65 
- 2038      6420696E 
- 2038      7400
- 2039              	.LASF14:
- 2040 0191 75696E74 		.ascii	"uint16\000"
- 2040      313600
- 2041              	.LASF28:
- 2042 0198 46535F4D 		.ascii	"FS_MMC_HW_X_SetVoltage\000"
- 2042      4D435F48 
- 2042      575F585F 
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 53
+ 2021      61785370 
+ 2022              	.LASF21:
+ 2023 00c2 73706944 		.ascii	"spiData\000"
+ 2023      61746100 
+ 2024              	.LASF0:
+ 2025 00ca 73686F72 		.ascii	"short unsigned int\000"
+ 2025      7420756E 
+ 2025      7369676E 
+ 2025      65642069 
+ 2025      6E7400
+ 2026              	.LASF33:
+ 2027 00dd 46535F4D 		.ascii	"FS_MMC_HW_X_Read\000"
+ 2027      4D435F48 
+ 2027      575F585F 
+ 2027      52656164 
+ 2027      00
+ 2028              	.LASF44:
+ 2029 00ee 656D4669 		.ascii	"emFile_SPI0_ReadRxData\000"
+ 2029      6C655F53 
+ 2029      5049305F 
+ 2029      52656164 
+ 2029      52784461 
+ 2030              	.LASF50:
+ 2031 0105 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2031      52784275 
+ 2031      66666572 
+ 2031      00
+ 2032              	.LASF46:
+ 2033 0112 47656E65 		.ascii	"Generated_Source\\PSoC5\\emFile_MMC_HW_SPI.c\000"
+ 2033      72617465 
+ 2033      645F536F 
+ 2033      75726365 
+ 2033      5C50536F 
+ 2034              	.LASF1:
+ 2035 013d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2035      20756E73 
+ 2035      69676E65 
+ 2035      6420696E 
+ 2035      7400
+ 2036              	.LASF14:
+ 2037 014f 75696E74 		.ascii	"uint16\000"
+ 2037      313600
+ 2038              	.LASF28:
+ 2039 0156 46535F4D 		.ascii	"FS_MMC_HW_X_SetVoltage\000"
+ 2039      4D435F48 
+ 2039      575F585F 
+ 2039      53657456 
+ 2039      6F6C7461 
+ 2040              	.LASF6:
+ 2041 016d 73686F72 		.ascii	"short int\000"
+ 2041      7420696E 
+ 2041      7400
+ 2042              	.LASF22:
+ 2043 0177 77705374 		.ascii	"wpState\000"
+ 2043      61746500 
+ 2044              	.LASF27:
+ 2045 017f 64697652 		.ascii	"divResult\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 53
 
 
- 2042      53657456 
- 2042      6F6C7461 
- 2043              	.LASF6:
- 2044 01af 73686F72 		.ascii	"short int\000"
- 2044      7420696E 
- 2044      7400
- 2045              	.LASF22:
- 2046 01b9 77705374 		.ascii	"wpState\000"
- 2046      61746500 
- 2047              	.LASF27:
- 2048 01c1 64697652 		.ascii	"divResult\000"
- 2048      6573756C 
- 2048      7400
- 2049              	.LASF25:
- 2050 01cb 4D617846 		.ascii	"MaxFreq\000"
- 2050      72657100 
- 2051              	.LASF32:
- 2052 01d3 46535F4D 		.ascii	"FS_MMC_HW_X_IsPresent\000"
- 2052      4D435F48 
- 2052      575F585F 
- 2052      49735072 
- 2052      6573656E 
- 2053              	.LASF45:
- 2054 01e9 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
- 2054      4320342E 
- 2054      392E3320 
- 2054      32303135 
- 2054      30333033 
- 2055 021c 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
- 2055      20726576 
- 2055      6973696F 
- 2055      6E203232 
- 2055      31323230 
- 2056 024f 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 2056      66756E63 
- 2056      74696F6E 
- 2056      2D736563 
- 2056      74696F6E 
- 2057              	.LASF2:
- 2058 0277 756E7369 		.ascii	"unsigned int\000"
- 2058      676E6564 
- 2058      20696E74 
- 2058      00
- 2059              	.LASF40:
- 2060 0284 656D4669 		.ascii	"emFile_SPI0_Start\000"
- 2060      6C655F53 
- 2060      5049305F 
- 2060      53746172 
- 2060      7400
- 2061              	.LASF10:
- 2062 0296 6C6F6E67 		.ascii	"long long unsigned int\000"
- 2062      206C6F6E 
- 2062      6720756E 
- 2062      7369676E 
- 2062      65642069 
- 2063              	.LASF30:
- 2064 02ad 566D6178 		.ascii	"Vmax\000"
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 54
+ 2045      6573756C 
+ 2045      7400
+ 2046              	.LASF25:
+ 2047 0189 4D617846 		.ascii	"MaxFreq\000"
+ 2047      72657100 
+ 2048              	.LASF32:
+ 2049 0191 46535F4D 		.ascii	"FS_MMC_HW_X_IsPresent\000"
+ 2049      4D435F48 
+ 2049      575F585F 
+ 2049      49735072 
+ 2049      6573656E 
+ 2050              	.LASF45:
+ 2051 01a7 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2051      4320342E 
+ 2051      392E3320 
+ 2051      32303135 
+ 2051      30333033 
+ 2052 01da 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2052      20726576 
+ 2052      6973696F 
+ 2052      6E203232 
+ 2052      31323230 
+ 2053 020d 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2053      66756E63 
+ 2053      74696F6E 
+ 2053      2D736563 
+ 2053      74696F6E 
+ 2054              	.LASF2:
+ 2055 0235 756E7369 		.ascii	"unsigned int\000"
+ 2055      676E6564 
+ 2055      20696E74 
+ 2055      00
+ 2056              	.LASF40:
+ 2057 0242 656D4669 		.ascii	"emFile_SPI0_Start\000"
+ 2057      6C655F53 
+ 2057      5049305F 
+ 2057      53746172 
+ 2057      7400
+ 2058              	.LASF10:
+ 2059 0254 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2059      206C6F6E 
+ 2059      6720756E 
+ 2059      7369676E 
+ 2059      65642069 
+ 2060              	.LASF30:
+ 2061 026b 566D6178 		.ascii	"Vmax\000"
+ 2061      00
+ 2062              	.LASF31:
+ 2063 0270 72657375 		.ascii	"result\000"
+ 2063      6C7400
+ 2064              	.LASF41:
+ 2065 0277 656D4669 		.ascii	"emFile_Clock_1_SetDividerRegister\000"
+ 2065      6C655F43 
+ 2065      6C6F636B 
+ 2065      5F315F53 
+ 2065      65744469 
+ 2066              	.LASF51:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 54
 
 
- 2064      00
- 2065              	.LASF31:
- 2066 02b2 72657375 		.ascii	"result\000"
- 2066      6C7400
- 2067              	.LASF41:
- 2068 02b9 656D4669 		.ascii	"emFile_Clock_1_SetDividerRegister\000"
- 2068      6C655F43 
- 2068      6C6F636B 
- 2068      5F315F53 
- 2068      65744469 
- 2069              	.LASF51:
- 2070 02db 656D4669 		.ascii	"emFile_SPI0_CS_Write\000"
- 2070      6C655F53 
- 2070      5049305F 
- 2070      43535F57 
- 2070      72697465 
- 2071              	.LASF36:
- 2072 02f0 46535F4D 		.ascii	"FS_MMC_HW_X_Write\000"
- 2072      4D435F48 
- 2072      575F585F 
- 2072      57726974 
- 2072      6500
- 2073              	.LASF12:
- 2074 0302 696E7433 		.ascii	"int32_t\000"
- 2074      325F7400 
- 2075              	.LASF4:
- 2076 030a 73697A65 		.ascii	"sizetype\000"
- 2076      74797065 
- 2076      00
- 2077              	.LASF9:
- 2078 0313 6C6F6E67 		.ascii	"long long int\000"
- 2078      206C6F6E 
- 2078      6720696E 
- 2078      7400
- 2079              	.LASF35:
- 2080 0321 4E756D42 		.ascii	"NumBytes\000"
- 2080      79746573 
- 2080      00
- 2081              	.LASF5:
- 2082 032a 63686172 		.ascii	"char\000"
- 2082      00
- 2083              	.LASF29:
- 2084 032f 566D696E 		.ascii	"Vmin\000"
- 2084      00
- 2085              	.LASF18:
- 2086 0334 44617461 		.ascii	"Data\000"
- 2086      00
+ 2067 0299 656D4669 		.ascii	"emFile_SPI0_CS_Write\000"
+ 2067      6C655F53 
+ 2067      5049305F 
+ 2067      43535F57 
+ 2067      72697465 
+ 2068              	.LASF36:
+ 2069 02ae 46535F4D 		.ascii	"FS_MMC_HW_X_Write\000"
+ 2069      4D435F48 
+ 2069      575F585F 
+ 2069      57726974 
+ 2069      6500
+ 2070              	.LASF12:
+ 2071 02c0 696E7433 		.ascii	"int32_t\000"
+ 2071      325F7400 
+ 2072              	.LASF4:
+ 2073 02c8 73697A65 		.ascii	"sizetype\000"
+ 2073      74797065 
+ 2073      00
+ 2074              	.LASF9:
+ 2075 02d1 6C6F6E67 		.ascii	"long long int\000"
+ 2075      206C6F6E 
+ 2075      6720696E 
+ 2075      7400
+ 2076              	.LASF35:
+ 2077 02df 4E756D42 		.ascii	"NumBytes\000"
+ 2077      79746573 
+ 2077      00
+ 2078              	.LASF5:
+ 2079 02e8 63686172 		.ascii	"char\000"
+ 2079      00
+ 2080              	.LASF29:
+ 2081 02ed 566D696E 		.ascii	"Vmin\000"
+ 2081      00
+ 2082              	.LASF18:
+ 2083 02f2 44617461 		.ascii	"Data\000"
+ 2083      00
+ 2084              	.LASF47:
+ 2085 02f7 433A5C55 		.ascii	"C:\\Users\\gding\\Documents\\O-Vac\\PSoC\\SD_card_e"
+ 2085      73657273 
+ 2085      5C676469 
+ 2085      6E675C44 
+ 2085      6F63756D 
+ 2086 0324 78616D70 		.ascii	"xample\\SD_Card.cydsn\000"
+ 2086      6C655C53 
+ 2086      445F4361 
+ 2086      72642E63 
+ 2086      7964736E 
  2087              	.LASF26:
  2088 0339 66726571 		.ascii	"freq\000"
  2088      00
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 1
  2092 0344 6C6F6E67 		.ascii	"long int\000"
  2092      20696E74 
  2092      00
-ARM GAS  C:\Users\gding\AppData\Local\Temp\cc5CGTrT.s 			page 55
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccnS3BEb.s 			page 55
 
 
  2093              	.LASF48:

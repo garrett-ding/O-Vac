@@ -15,74 +15,75 @@
 
 int Initialize_SD_Card(char *filename, char *volname, FS_FILE *file){
     FS_Init();
+    FS_Mount(volname);
     if(0 != FS_GetVolumeName(0u, volname, 9u))
     {
         /* Getting volume name succeeded so prompt it on the LCD */
-        LCD_PrintString("SD card name:");
-        LCD_Position(1u, 0u);
-        LCD_PrintString(volname);
+        LED4_Write(1);
+        CyDelay(500u);
     }
     else
-    {
-        /* Operation Failed - indicate this */
-        LCD_PrintString("Failed to get");
-        LCD_Position(1u, 0u);
-        LCD_PrintString("SD card name");
-        return 1;
-    }
+        return 1;   
+    
     CyDelay(500u);
-    LCD_Position(0u, 0u);
-    LCD_PrintString("SD card format");
+    LED4_Write(0);
+//    setCursor(0u, 0u);
+//    LCD_print("SD card format");
     
     if(0 == FS_FormatSD(volname))
     {
-        LCD_Position(1u, 0u);
-        LCD_PrintString("Succeeded");
+        LED4_Write(1);
+//        setCursor(1u, 0u);
+//        LCD_print("Succeeded");
     }
     else
     {
-        LCD_Position(1u, 0u);
-        LCD_PrintString("Failed");
+//        setCursor(1u, 0u);
+//        LCD_print("Failed");
         return 1;
     }
     CyDelay(500u);
+    LED4_Write(0);
     file = FS_FOpen(filename, "w");
     if(file)
     {
         /* Indicate successful file creation message */
-        LCD_PrintString("File ");
-        LCD_PrintString(filename);
-        LCD_Position(1u, 0u);
-        LCD_PrintString("was opened");
-        
+//        LCD_print("File ");
+//        LCD_print(filename);
+//        setCursor(1u, 0u);
+//        LCD_print("was opened");
+        LED6_Write(1);
         /* Need some delay to indicate output on the LCD */
-        CyDelay(500u);
+        CyDelay(1000u);
+        LED6_Write(0);
+//        clear();
         
-        LCD_ClearDisplay();
+//        setCursor(0u, 0u);
         
-        LCD_Position(0u, 0u);
-        
-        if(0 != FS_Write(file, "Test Test\n", 10u)) 
+        if(0 != FS_Write(file, "Testing Testing\nTesting Testing", 31u)) 
         {
             /* Inditate that data was written to a file */
-            LCD_PrintString("\"0123456789\"");
-            LCD_PrintString(filename);
-            LCD_Position(1u, 0u);
-            LCD_PrintString("written to file");
+//            LCD_print("\"0123456789\"");
+//            LCD_print(filename);
+//            setCursor(1u, 0u);
+//            LCD_print("written to file");
+            LED7_Write(1);
+            CyDelay(1000u);
+            LED7_Write(0);
         }
         else
         {
-            LCD_PrintString("Failed to write");
-            LCD_Position(1u, 0u);
-            LCD_PrintString("data to file");
+//            LCD_print("Failed to write");
+//            setCursor(1u, 0u);
+//            LCD_print("data to file");
             return 1;
         }
     }
     else
     {
-        LCD_PrintString("Failed to create");
-        LCD_Position(1u, 0u);
-        LCD_PrintString("file");
+//        LCD_print("Failed to create");
+//        setCursor(1u, 0u);
+//        LCD_print("file");
         return 1;
     }
     return 0;

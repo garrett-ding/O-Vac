@@ -25,7 +25,7 @@ int main(void)
     Initialize_SD_Card(&sdFile[0], &sdVolName[0], pFile); // in functions.c
     CyDelay(2000u);
     CyGlobalIntEnable; /* Enable global interrupts. */
-    LCD_Start(); // LCD start
+    //LCD_Start(); // LCD start
     Timer_1_Start();    // Timer start
     write_to_StartEx(write); // ISR start
 

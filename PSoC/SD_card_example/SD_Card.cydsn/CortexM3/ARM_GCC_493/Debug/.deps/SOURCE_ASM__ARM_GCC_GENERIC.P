@@ -1,10 +1,10 @@
-C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/CortexM3/ARM_GCC_493/Debug/CyBootAsmGnu.o : C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/CortexM3/ARM_GCC_493/Debug/CyBootAsmGnu.o : C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
 
-C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
 
-C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
 
-C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
 
-C:/Users/gding/Documents/O-Vac/PSoC/SD\ card\ example/SD_Card.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+C:/Users/gding/Documents/O-Vac/PSoC/SD_card_example/SD_Card.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
 

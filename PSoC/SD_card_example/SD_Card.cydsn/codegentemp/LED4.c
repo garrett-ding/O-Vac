@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: LCD_LCDPort.c  
+* File Name: LED4.c  
 * Version 2.20
 *
 * Description:
@@ -15,15 +15,15 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "LCD_LCDPort.h"
+#include "LED4.h"
 
 /* APIs are not generated for P15[7:6] on PSoC 5 */
 #if !(CY_PSOC5A &&\
-	 LCD_LCDPort__PORT == 15 && ((LCD_LCDPort__MASK & 0xC0) != 0))
+	 LED4__PORT == 15 && ((LED4__MASK & 0xC0) != 0))
 
 
 /*******************************************************************************
-* Function Name: LCD_LCDPort_Write
+* Function Name: LED4_Write
 ****************************************************************************//**
 *
 * \brief Writes the value to the physical port (data output register), masking
@@ -52,17 +52,17 @@
 *  this function.
 *
 * \funcusage
-*  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_Write
+*  \snippet LED4_SUT.c usage_LED4_Write
 *******************************************************************************/
-void LCD_LCDPort_Write(uint8 value)
+void LED4_Write(uint8 value)
 {
-    uint8 staticBits = (LCD_LCDPort_DR & (uint8)(~LCD_LCDPort_MASK));
-    LCD_LCDPort_DR = staticBits | ((uint8)(value << LCD_LCDPort_SHIFT) & LCD_LCDPort_MASK);
+    uint8 staticBits = (LED4_DR & (uint8)(~LED4_MASK));
+    LED4_DR = staticBits | ((uint8)(value << LED4_SHIFT) & LED4_MASK);
 }
 
 
 /*******************************************************************************
-* Function Name: LCD_LCDPort_SetDriveMode
+* Function Name: LED4_SetDriveMode
 ****************************************************************************//**
 *
 * \brief Sets the drive mode for each of the Pins component's pins.
@@ -85,22 +85,16 @@ void LCD_LCDPort_Write(uint8 value)
 *  APIs (primary method) or disable interrupts around this function.
 *
 * \funcusage
-*  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_SetDriveMode
+*  \snippet LED4_SUT.c usage_LED4_SetDriveMode
 *******************************************************************************/
-void LCD_LCDPort_SetDriveMode(uint8 mode)
+void LED4_SetDriveMode(uint8 mode)
 {
-	CyPins_SetPinDriveMode(LCD_LCDPort_0, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_1, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_2, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_3, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_4, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_5, mode);
-	CyPins_SetPinDriveMode(LCD_LCDPort_6, mode);
+	CyPins_SetPinDriveMode(LED4_0, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: LCD_LCDPort_Read
+* Function Name: LED4_Read
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port (pin status register) and masks 
@@ -114,16 +108,16 @@ void LCD_LCDPort_SetDriveMode(uint8 mode)
 *  The current value for the pins in the component as a right justified number.
 *
 * \funcusage
-*  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_Read  
+*  \snippet LED4_SUT.c usage_LED4_Read  
 *******************************************************************************/
-uint8 LCD_LCDPort_Read(void)
+uint8 LED4_Read(void)
 {
-    return (LCD_LCDPort_PS & LCD_LCDPort_MASK) >> LCD_LCDPort_SHIFT;
+    return (LED4_PS & LED4_MASK) >> LED4_SHIFT;
 }
 
 
 /*******************************************************************************
-* Function Name: LCD_LCDPort_ReadDataReg
+* Function Name: LED4_ReadDataReg
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port's data output register and masks 
@@ -132,8 +126,8 @@ uint8 LCD_LCDPort_Read(void)
 *
 * The data output register controls the signal applied to the physical pin in 
 * conjunction with the drive mode parameter. This is not the same as the 
-* preferred LCD_LCDPort_Read() API because the 
-* LCD_LCDPort_ReadDataReg() reads the data register instead of the status 
+* preferred LED4_Read() API because the 
+* LED4_ReadDataReg() reads the data register instead of the status 
 * register. For output pins this is a useful function to determine the value 
 * just written to the pin.
 *
@@ -142,19 +136,19 @@ uint8 LCD_LCDPort_Read(void)
 *  justified number for the component instance.
 *
 * \funcusage
-*  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_ReadDataReg 
+*  \snippet LED4_SUT.c usage_LED4_ReadDataReg 
 *******************************************************************************/
-uint8 LCD_LCDPort_ReadDataReg(void)
+uint8 LED4_ReadDataReg(void)
 {
-    return (LCD_LCDPort_DR & LCD_LCDPort_MASK) >> LCD_LCDPort_SHIFT;
+    return (LED4_DR & LED4_MASK) >> LED4_SHIFT;
 }
 
 
 /* If interrupt is connected for this Pins component */ 
-#if defined(LCD_LCDPort_INTSTAT) 
+#if defined(LED4_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: LCD_LCDPort_SetInterruptMode
+    * Function Name: LED4_SetInterruptMode
     ****************************************************************************//**
     *
     * \brief Configures the interrupt mode for each of the Pins component's
@@ -167,12 +161,12 @@ uint8 LCD_LCDPort_ReadDataReg(void)
     * \param position
     *  The pin position as listed in the Pins component. You may OR these to be 
     *  able to configure the interrupt mode of multiple pins within a Pins 
-    *  component. Or you may use LCD_LCDPort_INTR_ALL to configure the
+    *  component. Or you may use LED4_INTR_ALL to configure the
     *  interrupt mode of all the pins in the Pins component.       
-    *  - LCD_LCDPort_0_INTR       (First pin in the list)
-    *  - LCD_LCDPort_1_INTR       (Second pin in the list)
+    *  - LED4_0_INTR       (First pin in the list)
+    *  - LED4_1_INTR       (Second pin in the list)
     *  - ...
-    *  - LCD_LCDPort_INTR_ALL     (All pins in Pins component)
+    *  - LED4_INTR_ALL     (All pins in Pins component)
     *
     * \param mode
     *  Interrupt mode for the selected pins. Valid options are documented in
@@ -188,43 +182,19 @@ uint8 LCD_LCDPort_ReadDataReg(void)
     *  port.
     *
     * \funcusage
-    *  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_SetInterruptMode
+    *  \snippet LED4_SUT.c usage_LED4_SetInterruptMode
     *******************************************************************************/
-    void LCD_LCDPort_SetInterruptMode(uint16 position, uint16 mode)
+    void LED4_SetInterruptMode(uint16 position, uint16 mode)
     {
-		if((position & LCD_LCDPort_0_INTR) != 0u) 
+		if((position & LED4_0_INTR) != 0u) 
 		{ 
-			 LCD_LCDPort_0_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_1_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_1_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_2_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_2_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_3_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_3_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_4_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_4_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_5_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_5_INTTYPE_REG = (uint8)mode; 
-		} 
-		if((position & LCD_LCDPort_6_INTR) != 0u) 
-		{ 
-			 LCD_LCDPort_6_INTTYPE_REG = (uint8)mode; 
+			 LED4_0_INTTYPE_REG = (uint8)mode; 
 		}
     }
     
     
     /*******************************************************************************
-    * Function Name: LCD_LCDPort_ClearInterrupt
+    * Function Name: LED4_ClearInterrupt
     ****************************************************************************//**
     *
     * \brief Clears any active interrupts attached with the component and returns 
@@ -241,11 +211,11 @@ uint8 LCD_LCDPort_ReadDataReg(void)
     *  those associated with the Pins component.
     *
     * \funcusage
-    *  \snippet LCD_LCDPort_SUT.c usage_LCD_LCDPort_ClearInterrupt
+    *  \snippet LED4_SUT.c usage_LED4_ClearInterrupt
     *******************************************************************************/
-    uint8 LCD_LCDPort_ClearInterrupt(void)
+    uint8 LED4_ClearInterrupt(void)
     {
-        return (LCD_LCDPort_INTSTAT & LCD_LCDPort_MASK) >> LCD_LCDPort_SHIFT;
+        return (LED4_INTSTAT & LED4_MASK) >> LED4_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 
