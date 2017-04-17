@@ -1,0 +1,8 @@
+C:\Users\gding\Downloads\Testing\OVac.cydsn\OVac.cyprj|65ff1030-a138-496b-8dad-6e6428e1c7f3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|56ddb4be-190b-4cbf-8915-cdd3f2117063
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|cf94fa5d-d422-4574-aa0c-4588b9f5f89e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|bf1acf00-bea2-4372-a89c-2ffcff57344e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|5be3c7b9-6183-4b37-aee2-e4ce1a22ab8b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5b980a65-6a63-43ec-a6c1-9765f0ffffa2
+C:\Program Files (x86)\Cypress\PSoC Creator\4.0\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|bc460767-29df-4d19-9178-928c5a2d2a19
+C:\Users\gding\Downloads\Testing\OVac.cydsn\ADC_SingleEndedMode01.cydsn\ADC_SingleEndedMode01.cyprj|6bae92db-ae57-4b88-b6fb-651afcd75955

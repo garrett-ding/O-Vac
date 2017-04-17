@@ -1,0 +1,2270 @@
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	devAddr,1,1
+  19              		.comm	buffer,22,4
+  20              		.global	Addr
+  21              		.data
+  22              		.align	2
+  23              		.type	Addr, %object
+  24              		.size	Addr, 4
+  25              	Addr:
+  26 0000 3F000000 		.word	63
+  27              		.global	id
+  28              		.align	2
+  29              		.type	id, %object
+  30              		.size	id, 4
+  31              	id:
+  32 0004 01000000 		.word	1
+  33              		.global	data_point
+  34              		.bss
+  35              		.align	2
+  36              		.type	data_point, %object
+  37              		.size	data_point, 4
+  38              	data_point:
+  39 0000 00000000 		.space	4
+  40              		.global	sum
+  41              		.align	2
+  42              		.type	sum, %object
+  43              		.size	sum, 4
+  44              	sum:
+  45 0004 00000000 		.space	4
+  46              		.global	average
+  47              		.align	1
+  48              		.type	average, %object
+  49              		.size	average, 2
+  50              	average:
+  51 0008 0000     		.space	2
+  52              		.global	collect_flag
+  53              		.type	collect_flag, %object
+  54              		.size	collect_flag, 1
+  55              	collect_flag:
+  56 000a 00       		.space	1
+  57              		.global	wait_flag
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 2
+
+
+  58              		.type	wait_flag, %object
+  59              		.size	wait_flag, 1
+  60              	wait_flag:
+  61 000b 00       		.space	1
+  62              		.global	STATE
+  63              		.data
+  64              		.type	STATE, %object
+  65              		.size	STATE, 1
+  66              	STATE:
+  67 0008 01       		.byte	1
+  68              		.global	testnum
+  69              		.type	testnum, %object
+  70              		.size	testnum, 1
+  71              	testnum:
+  72 0009 01       		.byte	1
+  73              		.global	countdown
+  74              		.bss
+  75              		.type	countdown, %object
+  76              		.size	countdown, 1
+  77              	countdown:
+  78 000c 00       		.space	1
+  79              		.global	file
+  80              		.data
+  81 000a 0000     		.align	2
+  82              		.type	file, %object
+  83              		.size	file, 11
+  84              	file:
+  85 000c 74657374 		.ascii	"test1.txt\000"
+  85      312E7478 
+  85      7400
+  86 0016 00       		.space	1
+  87              		.global	volume
+  88 0017 00       		.align	2
+  89              		.type	volume, %object
+  90              		.size	volume, 7
+  91              	volume:
+  92 0018 766F6C75 		.ascii	"volume\000"
+  92      6D6500
+  93              		.global	fsfile
+  94 001f 00       		.bss
+  95 000d 000000   		.align	2
+  96              		.type	fsfile, %object
+  97              		.size	fsfile, 4
+  98              	fsfile:
+  99 0010 00000000 		.space	4
+ 100              		.section	.text.Sample_ISR_Handler,"ax",%progbits
+ 101              		.align	2
+ 102              		.global	Sample_ISR_Handler
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.type	Sample_ISR_Handler, %function
+ 106              	Sample_ISR_Handler:
+ 107              	.LFB63:
+ 108              		.file 1 "main.c"
+   1:main.c        **** /*******************************************************************************
+   2:main.c        **** * File Name: main.c
+   3:main.c        **** *
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 3
+
+
+   4:main.c        **** * Version: 2.20
+   5:main.c        **** *
+   6:main.c        **** * Description:
+   7:main.c        **** *   This is a source code for example project of ADC single ended mode.
+   8:main.c        **** *
+   9:main.c        **** *   Variable resistor(pot) is connected to +ve input of ADC using the I/O pin.
+  10:main.c        **** *   P0.0. When voltage to positive terminal of ADC is 0, the output displayed
+  11:main.c        **** *   on the LCD pannel is 0x0000. As voltage on positive terminal goes on
+  12:main.c        **** *   increasing, the  converted value goes on increasing from 0x0000 and reaches
+  13:main.c        **** *   0xFFFF when voltage becomes 1.024V. Futher increase in voltage value,
+  14:main.c        **** *   doesn't cause any changes to values displayed in the LCD.
+  15:main.c        **** *
+  16:main.c        **** * Hardware Connections: 
+  17:main.c        **** *  Connect analog input from Variable resistor to port P0[0] of DVK1 board.
+  18:main.c        **** *
+  19:main.c        **** ********************************************************************************
+  20:main.c        **** * Copyright 2012-2015, Cypress Semiconductor Corporation. All rights reserved.
+  21:main.c        **** * This software is owned by Cypress Semiconductor Corporation and is protected
+  22:main.c        **** * by and subject to worldwide patent and copyright laws and treaties.
+  23:main.c        **** * Therefore, you may use this software only as provided in the license agreement
+  24:main.c        **** * accompanying the software package from which you obtained this software.
+  25:main.c        **** * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  26:main.c        **** * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  27:main.c        **** * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  28:main.c        **** *******************************************************************************/
+  29:main.c        **** 
+  30:main.c        **** #include <project.h>
+  31:main.c        **** #include <mpu6050.h>
+  32:main.c        **** #include <stdio.h>
+  33:main.c        **** #include <string.h>
+  34:main.c        **** #include <FS.h>
+  35:main.c        **** #include "LiquidCrystal_I2C.h"
+  36:main.c        **** #include "functions.h"
+  37:main.c        **** 
+  38:main.c        **** #define MPU6050 
+  39:main.c        **** #define LCD
+  40:main.c        **** //#define SD
+  41:main.c        **** 
+  42:main.c        **** #define MA_WINDOW 15                    // Number of samples in the moving average window.
+  43:main.c        **** #define BOT_THRESHOLD 20000             // Z-Aacceleration threshold for transition into LANDED sta
+  44:main.c        **** #define WAIT_TIME 1000                  // Number of ISR calls until transition into DESCENDING sta
+  45:main.c        **** #define DATA_TIME 5000                  // Number of ISR calls until transition into WAIT_TO_LAUNCH
+  46:main.c        **** 
+  47:main.c        **** 
+  48:main.c        **** /*State Declarations*/
+  49:main.c        **** enum STATES{
+  50:main.c        **** SYSTEM_CHECK, 
+  51:main.c        **** WAIT_TO_LAUNCH,
+  52:main.c        **** DESCENDING,
+  53:main.c        **** LANDED,
+  54:main.c        **** RESURFACE,
+  55:main.c        **** TRANSMIT,
+  56:main.c        **** ERROR
+  57:main.c        **** };
+  58:main.c        **** 
+  59:main.c        **** 
+  60:main.c        **** uint32_t Addr = 0x3F;                       // I2C address of LCD.
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 4
+
+
+  61:main.c        **** long id = 1;                                // Interrupt count.
+  62:main.c        **** long data_point = 0;                        // data point num
+  63:main.c        **** 
+  64:main.c        **** long sum = 0;                               // Sum of accelerometer values. 
+  65:main.c        **** int16_t average = 0;                        // Moving average variable.
+  66:main.c        **** bool collect_flag = 0;                      // flag indicating when to record acceleration sample.
+  67:main.c        **** bool wait_flag = 0;                         // flag indicating when to increment interrupt counter.
+  68:main.c        **** //bool first_test = 1;                        // flag indicating first test(longer countdown)
+  69:main.c        **** enum STATES STATE = WAIT_TO_LAUNCH;         // Set initial state. 
+  70:main.c        **** uint8_t testnum = 1, countdown = 0;
+  71:main.c        **** char file[11] = "test1.txt";
+  72:main.c        **** char volume[7] = "volume";
+  73:main.c        **** FS_FILE *fsfile = NULL;
+  74:main.c        **** 
+  75:main.c        **** /*******************************************************************************
+  76:main.c        **** * Function Name: main
+  77:main.c        **** ********************************************************************************
+  78:main.c        **** *
+  79:main.c        **** * Summary:
+  80:main.c        **** *  main() performs following functions:
+  81:main.c        **** *  1: Initializes the LCD.
+  82:main.c        **** *  2: Initializes timer module and sampling interrupt.
+  83:main.c        **** *  3: Initializes MPU6050 Accelerometer/Gyroscope module.
+  84:main.c        **** *  4: Samples Z-axis acceleration data from module @ 500hz.
+  85:main.c        **** *  5: Computes moving average of Z-axis acceleration values.
+  86:main.c        **** *  6: Transitions from DESCENDING to LANDED state when sudden acceleration occurs
+  87:main.c        **** *     (ie. moving average > 200000).
+  88:main.c        **** *
+  89:main.c        **** * Parameters:
+  90:main.c        **** *  None.
+  91:main.c        **** *
+  92:main.c        **** * Return:
+  93:main.c        **** *  None.
+  94:main.c        **** *
+  95:main.c        **** *******************************************************************************/
+  96:main.c        **** 
+  97:main.c        **** /* Sampling ISR */
+  98:main.c        **** CY_ISR (Sample_ISR_Handler){
+ 109              		.loc 1 98 0
+ 110              		.cfi_startproc
+ 111              		@ args = 0, pretend = 0, frame = 0
+ 112              		@ frame_needed = 1, uses_anonymous_args = 0
+ 113              		@ link register save eliminated.
+ 114 0000 80B4     		push	{r7}
+ 115              		.cfi_def_cfa_offset 4
+ 116              		.cfi_offset 7, -4
+ 117 0002 00AF     		add	r7, sp, #0
+ 118              		.cfi_def_cfa_register 7
+  99:main.c        ****     
+ 100:main.c        ****     Sample_Timer_STATUS;                        //Clears interrupt by accessing timer status regist
+ 119              		.loc 1 100 0
+ 120 0004 084B     		ldr	r3, .L3
+ 121 0006 1B78     		ldrb	r3, [r3]
+ 101:main.c        ****     if (STATE == DESCENDING){ 
+ 122              		.loc 1 101 0
+ 123 0008 084B     		ldr	r3, .L3+4
+ 124 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 5
+
+
+ 125 000c 022B     		cmp	r3, #2
+ 126 000e 07D1     		bne	.L1
+ 102:main.c        ****         collect_flag = 1;
+ 127              		.loc 1 102 0
+ 128 0010 074B     		ldr	r3, .L3+8
+ 129 0012 0122     		movs	r2, #1
+ 130 0014 1A70     		strb	r2, [r3]
+ 103:main.c        ****         data_point++;
+ 131              		.loc 1 103 0
+ 132 0016 074B     		ldr	r3, .L3+12
+ 133 0018 1B68     		ldr	r3, [r3]
+ 134 001a 0133     		adds	r3, r3, #1
+ 135 001c 054A     		ldr	r2, .L3+12
+ 136 001e 1360     		str	r3, [r2]
+ 137              	.L1:
+ 104:main.c        ****     }
+ 105:main.c        **** }
+ 138              		.loc 1 105 0
+ 139 0020 BD46     		mov	sp, r7
+ 140              		.cfi_def_cfa_register 13
+ 141              		@ sp needed
+ 142 0022 5DF8047B 		ldr	r7, [sp], #4
+ 143              		.cfi_restore 7
+ 144              		.cfi_def_cfa_offset 0
+ 145 0026 7047     		bx	lr
+ 146              	.L4:
+ 147              		.align	2
+ 148              	.L3:
+ 149 0028 034F0040 		.word	1073762051
+ 150 002c 00000000 		.word	STATE
+ 151 0030 00000000 		.word	collect_flag
+ 152 0034 00000000 		.word	data_point
+ 153              		.cfi_endproc
+ 154              	.LFE63:
+ 155              		.size	Sample_ISR_Handler, .-Sample_ISR_Handler
+ 156              		.section	.text.Countdown_ISR_Handler,"ax",%progbits
+ 157              		.align	2
+ 158              		.global	Countdown_ISR_Handler
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.type	Countdown_ISR_Handler, %function
+ 162              	Countdown_ISR_Handler:
+ 163              	.LFB64:
+ 106:main.c        **** 
+ 107:main.c        **** CY_ISR (Countdown_ISR_Handler){
+ 164              		.loc 1 107 0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 1, uses_anonymous_args = 0
+ 168              		@ link register save eliminated.
+ 169 0000 80B4     		push	{r7}
+ 170              		.cfi_def_cfa_offset 4
+ 171              		.cfi_offset 7, -4
+ 172 0002 00AF     		add	r7, sp, #0
+ 173              		.cfi_def_cfa_register 7
+ 108:main.c        ****     
+ 109:main.c        ****     Countdown_timer_STATUS;                        //Clears interrupt by accessing timer status reg
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 6
+
+
+ 174              		.loc 1 109 0
+ 175 0004 094B     		ldr	r3, .L7
+ 176 0006 1B78     		ldrb	r3, [r3]
+ 110:main.c        ****     if (STATE == WAIT_TO_LAUNCH){ 
+ 177              		.loc 1 110 0
+ 178 0008 094B     		ldr	r3, .L7+4
+ 179 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 180 000c 012B     		cmp	r3, #1
+ 181 000e 08D1     		bne	.L5
+ 111:main.c        ****         wait_flag = 1;
+ 182              		.loc 1 111 0
+ 183 0010 084B     		ldr	r3, .L7+8
+ 184 0012 0122     		movs	r2, #1
+ 185 0014 1A70     		strb	r2, [r3]
+ 112:main.c        ****         countdown++;
+ 186              		.loc 1 112 0
+ 187 0016 084B     		ldr	r3, .L7+12
+ 188 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 189 001a 0133     		adds	r3, r3, #1
+ 190 001c DAB2     		uxtb	r2, r3
+ 191 001e 064B     		ldr	r3, .L7+12
+ 192 0020 1A70     		strb	r2, [r3]
+ 193              	.L5:
+ 113:main.c        ****     }
+ 114:main.c        **** }
+ 194              		.loc 1 114 0
+ 195 0022 BD46     		mov	sp, r7
+ 196              		.cfi_def_cfa_register 13
+ 197              		@ sp needed
+ 198 0024 5DF8047B 		ldr	r7, [sp], #4
+ 199              		.cfi_restore 7
+ 200              		.cfi_def_cfa_offset 0
+ 201 0028 7047     		bx	lr
+ 202              	.L8:
+ 203 002a 00BF     		.align	2
+ 204              	.L7:
+ 205 002c 67650040 		.word	1073767783
+ 206 0030 00000000 		.word	STATE
+ 207 0034 00000000 		.word	wait_flag
+ 208 0038 00000000 		.word	countdown
+ 209              		.cfi_endproc
+ 210              	.LFE64:
+ 211              		.size	Countdown_ISR_Handler, .-Countdown_ISR_Handler
+ 212              		.section	.rodata
+ 213              		.align	2
+ 214              	.LC1:
+ 215 0000 50536F43 		.ascii	"PSoC 5LP: O-Vac\000"
+ 215      20354C50 
+ 215      3A204F2D 
+ 215      56616300 
+ 216              		.align	2
+ 217              	.LC2:
+ 218 0010 49324320 		.ascii	"I2C Working\000"
+ 218      576F726B 
+ 218      696E6700 
+ 219              		.global	__aeabi_i2f
+ 220              		.global	__aeabi_f2d
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 7
+
+
+ 221              		.global	__aeabi_dmul
+ 222              		.global	__aeabi_d2f
+ 223              		.global	__aeabi_f2iz
+ 224              		.global	__aeabi_fsub
+ 225              		.global	__aeabi_fmul
+ 226              		.align	2
+ 227              	.LC3:
+ 228 001c 542D6D69 		.ascii	"T-minus %d seconds\012\000"
+ 228      6E757320 
+ 228      25642073 
+ 228      65636F6E 
+ 228      64730A00 
+ 229              		.align	2
+ 230              	.LC4:
+ 231 0030 53544154 		.ascii	"STATE: DESCENT\000"
+ 231      453A2044 
+ 231      45534345 
+ 231      4E5400
+ 232 003f 00       		.align	2
+ 233              	.LC5:
+ 234 0040 53544154 		.ascii	"STATE: LANDED\000"
+ 234      453A204C 
+ 234      414E4445 
+ 234      4400
+ 235 004e 0000     		.align	2
+ 236              	.LC6:
+ 237 0050 53544154 		.ascii	"STATE: WAIT\000"
+ 237      453A2057 
+ 237      41495400 
+ 238              		.align	2
+ 239              	.LC0:
+ 240 005c 53595354 		.ascii	"SYSTEM_CHECK  \000"
+ 240      454D5F43 
+ 240      4845434B 
+ 240      202000
+ 241 006b 00       		.section	.text.main,"ax",%progbits
+ 242              		.align	2
+ 243              		.global	main
+ 244              		.thumb
+ 245              		.thumb_func
+ 246              		.type	main, %function
+ 247              	main:
+ 248              	.LFB65:
+ 115:main.c        **** 
+ 116:main.c        **** int main()
+ 117:main.c        **** {
+ 249              		.loc 1 117 0
+ 250              		.cfi_startproc
+ 251              		@ args = 0, pretend = 0, frame = 184
+ 252              		@ frame_needed = 1, uses_anonymous_args = 0
+ 253 0000 90B5     		push	{r4, r7, lr}
+ 254              		.cfi_def_cfa_offset 12
+ 255              		.cfi_offset 4, -12
+ 256              		.cfi_offset 7, -8
+ 257              		.cfi_offset 14, -4
+ 258 0002 AFB0     		sub	sp, sp, #188
+ 259              		.cfi_def_cfa_offset 200
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 8
+
+
+ 260 0004 00AF     		add	r7, sp, #0
+ 261              		.cfi_def_cfa_register 7
+ 118:main.c        ****     float output;
+ 119:main.c        ****     char buf[50];                               //just to hold text values in for writing to UART
+ 120:main.c        ****     char sdbuf[40] = {};
+ 262              		.loc 1 120 0
+ 263 0006 07F14403 		add	r3, r7, #68
+ 264 000a 0022     		movs	r2, #0
+ 265 000c 1A60     		str	r2, [r3]
+ 266 000e 0433     		adds	r3, r3, #4
+ 267 0010 0022     		movs	r2, #0
+ 268 0012 1A60     		str	r2, [r3]
+ 269 0014 0433     		adds	r3, r3, #4
+ 270 0016 0022     		movs	r2, #0
+ 271 0018 1A60     		str	r2, [r3]
+ 272 001a 0433     		adds	r3, r3, #4
+ 273 001c 0022     		movs	r2, #0
+ 274 001e 1A60     		str	r2, [r3]
+ 275 0020 0433     		adds	r3, r3, #4
+ 276 0022 0022     		movs	r2, #0
+ 277 0024 1A60     		str	r2, [r3]
+ 278 0026 0433     		adds	r3, r3, #4
+ 279 0028 0022     		movs	r2, #0
+ 280 002a 1A60     		str	r2, [r3]
+ 281 002c 0433     		adds	r3, r3, #4
+ 282 002e 0022     		movs	r2, #0
+ 283 0030 1A60     		str	r2, [r3]
+ 284 0032 0433     		adds	r3, r3, #4
+ 285 0034 0022     		movs	r2, #0
+ 286 0036 1A60     		str	r2, [r3]
+ 287 0038 0433     		adds	r3, r3, #4
+ 288 003a 0022     		movs	r2, #0
+ 289 003c 1A60     		str	r2, [r3]
+ 290 003e 0433     		adds	r3, r3, #4
+ 291 0040 0022     		movs	r2, #0
+ 292 0042 1A60     		str	r2, [r3]
+ 293 0044 0433     		adds	r3, r3, #4
+ 121:main.c        ****     char curState[14] = "SYSTEM_CHECK  ";
+ 294              		.loc 1 121 0
+ 295 0046 B64B     		ldr	r3, .L25+8
+ 296 0048 07F13404 		add	r4, r7, #52
+ 297 004c 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+ 298 004e 07C4     		stmia	r4!, {r0, r1, r2}
+ 299 0050 2380     		strh	r3, [r4]	@ movhi
+ 122:main.c        ****     int16_t ax, ay, az, i;
+ 123:main.c        ****     //int16_t gx, gy, gz;
+ 124:main.c        ****     int16_t z_offset = 0;
+ 300              		.loc 1 124 0
+ 301 0052 0023     		movs	r3, #0
+ 302 0054 A7F8B630 		strh	r3, [r7, #182]	@ movhi
+ 125:main.c        ****     
+ 126:main.c        ****     /* Start the components */
+ 127:main.c        ****     CYGlobalIntEnable;                          //enable global interrupts
+ 303              		.loc 1 127 0
+ 304              	@ 127 "main.c" 1
+ 305 0058 62B6     		CPSIE   i
+ 306              	@ 0 "" 2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 9
+
+
+ 128:main.c        ****     I2C_Master_Start(); 
+ 307              		.loc 1 128 0
+ 308              		.thumb
+ 309 005a FFF7FEFF 		bl	I2C_Master_Start
+ 129:main.c        ****     ADC_Start();
+ 310              		.loc 1 129 0
+ 311 005e FFF7FEFF 		bl	ADC_Start
+ 130:main.c        ****     Sample_Timer_Start();                       //start timer module
+ 312              		.loc 1 130 0
+ 313 0062 FFF7FEFF 		bl	Sample_Timer_Start
+ 131:main.c        ****     Sample_ISR_StartEx(Sample_ISR_Handler);     //reference ISR function
+ 314              		.loc 1 131 0
+ 315 0066 AF48     		ldr	r0, .L25+12
+ 316 0068 FFF7FEFF 		bl	Sample_ISR_StartEx
+ 132:main.c        ****     
+ 133:main.c        ****     
+ 134:main.c        ****     #ifdef LCD
+ 135:main.c        ****     LiquidCrystal_I2C_init(Addr,16,2,0);        //initialize I2C communication with LCD
+ 317              		.loc 1 135 0
+ 318 006c AE4B     		ldr	r3, .L25+16
+ 319 006e 1B68     		ldr	r3, [r3]
+ 320 0070 DBB2     		uxtb	r3, r3
+ 321 0072 1846     		mov	r0, r3
+ 322 0074 1021     		movs	r1, #16
+ 323 0076 0222     		movs	r2, #2
+ 324 0078 0023     		movs	r3, #0
+ 325 007a FFF7FEFF 		bl	LiquidCrystal_I2C_init
+ 136:main.c        ****     begin(); 
+ 326              		.loc 1 136 0
+ 327 007e FFF7FEFF 		bl	begin
+ 137:main.c        ****     
+ 138:main.c        ****     #endif
+ 139:main.c        ****    
+ 140:main.c        ****     /* initialize MPU6050 */
+ 141:main.c        ****     #ifdef MPU6050
+ 142:main.c        ****     MPU6050_init();    
+ 328              		.loc 1 142 0
+ 329 0082 FFF7FEFF 		bl	MPU6050_init
+ 143:main.c        **** 	MPU6050_initialize(); 
+ 330              		.loc 1 143 0
+ 331 0086 FFF7FEFF 		bl	MPU6050_initialize
+ 144:main.c        ****     #endif
+ 145:main.c        ****         
+ 146:main.c        ****     #ifdef LCD
+ 147:main.c        ****     /* Startup Display */
+ 148:main.c        ****     LCD_print("PSoC 5LP: O-Vac");
+ 332              		.loc 1 148 0
+ 333 008a A848     		ldr	r0, .L25+20
+ 334 008c FFF7FEFF 		bl	LCD_print
+ 149:main.c        ****     setCursor(0,1);
+ 335              		.loc 1 149 0
+ 336 0090 0020     		movs	r0, #0
+ 337 0092 0121     		movs	r1, #1
+ 338 0094 FFF7FEFF 		bl	setCursor
+ 150:main.c        ****     LCD_print("I2C Working");
+ 339              		.loc 1 150 0
+ 340 0098 A548     		ldr	r0, .L25+24
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 10
+
+
+ 341 009a FFF7FEFF 		bl	LCD_print
+ 151:main.c        ****     
+ 152:main.c        ****     CyDelay(1000u);   
+ 342              		.loc 1 152 0
+ 343 009e 4FF47A70 		mov	r0, #1000
+ 344 00a2 FFF7FEFF 		bl	CyDelay
+ 153:main.c        ****     clear();
+ 345              		.loc 1 153 0
+ 346 00a6 FFF7FEFF 		bl	clear
+ 154:main.c        ****     #endif
+ 155:main.c        ****     
+ 156:main.c        ****     /* Start the ADC conversion */
+ 157:main.c        ****     ADC_StartConvert();
+ 347              		.loc 1 157 0
+ 348 00aa FFF7FEFF 		bl	ADC_StartConvert
+ 158:main.c        **** 
+ 159:main.c        ****     /* Start SD card*/
+ 160:main.c        ****     #ifdef SD
+ 161:main.c        ****         Initialize_SD_Card(file ,volume, fsfile);
+ 162:main.c        ****     #endif
+ 163:main.c        ****     
+ 164:main.c        ****     #ifdef LCD
+ 165:main.c        ****     /* Display the current State */
+ 166:main.c        ****     setCursor(0,0);    
+ 349              		.loc 1 166 0
+ 350 00ae 0020     		movs	r0, #0
+ 351 00b0 0021     		movs	r1, #0
+ 352 00b2 FFF7FEFF 		bl	setCursor
+ 167:main.c        ****     LCD_print(curState);
+ 353              		.loc 1 167 0
+ 354 00b6 07F13403 		add	r3, r7, #52
+ 355 00ba 1846     		mov	r0, r3
+ 356 00bc FFF7FEFF 		bl	LCD_print
+ 168:main.c        ****     #endif
+ 169:main.c        ****     
+ 170:main.c        ****     
+ 171:main.c        ****     Countdown_timer_Start();
+ 357              		.loc 1 171 0
+ 358 00c0 FFF7FEFF 		bl	Countdown_timer_Start
+ 172:main.c        ****     countdown_StartEx(Countdown_ISR_Handler);
+ 359              		.loc 1 172 0
+ 360 00c4 9B48     		ldr	r0, .L25+28
+ 361 00c6 FFF7FEFF 		bl	countdown_StartEx
+ 362              	.L24:
+ 173:main.c        ****     
+ 174:main.c        ****     for(;;)
+ 175:main.c        ****     {       
+ 176:main.c        ****         if(ADC_IsEndConversion(ADC_RETURN_STATUS))
+ 363              		.loc 1 176 0
+ 364 00ca 0120     		movs	r0, #1
+ 365 00cc FFF7FEFF 		bl	ADC_IsEndConversion
+ 366 00d0 0346     		mov	r3, r0
+ 367 00d2 002B     		cmp	r3, #0
+ 368 00d4 42D0     		beq	.L10
+ 369              	.LBB2:
+ 177:main.c        ****         {
+ 178:main.c        ****             char pressure[50];
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 11
+
+
+ 179:main.c        ****             output = ADC_GetResult32();
+ 370              		.loc 1 179 0
+ 371 00d6 FFF7FEFF 		bl	ADC_GetResult32
+ 372 00da 0346     		mov	r3, r0
+ 373 00dc 1846     		mov	r0, r3
+ 374 00de FFF7FEFF 		bl	__aeabi_i2f
+ 375 00e2 0346     		mov	r3, r0
+ 376 00e4 C7F8B030 		str	r3, [r7, #176]	@ float
+ 180:main.c        ****             
+ 181:main.c        ****             setCursor(0, 1);
+ 377              		.loc 1 181 0
+ 378 00e8 0020     		movs	r0, #0
+ 379 00ea 0121     		movs	r1, #1
+ 380 00ec FFF7FEFF 		bl	setCursor
+ 182:main.c        ****             float voltage = output * (3.32 / 4096);
+ 381              		.loc 1 182 0
+ 382 00f0 D7F8B000 		ldr	r0, [r7, #176]	@ float
+ 383 00f4 FFF7FEFF 		bl	__aeabi_f2d
+ 384 00f8 0246     		mov	r2, r0
+ 385 00fa 0B46     		mov	r3, r1
+ 386 00fc 1046     		mov	r0, r2
+ 387 00fe 1946     		mov	r1, r3
+ 388 0100 85A3     		adr	r3, .L25
+ 389 0102 D3E90023 		ldrd	r2, [r3]
+ 390 0106 FFF7FEFF 		bl	__aeabi_dmul
+ 391 010a 0246     		mov	r2, r0
+ 392 010c 0B46     		mov	r3, r1
+ 393 010e 1046     		mov	r0, r2
+ 394 0110 1946     		mov	r1, r3
+ 395 0112 FFF7FEFF 		bl	__aeabi_d2f
+ 396 0116 0346     		mov	r3, r0
+ 397 0118 C7F8AC30 		str	r3, [r7, #172]	@ float
+ 183:main.c        ****             int num = voltage;
+ 398              		.loc 1 183 0
+ 399 011c D7F8AC00 		ldr	r0, [r7, #172]	@ float
+ 400 0120 FFF7FEFF 		bl	__aeabi_f2iz
+ 401 0124 0346     		mov	r3, r0
+ 402 0126 C7F8A830 		str	r3, [r7, #168]
+ 184:main.c        ****             float temp = voltage - num;
+ 403              		.loc 1 184 0
+ 404 012a D7F8A800 		ldr	r0, [r7, #168]
+ 405 012e FFF7FEFF 		bl	__aeabi_i2f
+ 406 0132 0346     		mov	r3, r0
+ 407 0134 D7F8AC00 		ldr	r0, [r7, #172]	@ float
+ 408 0138 1946     		mov	r1, r3
+ 409 013a FFF7FEFF 		bl	__aeabi_fsub
+ 410 013e 0346     		mov	r3, r0
+ 411 0140 C7F8A430 		str	r3, [r7, #164]	@ float
+ 185:main.c        ****             int decimals = temp * 10000;
+ 412              		.loc 1 185 0
+ 413 0144 D7F8A400 		ldr	r0, [r7, #164]	@ float
+ 414 0148 7B49     		ldr	r1, .L25+32
+ 415 014a FFF7FEFF 		bl	__aeabi_fmul
+ 416 014e 0346     		mov	r3, r0
+ 417 0150 1846     		mov	r0, r3
+ 418 0152 FFF7FEFF 		bl	__aeabi_f2iz
+ 419 0156 0346     		mov	r3, r0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 12
+
+
+ 420 0158 C7F8A030 		str	r3, [r7, #160]
+ 421              	.L10:
+ 422              	.LBE2:
+ 186:main.c        ****             #ifdef SD
+ 187:main.c        ****                 sprintf(pressure, "calculated voltage: %d.%04d --- raw adc:%d", num, decimals, (int
+ 188:main.c        ****                 FS_Write(fsfile, pressure, strlen(pressure));
+ 189:main.c        ****             #endif
+ 190:main.c        ****             
+ 191:main.c        ****         }
+ 192:main.c        ****         
+ 193:main.c        ****         /* Display Z-Acceleration */
+ 194:main.c        ****         //clear();
+ 195:main.c        ****         az = MPU6050_getAccelerationZ();
+ 423              		.loc 1 195 0
+ 424 015c FFF7FEFF 		bl	MPU6050_getAccelerationZ
+ 425 0160 0346     		mov	r3, r0
+ 426 0162 A7F89E30 		strh	r3, [r7, #158]	@ movhi
+ 196:main.c        ****        // I2C_LCD_print(1,0, id ,0,average);                                //print Interrupt count
+ 197:main.c        ****         
+ 198:main.c        ****         /* State Machine */
+ 199:main.c        ****         switch (STATE){
+ 427              		.loc 1 199 0
+ 428 0166 754B     		ldr	r3, .L25+36
+ 429 0168 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 430 016a 022B     		cmp	r3, #2
+ 431 016c 3DD0     		beq	.L12
+ 432 016e 032B     		cmp	r3, #3
+ 433 0170 00F0BB80 		beq	.L13
+ 434 0174 012B     		cmp	r3, #1
+ 435 0176 00D0     		beq	.L14
+ 200:main.c        ****     
+ 201:main.c        ****             case WAIT_TO_LAUNCH:
+ 202:main.c        ****                 
+ 203:main.c        **** 
+ 204:main.c        ****                 if(wait_flag == 1){
+ 205:main.c        ****                     #ifdef LCD
+ 206:main.c        ****                         setCursor(0,0);
+ 207:main.c        ****                         clear();
+ 208:main.c        ****                         sprintf(buf, "T-minus %d seconds\n", (60 - countdown)); // countdown
+ 209:main.c        ****                         LCD_print(buf);
+ 210:main.c        ****                     #endif
+ 211:main.c        ****                     if(countdown == 60){
+ 212:main.c        ****                         STATE = DESCENDING;
+ 213:main.c        ****                         #ifdef LCD
+ 214:main.c        ****                             setCursor(0,0);
+ 215:main.c        ****                             clear();
+ 216:main.c        ****                             LCD_print("STATE: DESCENT");
+ 217:main.c        ****                         #endif           
+ 218:main.c        ****                         id=0;
+ 219:main.c        ****                         countdown = 39;
+ 220:main.c        ****                         LED2_Write(1);                                      // turn the LED off 
+ 221:main.c        ****                     }
+ 222:main.c        ****                     wait_flag = 0; 
+ 223:main.c        ****                 }
+ 224:main.c        ****                 break;
+ 225:main.c        ****                 
+ 226:main.c        ****             case DESCENDING:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 13
+
+
+ 227:main.c        ****     
+ 228:main.c        ****                 if(collect_flag == 1){
+ 229:main.c        ****                     
+ 230:main.c        ****                     if (id<MA_WINDOW){
+ 231:main.c        ****                         sum += az;     
+ 232:main.c        ****                     }
+ 233:main.c        ****                     else if(id == MA_WINDOW){
+ 234:main.c        ****                         sum += az;
+ 235:main.c        ****                         average = sum/MA_WINDOW;                            //compute baseline aver
+ 236:main.c        ****                     }
+ 237:main.c        ****                     else{
+ 238:main.c        ****                         average = ComputeMA(average, MA_WINDOW, az);
+ 239:main.c        ****                         #ifdef SD
+ 240:main.c        ****                             memset(sdbuf, 0, 40);
+ 241:main.c        ****                             sprintf(sdbuf, "Time%ld: Z-value: %d\n", data_point, average);
+ 242:main.c        ****                             FS_Write(fsfile, sdbuf, strlen(sdbuf));
+ 243:main.c        ****                         #endif
+ 244:main.c        ****                     }
+ 245:main.c        ****                     
+ 246:main.c        ****           
+ 247:main.c        **** 
+ 248:main.c        ****                     if(average > BOT_THRESHOLD){
+ 249:main.c        ****                         LED2_Write(0);
+ 250:main.c        ****                         LED4_Write(1);                                          //turn LED on      
+ 251:main.c        ****                         STATE = LANDED;                                     //Switch to LANDED stat
+ 252:main.c        ****                         #ifdef LCD
+ 253:main.c        ****                             setCursor(0,0);
+ 254:main.c        ****                             clear();
+ 255:main.c        ****                             LCD_print("STATE: LANDED");  
+ 256:main.c        ****                         //I2C_LCD_print(1,0, id ,0,average);
+ 257:main.c        ****                         #endif
+ 258:main.c        ****                         #ifdef SD
+ 259:main.c        ****                             memset(sdbuf, 0, 40);
+ 260:main.c        ****                             sprintf(sdbuf, "STATE: LANDED ***********\n");
+ 261:main.c        ****                             FS_Write(fsfile, sdbuf, strlen(sdbuf));
+ 262:main.c        ****                         #endif
+ 263:main.c        ****                         id=0;                                                   //reset sample coun
+ 264:main.c        ****                         sum = 0;
+ 265:main.c        ****                         average = 0;                
+ 266:main.c        ****                     }
+ 267:main.c        ****                     id++;     
+ 268:main.c        ****                     
+ 269:main.c        ****                     /*if desired amount of samples have been collected, switch states*/
+ 270:main.c        ****                     if(id >= DATA_TIME){
+ 271:main.c        ****                         LED2_Write(0);                                          //turn LED off
+ 272:main.c        ****                                                             
+ 273:main.c        ****                         STATE = WAIT_TO_LAUNCH;                                //Switch to Waiting 
+ 274:main.c        ****                         #ifdef LCD
+ 275:main.c        ****                             setCursor(0,0);
+ 276:main.c        ****                             clear();
+ 277:main.c        ****                             LCD_print("STATE: WAIT");  
+ 278:main.c        ****                         #endif
+ 279:main.c        ****                         id=0;                                                  //reset sample count
+ 280:main.c        ****                         sum = 0;                                               //reset sum 
+ 281:main.c        ****                         average = 0;
+ 282:main.c        ****                        
+ 283:main.c        ****                     }
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 14
+
+
+ 284:main.c        ****                     collect_flag = 0;
+ 285:main.c        ****                 }
+ 286:main.c        ****                 break;
+ 287:main.c        ****                 
+ 288:main.c        ****             case LANDED:
+ 289:main.c        ****                 CyDelay(1000u);                             // delay a bit
+ 290:main.c        ****                 LED2_Write(1);                              // turn on other LED to indicate landed
+ 291:main.c        ****                 STATE = WAIT_TO_LAUNCH;
+ 292:main.c        ****                 #ifdef LCD
+ 293:main.c        ****                     setCursor(0,0);
+ 294:main.c        ****                     clear();
+ 295:main.c        ****                     LCD_print("STATE: WAIT");
+ 296:main.c        ****                 #endif 
+ 297:main.c        ****                 #ifdef SD                                   // close old file, open new one
+ 298:main.c        ****                     FS_FClose(fsfile);
+ 299:main.c        ****                     sprintf(file, "test%d.txt", ++testnum);
+ 300:main.c        ****                     fsfile = FS_FOpen(file, "w");
+ 301:main.c        ****                 #endif 
+ 302:main.c        ****                 break;
+ 303:main.c        ****                 
+ 304:main.c        ****             default:
+ 305:main.c        ****                 break;
+ 436              		.loc 1 305 0
+ 437 0178 CBE0     		b	.L17
+ 438              	.L14:
+ 204:main.c        ****                     #ifdef LCD
+ 439              		.loc 1 204 0
+ 440 017a 714B     		ldr	r3, .L25+40
+ 441 017c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 442 017e 002B     		cmp	r3, #0
+ 443 0180 32D0     		beq	.L15
+ 206:main.c        ****                         clear();
+ 444              		.loc 1 206 0
+ 445 0182 0020     		movs	r0, #0
+ 446 0184 0021     		movs	r1, #0
+ 447 0186 FFF7FEFF 		bl	setCursor
+ 207:main.c        ****                         sprintf(buf, "T-minus %d seconds\n", (60 - countdown)); // countdown
+ 448              		.loc 1 207 0
+ 449 018a FFF7FEFF 		bl	clear
+ 208:main.c        ****                         LCD_print(buf);
+ 450              		.loc 1 208 0
+ 451 018e 6D4B     		ldr	r3, .L25+44
+ 452 0190 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 453 0192 C3F13C03 		rsb	r3, r3, #60
+ 454 0196 07F16C02 		add	r2, r7, #108
+ 455 019a 1046     		mov	r0, r2
+ 456 019c 6A49     		ldr	r1, .L25+48
+ 457 019e 1A46     		mov	r2, r3
+ 458 01a0 FFF7FEFF 		bl	sprintf
+ 209:main.c        ****                     #endif
+ 459              		.loc 1 209 0
+ 460 01a4 07F16C03 		add	r3, r7, #108
+ 461 01a8 1846     		mov	r0, r3
+ 462 01aa FFF7FEFF 		bl	LCD_print
+ 211:main.c        ****                         STATE = DESCENDING;
+ 463              		.loc 1 211 0
+ 464 01ae 654B     		ldr	r3, .L25+44
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 15
+
+
+ 465 01b0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 466 01b2 3C2B     		cmp	r3, #60
+ 467 01b4 14D1     		bne	.L16
+ 212:main.c        ****                         #ifdef LCD
+ 468              		.loc 1 212 0
+ 469 01b6 614B     		ldr	r3, .L25+36
+ 470 01b8 0222     		movs	r2, #2
+ 471 01ba 1A70     		strb	r2, [r3]
+ 214:main.c        ****                             clear();
+ 472              		.loc 1 214 0
+ 473 01bc 0020     		movs	r0, #0
+ 474 01be 0021     		movs	r1, #0
+ 475 01c0 FFF7FEFF 		bl	setCursor
+ 215:main.c        ****                             LCD_print("STATE: DESCENT");
+ 476              		.loc 1 215 0
+ 477 01c4 FFF7FEFF 		bl	clear
+ 216:main.c        ****                         #endif           
+ 478              		.loc 1 216 0
+ 479 01c8 6048     		ldr	r0, .L25+52
+ 480 01ca FFF7FEFF 		bl	LCD_print
+ 218:main.c        ****                         countdown = 39;
+ 481              		.loc 1 218 0
+ 482 01ce 604B     		ldr	r3, .L25+56
+ 483 01d0 0022     		movs	r2, #0
+ 484 01d2 1A60     		str	r2, [r3]
+ 219:main.c        ****                         LED2_Write(1);                                      // turn the LED off 
+ 485              		.loc 1 219 0
+ 486 01d4 5B4B     		ldr	r3, .L25+44
+ 487 01d6 2722     		movs	r2, #39
+ 488 01d8 1A70     		strb	r2, [r3]
+ 220:main.c        ****                     }
+ 489              		.loc 1 220 0
+ 490 01da 0120     		movs	r0, #1
+ 491 01dc FFF7FEFF 		bl	LED2_Write
+ 492              	.L16:
+ 222:main.c        ****                 }
+ 493              		.loc 1 222 0
+ 494 01e0 574B     		ldr	r3, .L25+40
+ 495 01e2 0022     		movs	r2, #0
+ 496 01e4 1A70     		strb	r2, [r3]
+ 224:main.c        ****                 
+ 497              		.loc 1 224 0
+ 498 01e6 94E0     		b	.L17
+ 499              	.L15:
+ 500 01e8 93E0     		b	.L17
+ 501              	.L12:
+ 228:main.c        ****                     
+ 502              		.loc 1 228 0
+ 503 01ea 5A4B     		ldr	r3, .L25+60
+ 504 01ec 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 505 01ee 002B     		cmp	r3, #0
+ 506 01f0 7AD0     		beq	.L18
+ 230:main.c        ****                         sum += az;     
+ 507              		.loc 1 230 0
+ 508 01f2 574B     		ldr	r3, .L25+56
+ 509 01f4 1B68     		ldr	r3, [r3]
+ 510 01f6 0E2B     		cmp	r3, #14
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 16
+
+
+ 511 01f8 07DC     		bgt	.L19
+ 231:main.c        ****                     }
+ 512              		.loc 1 231 0
+ 513 01fa B7F99E20 		ldrsh	r2, [r7, #158]
+ 514 01fe 564B     		ldr	r3, .L25+64
+ 515 0200 1B68     		ldr	r3, [r3]
+ 516 0202 1344     		add	r3, r3, r2
+ 517 0204 544A     		ldr	r2, .L25+64
+ 518 0206 1360     		str	r3, [r2]
+ 519 0208 25E0     		b	.L20
+ 520              	.L19:
+ 233:main.c        ****                         sum += az;
+ 521              		.loc 1 233 0
+ 522 020a 514B     		ldr	r3, .L25+56
+ 523 020c 1B68     		ldr	r3, [r3]
+ 524 020e 0F2B     		cmp	r3, #15
+ 525 0210 13D1     		bne	.L21
+ 234:main.c        ****                         average = sum/MA_WINDOW;                            //compute baseline aver
+ 526              		.loc 1 234 0
+ 527 0212 B7F99E20 		ldrsh	r2, [r7, #158]
+ 528 0216 504B     		ldr	r3, .L25+64
+ 529 0218 1B68     		ldr	r3, [r3]
+ 530 021a 1344     		add	r3, r3, r2
+ 531 021c 4E4A     		ldr	r2, .L25+64
+ 532 021e 1360     		str	r3, [r2]
+ 235:main.c        ****                     }
+ 533              		.loc 1 235 0
+ 534 0220 4D4B     		ldr	r3, .L25+64
+ 535 0222 1B68     		ldr	r3, [r3]
+ 536 0224 4D4A     		ldr	r2, .L25+68
+ 537 0226 82FB0312 		smull	r1, r2, r2, r3
+ 538 022a 1A44     		add	r2, r2, r3
+ 539 022c D210     		asrs	r2, r2, #3
+ 540 022e DB17     		asrs	r3, r3, #31
+ 541 0230 D31A     		subs	r3, r2, r3
+ 542 0232 9AB2     		uxth	r2, r3
+ 543 0234 4A4B     		ldr	r3, .L25+72
+ 544 0236 1A80     		strh	r2, [r3]	@ movhi
+ 545 0238 0DE0     		b	.L20
+ 546              	.L21:
+ 238:main.c        ****                         #ifdef SD
+ 547              		.loc 1 238 0
+ 548 023a 494B     		ldr	r3, .L25+72
+ 549 023c 1B88     		ldrh	r3, [r3]
+ 550 023e 1AB2     		sxth	r2, r3
+ 551 0240 B7F99E30 		ldrsh	r3, [r7, #158]
+ 552 0244 1046     		mov	r0, r2
+ 553 0246 0F21     		movs	r1, #15
+ 554 0248 1A46     		mov	r2, r3
+ 555 024a FFF7FEFF 		bl	ComputeMA
+ 556 024e 0346     		mov	r3, r0
+ 557 0250 1A46     		mov	r2, r3
+ 558 0252 434B     		ldr	r3, .L25+72
+ 559 0254 1A80     		strh	r2, [r3]	@ movhi
+ 560              	.L20:
+ 248:main.c        ****                         LED2_Write(0);
+ 561              		.loc 1 248 0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 17
+
+
+ 562 0256 424B     		ldr	r3, .L25+72
+ 563 0258 1B88     		ldrh	r3, [r3]
+ 564 025a 1BB2     		sxth	r3, r3
+ 565 025c 44F62062 		movw	r2, #20000
+ 566 0260 9342     		cmp	r3, r2
+ 567 0262 1ADD     		ble	.L22
+ 249:main.c        ****                         LED4_Write(1);                                          //turn LED on      
+ 568              		.loc 1 249 0
+ 569 0264 0020     		movs	r0, #0
+ 570 0266 FFF7FEFF 		bl	LED2_Write
+ 250:main.c        ****                         STATE = LANDED;                                     //Switch to LANDED stat
+ 571              		.loc 1 250 0
+ 572 026a 0120     		movs	r0, #1
+ 573 026c FFF7FEFF 		bl	LED4_Write
+ 251:main.c        ****                         #ifdef LCD
+ 574              		.loc 1 251 0
+ 575 0270 324B     		ldr	r3, .L25+36
+ 576 0272 0322     		movs	r2, #3
+ 577 0274 1A70     		strb	r2, [r3]
+ 253:main.c        ****                             clear();
+ 578              		.loc 1 253 0
+ 579 0276 0020     		movs	r0, #0
+ 580 0278 0021     		movs	r1, #0
+ 581 027a FFF7FEFF 		bl	setCursor
+ 254:main.c        ****                             LCD_print("STATE: LANDED");  
+ 582              		.loc 1 254 0
+ 583 027e FFF7FEFF 		bl	clear
+ 255:main.c        ****                         //I2C_LCD_print(1,0, id ,0,average);
+ 584              		.loc 1 255 0
+ 585 0282 3848     		ldr	r0, .L25+76
+ 586 0284 FFF7FEFF 		bl	LCD_print
+ 263:main.c        ****                         sum = 0;
+ 587              		.loc 1 263 0
+ 588 0288 314B     		ldr	r3, .L25+56
+ 589 028a 0022     		movs	r2, #0
+ 590 028c 1A60     		str	r2, [r3]
+ 264:main.c        ****                         average = 0;                
+ 591              		.loc 1 264 0
+ 592 028e 324B     		ldr	r3, .L25+64
+ 593 0290 0022     		movs	r2, #0
+ 594 0292 1A60     		str	r2, [r3]
+ 265:main.c        ****                     }
+ 595              		.loc 1 265 0
+ 596 0294 324B     		ldr	r3, .L25+72
+ 597 0296 0022     		movs	r2, #0
+ 598 0298 1A80     		strh	r2, [r3]	@ movhi
+ 599              	.L22:
+ 267:main.c        ****                     
+ 600              		.loc 1 267 0
+ 601 029a 2D4B     		ldr	r3, .L25+56
+ 602 029c 1B68     		ldr	r3, [r3]
+ 603 029e 0133     		adds	r3, r3, #1
+ 604 02a0 2B4A     		ldr	r2, .L25+56
+ 605 02a2 1360     		str	r3, [r2]
+ 270:main.c        ****                         LED2_Write(0);                                          //turn LED off
+ 606              		.loc 1 270 0
+ 607 02a4 2A4B     		ldr	r3, .L25+56
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 18
+
+
+ 608 02a6 1B68     		ldr	r3, [r3]
+ 609 02a8 41F28732 		movw	r2, #4999
+ 610 02ac 9342     		cmp	r3, r2
+ 611 02ae 17DD     		ble	.L23
+ 271:main.c        ****                                                             
+ 612              		.loc 1 271 0
+ 613 02b0 0020     		movs	r0, #0
+ 614 02b2 FFF7FEFF 		bl	LED2_Write
+ 273:main.c        ****                         #ifdef LCD
+ 615              		.loc 1 273 0
+ 616 02b6 214B     		ldr	r3, .L25+36
+ 617 02b8 0122     		movs	r2, #1
+ 618 02ba 1A70     		strb	r2, [r3]
+ 275:main.c        ****                             clear();
+ 619              		.loc 1 275 0
+ 620 02bc 0020     		movs	r0, #0
+ 621 02be 0021     		movs	r1, #0
+ 622 02c0 FFF7FEFF 		bl	setCursor
+ 276:main.c        ****                             LCD_print("STATE: WAIT");  
+ 623              		.loc 1 276 0
+ 624 02c4 FFF7FEFF 		bl	clear
+ 277:main.c        ****                         #endif
+ 625              		.loc 1 277 0
+ 626 02c8 2748     		ldr	r0, .L25+80
+ 627 02ca FFF7FEFF 		bl	LCD_print
+ 279:main.c        ****                         sum = 0;                                               //reset sum 
+ 628              		.loc 1 279 0
+ 629 02ce 204B     		ldr	r3, .L25+56
+ 630 02d0 0022     		movs	r2, #0
+ 631 02d2 1A60     		str	r2, [r3]
+ 280:main.c        ****                         average = 0;
+ 632              		.loc 1 280 0
+ 633 02d4 204B     		ldr	r3, .L25+64
+ 634 02d6 0022     		movs	r2, #0
+ 635 02d8 1A60     		str	r2, [r3]
+ 281:main.c        ****                        
+ 636              		.loc 1 281 0
+ 637 02da 214B     		ldr	r3, .L25+72
+ 638 02dc 0022     		movs	r2, #0
+ 639 02de 1A80     		strh	r2, [r3]	@ movhi
+ 640              	.L23:
+ 284:main.c        ****                 }
+ 641              		.loc 1 284 0
+ 642 02e0 1C4B     		ldr	r3, .L25+60
+ 643 02e2 0022     		movs	r2, #0
+ 644 02e4 1A70     		strb	r2, [r3]
+ 286:main.c        ****                 
+ 645              		.loc 1 286 0
+ 646 02e6 14E0     		b	.L17
+ 647              	.L18:
+ 286:main.c        ****                 
+ 648              		.loc 1 286 0 is_stmt 0 discriminator 2
+ 649 02e8 13E0     		b	.L17
+ 650              	.L13:
+ 289:main.c        ****                 LED2_Write(1);                              // turn on other LED to indicate landed
+ 651              		.loc 1 289 0 is_stmt 1
+ 652 02ea 4FF47A70 		mov	r0, #1000
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 19
+
+
+ 653 02ee FFF7FEFF 		bl	CyDelay
+ 290:main.c        ****                 STATE = WAIT_TO_LAUNCH;
+ 654              		.loc 1 290 0
+ 655 02f2 0120     		movs	r0, #1
+ 656 02f4 FFF7FEFF 		bl	LED2_Write
+ 291:main.c        ****                 #ifdef LCD
+ 657              		.loc 1 291 0
+ 658 02f8 104B     		ldr	r3, .L25+36
+ 659 02fa 0122     		movs	r2, #1
+ 660 02fc 1A70     		strb	r2, [r3]
+ 293:main.c        ****                     clear();
+ 661              		.loc 1 293 0
+ 662 02fe 0020     		movs	r0, #0
+ 663 0300 0021     		movs	r1, #0
+ 664 0302 FFF7FEFF 		bl	setCursor
+ 294:main.c        ****                     LCD_print("STATE: WAIT");
+ 665              		.loc 1 294 0
+ 666 0306 FFF7FEFF 		bl	clear
+ 295:main.c        ****                 #endif 
+ 667              		.loc 1 295 0
+ 668 030a 1748     		ldr	r0, .L25+80
+ 669 030c FFF7FEFF 		bl	LCD_print
+ 302:main.c        ****                 
+ 670              		.loc 1 302 0
+ 671 0310 00BF     		nop
+ 672              	.L17:
+ 306:main.c        ****         
+ 307:main.c        ****         
+ 308:main.c        ****         }
+ 309:main.c        ****         
+ 310:main.c        ****     }
+ 673              		.loc 1 310 0 discriminator 1
+ 674 0312 DAE6     		b	.L24
+ 675              	.L26:
+ 676 0314 AFF30080 		.align	3
+ 677              	.L25:
+ 678 0318 8FC2F528 		.word	687194767
+ 679 031c 5C8F4A3F 		.word	1061850972
+ 680 0320 5C000000 		.word	.LC0
+ 681 0324 00000000 		.word	Sample_ISR_Handler
+ 682 0328 00000000 		.word	Addr
+ 683 032c 00000000 		.word	.LC1
+ 684 0330 10000000 		.word	.LC2
+ 685 0334 00000000 		.word	Countdown_ISR_Handler
+ 686 0338 00401C46 		.word	1176256512
+ 687 033c 00000000 		.word	STATE
+ 688 0340 00000000 		.word	wait_flag
+ 689 0344 00000000 		.word	countdown
+ 690 0348 1C000000 		.word	.LC3
+ 691 034c 30000000 		.word	.LC4
+ 692 0350 00000000 		.word	id
+ 693 0354 00000000 		.word	collect_flag
+ 694 0358 00000000 		.word	sum
+ 695 035c 89888888 		.word	-2004318071
+ 696 0360 00000000 		.word	average
+ 697 0364 40000000 		.word	.LC5
+ 698 0368 50000000 		.word	.LC6
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 20
+
+
+ 699              		.cfi_endproc
+ 700              	.LFE65:
+ 701              		.size	main, .-main
+ 702 036c AFF30080 		.text
+ 703              	.Letext0:
+ 704              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 705              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 706              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 707              		.file 5 ".\\emFile_V322c\\emFile_V322c\\Code\\Include\\PSoC5/FS_Types.h"
+ 708              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 709              		.file 7 "./mpu6050.h"
+ 710              		.section	.debug_info,"",%progbits
+ 711              	.Ldebug_info0:
+ 712 0000 C5030000 		.4byte	0x3c5
+ 713 0004 0400     		.2byte	0x4
+ 714 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 715 000a 04       		.byte	0x4
+ 716 000b 01       		.uleb128 0x1
+ 717 000c D2000000 		.4byte	.LASF57
+ 718 0010 01       		.byte	0x1
+ 719 0011 67020000 		.4byte	.LASF58
+ 720 0015 0A000000 		.4byte	.LASF59
+ 721 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 722 001d 00000000 		.4byte	0
+ 723 0021 00000000 		.4byte	.Ldebug_line0
+ 724 0025 02       		.uleb128 0x2
+ 725 0026 01       		.byte	0x1
+ 726 0027 06       		.byte	0x6
+ 727 0028 BA010000 		.4byte	.LASF0
+ 728 002c 03       		.uleb128 0x3
+ 729 002d 6F010000 		.4byte	.LASF2
+ 730 0031 02       		.byte	0x2
+ 731 0032 1D       		.byte	0x1d
+ 732 0033 37000000 		.4byte	0x37
+ 733 0037 02       		.uleb128 0x2
+ 734 0038 01       		.byte	0x1
+ 735 0039 08       		.byte	0x8
+ 736 003a 9A010000 		.4byte	.LASF1
+ 737 003e 03       		.uleb128 0x3
+ 738 003f 96020000 		.4byte	.LASF3
+ 739 0043 02       		.byte	0x2
+ 740 0044 29       		.byte	0x29
+ 741 0045 49000000 		.4byte	0x49
+ 742 0049 02       		.uleb128 0x2
+ 743 004a 02       		.byte	0x2
+ 744 004b 05       		.byte	0x5
+ 745 004c 84000000 		.4byte	.LASF4
+ 746 0050 02       		.uleb128 0x2
+ 747 0051 02       		.byte	0x2
+ 748 0052 07       		.byte	0x7
+ 749 0053 FB010000 		.4byte	.LASF5
+ 750 0057 03       		.uleb128 0x3
+ 751 0058 8C020000 		.4byte	.LASF6
+ 752 005c 02       		.byte	0x2
+ 753 005d 3F       		.byte	0x3f
+ 754 005e 62000000 		.4byte	0x62
+ 755 0062 02       		.uleb128 0x2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 21
+
+
+ 756 0063 04       		.byte	0x4
+ 757 0064 05       		.byte	0x5
+ 758 0065 13020000 		.4byte	.LASF7
+ 759 0069 03       		.uleb128 0x3
+ 760 006a 74000000 		.4byte	.LASF8
+ 761 006e 02       		.byte	0x2
+ 762 006f 41       		.byte	0x41
+ 763 0070 74000000 		.4byte	0x74
+ 764 0074 02       		.uleb128 0x2
+ 765 0075 04       		.byte	0x4
+ 766 0076 07       		.byte	0x7
+ 767 0077 73020000 		.4byte	.LASF9
+ 768 007b 02       		.uleb128 0x2
+ 769 007c 08       		.byte	0x8
+ 770 007d 05       		.byte	0x5
+ 771 007e BB000000 		.4byte	.LASF10
+ 772 0082 02       		.uleb128 0x2
+ 773 0083 08       		.byte	0x8
+ 774 0084 07       		.byte	0x7
+ 775 0085 C6010000 		.4byte	.LASF11
+ 776 0089 04       		.uleb128 0x4
+ 777 008a 04       		.byte	0x4
+ 778 008b 05       		.byte	0x5
+ 779 008c 696E7400 		.ascii	"int\000"
+ 780 0090 02       		.uleb128 0x2
+ 781 0091 04       		.byte	0x4
+ 782 0092 07       		.byte	0x7
+ 783 0093 E6010000 		.4byte	.LASF12
+ 784 0097 03       		.uleb128 0x3
+ 785 0098 96000000 		.4byte	.LASF13
+ 786 009c 03       		.byte	0x3
+ 787 009d 15       		.byte	0x15
+ 788 009e 2C000000 		.4byte	0x2c
+ 789 00a2 03       		.uleb128 0x3
+ 790 00a3 24020000 		.4byte	.LASF14
+ 791 00a7 03       		.byte	0x3
+ 792 00a8 20       		.byte	0x20
+ 793 00a9 3E000000 		.4byte	0x3e
+ 794 00ad 03       		.uleb128 0x3
+ 795 00ae 1C020000 		.4byte	.LASF15
+ 796 00b2 03       		.byte	0x3
+ 797 00b3 2C       		.byte	0x2c
+ 798 00b4 57000000 		.4byte	0x57
+ 799 00b8 03       		.uleb128 0x3
+ 800 00b9 DD010000 		.4byte	.LASF16
+ 801 00bd 03       		.byte	0x3
+ 802 00be 2D       		.byte	0x2d
+ 803 00bf 69000000 		.4byte	0x69
+ 804 00c3 05       		.uleb128 0x5
+ 805 00c4 2C020000 		.4byte	.LASF17
+ 806 00c8 04       		.byte	0x4
+ 807 00c9 9201     		.2byte	0x192
+ 808 00cb 37000000 		.4byte	0x37
+ 809 00cf 02       		.uleb128 0x2
+ 810 00d0 04       		.byte	0x4
+ 811 00d1 04       		.byte	0x4
+ 812 00d2 B0000000 		.4byte	.LASF18
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 22
+
+
+ 813 00d6 02       		.uleb128 0x2
+ 814 00d7 08       		.byte	0x8
+ 815 00d8 04       		.byte	0x4
+ 816 00d9 85020000 		.4byte	.LASF19
+ 817 00dd 02       		.uleb128 0x2
+ 818 00de 01       		.byte	0x1
+ 819 00df 08       		.byte	0x8
+ 820 00e0 0E020000 		.4byte	.LASF20
+ 821 00e4 05       		.uleb128 0x5
+ 822 00e5 6E020000 		.4byte	.LASF21
+ 823 00e9 04       		.byte	0x4
+ 824 00ea 3C02     		.2byte	0x23c
+ 825 00ec F0000000 		.4byte	0xf0
+ 826 00f0 06       		.uleb128 0x6
+ 827 00f1 C3000000 		.4byte	0xc3
+ 828 00f5 02       		.uleb128 0x2
+ 829 00f6 04       		.byte	0x4
+ 830 00f7 07       		.byte	0x7
+ 831 00f8 A0020000 		.4byte	.LASF22
+ 832 00fc 03       		.uleb128 0x3
+ 833 00fd A8010000 		.4byte	.LASF23
+ 834 0101 05       		.byte	0x5
+ 835 0102 7E       		.byte	0x7e
+ 836 0103 07010000 		.4byte	0x107
+ 837 0107 07       		.uleb128 0x7
+ 838 0108 A8010000 		.4byte	.LASF23
+ 839 010c 08       		.uleb128 0x8
+ 840 010d 04       		.byte	0x4
+ 841 010e FC000000 		.4byte	0xfc
+ 842 0112 02       		.uleb128 0x2
+ 843 0113 08       		.byte	0x8
+ 844 0114 04       		.byte	0x4
+ 845 0115 7F010000 		.4byte	.LASF24
+ 846 0119 09       		.uleb128 0x9
+ 847 011a 4E000000 		.4byte	.LASF60
+ 848 011e 01       		.byte	0x1
+ 849 011f 01       		.byte	0x1
+ 850 0120 31       		.byte	0x31
+ 851 0121 50010000 		.4byte	0x150
+ 852 0125 0A       		.uleb128 0xa
+ 853 0126 41000000 		.4byte	.LASF25
+ 854 012a 00       		.sleb128 0
+ 855 012b 0A       		.uleb128 0xa
+ 856 012c 8B010000 		.4byte	.LASF26
+ 857 0130 01       		.sleb128 1
+ 858 0131 0A       		.uleb128 0xa
+ 859 0132 36000000 		.4byte	.LASF27
+ 860 0136 02       		.sleb128 2
+ 861 0137 0A       		.uleb128 0xa
+ 862 0138 68000000 		.4byte	.LASF28
+ 863 013c 03       		.sleb128 3
+ 864 013d 0A       		.uleb128 0xa
+ 865 013e 00000000 		.4byte	.LASF29
+ 866 0142 04       		.sleb128 4
+ 867 0143 0A       		.uleb128 0xa
+ 868 0144 C9000000 		.4byte	.LASF30
+ 869 0148 05       		.sleb128 5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 23
+
+
+ 870 0149 0A       		.uleb128 0xa
+ 871 014a 79010000 		.4byte	.LASF31
+ 872 014e 06       		.sleb128 6
+ 873 014f 00       		.byte	0
+ 874 0150 0B       		.uleb128 0xb
+ 875 0151 E5020000 		.4byte	.LASF32
+ 876 0155 01       		.byte	0x1
+ 877 0156 62       		.byte	0x62
+ 878 0157 00000000 		.4byte	.LFB63
+ 879 015b 38000000 		.4byte	.LFE63-.LFB63
+ 880 015f 01       		.uleb128 0x1
+ 881 0160 9C       		.byte	0x9c
+ 882 0161 0B       		.uleb128 0xb
+ 883 0162 51020000 		.4byte	.LASF33
+ 884 0166 01       		.byte	0x1
+ 885 0167 6B       		.byte	0x6b
+ 886 0168 00000000 		.4byte	.LFB64
+ 887 016c 3C000000 		.4byte	.LFE64-.LFB64
+ 888 0170 01       		.uleb128 0x1
+ 889 0171 9C       		.byte	0x9c
+ 890 0172 0C       		.uleb128 0xc
+ 891 0173 6F000000 		.4byte	.LASF61
+ 892 0177 01       		.byte	0x1
+ 893 0178 74       		.byte	0x74
+ 894 0179 89000000 		.4byte	0x89
+ 895 017d 00000000 		.4byte	.LFB65
+ 896 0181 6C030000 		.4byte	.LFE65-.LFB65
+ 897 0185 01       		.uleb128 0x1
+ 898 0186 9C       		.byte	0x9c
+ 899 0187 50020000 		.4byte	0x250
+ 900 018b 0D       		.uleb128 0xd
+ 901 018c AF020000 		.4byte	.LASF34
+ 902 0190 01       		.byte	0x1
+ 903 0191 76       		.byte	0x76
+ 904 0192 CF000000 		.4byte	0xcf
+ 905 0196 02       		.uleb128 0x2
+ 906 0197 91       		.byte	0x91
+ 907 0198 68       		.sleb128 -24
+ 908 0199 0E       		.uleb128 0xe
+ 909 019a 62756600 		.ascii	"buf\000"
+ 910 019e 01       		.byte	0x1
+ 911 019f 77       		.byte	0x77
+ 912 01a0 50020000 		.4byte	0x250
+ 913 01a4 03       		.uleb128 0x3
+ 914 01a5 91       		.byte	0x91
+ 915 01a6 A47F     		.sleb128 -92
+ 916 01a8 0D       		.uleb128 0xd
+ 917 01a9 55000000 		.4byte	.LASF35
+ 918 01ad 01       		.byte	0x1
+ 919 01ae 78       		.byte	0x78
+ 920 01af 60020000 		.4byte	0x260
+ 921 01b3 03       		.uleb128 0x3
+ 922 01b4 91       		.byte	0x91
+ 923 01b5 FC7E     		.sleb128 -132
+ 924 01b7 0D       		.uleb128 0xd
+ 925 01b8 38020000 		.4byte	.LASF36
+ 926 01bc 01       		.byte	0x1
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 24
+
+
+ 927 01bd 79       		.byte	0x79
+ 928 01be 70020000 		.4byte	0x270
+ 929 01c2 03       		.uleb128 0x3
+ 930 01c3 91       		.byte	0x91
+ 931 01c4 EC7E     		.sleb128 -148
+ 932 01c6 0F       		.uleb128 0xf
+ 933 01c7 617800   		.ascii	"ax\000"
+ 934 01ca 01       		.byte	0x1
+ 935 01cb 7A       		.byte	0x7a
+ 936 01cc A2000000 		.4byte	0xa2
+ 937 01d0 0F       		.uleb128 0xf
+ 938 01d1 617900   		.ascii	"ay\000"
+ 939 01d4 01       		.byte	0x1
+ 940 01d5 7A       		.byte	0x7a
+ 941 01d6 A2000000 		.4byte	0xa2
+ 942 01da 0E       		.uleb128 0xe
+ 943 01db 617A00   		.ascii	"az\000"
+ 944 01de 01       		.byte	0x1
+ 945 01df 7A       		.byte	0x7a
+ 946 01e0 A2000000 		.4byte	0xa2
+ 947 01e4 02       		.uleb128 0x2
+ 948 01e5 91       		.byte	0x91
+ 949 01e6 56       		.sleb128 -42
+ 950 01e7 0F       		.uleb128 0xf
+ 951 01e8 6900     		.ascii	"i\000"
+ 952 01ea 01       		.byte	0x1
+ 953 01eb 7A       		.byte	0x7a
+ 954 01ec A2000000 		.4byte	0xa2
+ 955 01f0 0D       		.uleb128 0xd
+ 956 01f1 41020000 		.4byte	.LASF37
+ 957 01f5 01       		.byte	0x1
+ 958 01f6 7C       		.byte	0x7c
+ 959 01f7 A2000000 		.4byte	0xa2
+ 960 01fb 02       		.uleb128 0x2
+ 961 01fc 91       		.byte	0x91
+ 962 01fd 6E       		.sleb128 -18
+ 963 01fe 10       		.uleb128 0x10
+ 964 01ff D6000000 		.4byte	.LBB2
+ 965 0203 86000000 		.4byte	.LBE2-.LBB2
+ 966 0207 0D       		.uleb128 0xd
+ 967 0208 9E000000 		.4byte	.LASF38
+ 968 020c 01       		.byte	0x1
+ 969 020d B2       		.byte	0xb2
+ 970 020e 50020000 		.4byte	0x250
+ 971 0212 03       		.uleb128 0x3
+ 972 0213 91       		.byte	0x91
+ 973 0214 B87E     		.sleb128 -200
+ 974 0216 0D       		.uleb128 0xd
+ 975 0217 60010000 		.4byte	.LASF39
+ 976 021b 01       		.byte	0x1
+ 977 021c B6       		.byte	0xb6
+ 978 021d CF000000 		.4byte	0xcf
+ 979 0221 02       		.uleb128 0x2
+ 980 0222 91       		.byte	0x91
+ 981 0223 64       		.sleb128 -28
+ 982 0224 0E       		.uleb128 0xe
+ 983 0225 6E756D00 		.ascii	"num\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 25
+
+
+ 984 0229 01       		.byte	0x1
+ 985 022a B7       		.byte	0xb7
+ 986 022b 89000000 		.4byte	0x89
+ 987 022f 02       		.uleb128 0x2
+ 988 0230 91       		.byte	0x91
+ 989 0231 60       		.sleb128 -32
+ 990 0232 0D       		.uleb128 0xd
+ 991 0233 B6000000 		.4byte	.LASF40
+ 992 0237 01       		.byte	0x1
+ 993 0238 B8       		.byte	0xb8
+ 994 0239 CF000000 		.4byte	0xcf
+ 995 023d 02       		.uleb128 0x2
+ 996 023e 91       		.byte	0x91
+ 997 023f 5C       		.sleb128 -36
+ 998 0240 0D       		.uleb128 0xd
+ 999 0241 A7000000 		.4byte	.LASF41
+ 1000 0245 01       		.byte	0x1
+ 1001 0246 B9       		.byte	0xb9
+ 1002 0247 89000000 		.4byte	0x89
+ 1003 024b 02       		.uleb128 0x2
+ 1004 024c 91       		.byte	0x91
+ 1005 024d 58       		.sleb128 -40
+ 1006 024e 00       		.byte	0
+ 1007 024f 00       		.byte	0
+ 1008 0250 11       		.uleb128 0x11
+ 1009 0251 DD000000 		.4byte	0xdd
+ 1010 0255 60020000 		.4byte	0x260
+ 1011 0259 12       		.uleb128 0x12
+ 1012 025a F5000000 		.4byte	0xf5
+ 1013 025e 31       		.byte	0x31
+ 1014 025f 00       		.byte	0
+ 1015 0260 11       		.uleb128 0x11
+ 1016 0261 DD000000 		.4byte	0xdd
+ 1017 0265 70020000 		.4byte	0x270
+ 1018 0269 12       		.uleb128 0x12
+ 1019 026a F5000000 		.4byte	0xf5
+ 1020 026e 27       		.byte	0x27
+ 1021 026f 00       		.byte	0
+ 1022 0270 11       		.uleb128 0x11
+ 1023 0271 DD000000 		.4byte	0xdd
+ 1024 0275 80020000 		.4byte	0x280
+ 1025 0279 12       		.uleb128 0x12
+ 1026 027a F5000000 		.4byte	0xf5
+ 1027 027e 0D       		.byte	0xd
+ 1028 027f 00       		.byte	0
+ 1029 0280 13       		.uleb128 0x13
+ 1030 0281 C3020000 		.4byte	.LASF42
+ 1031 0285 06       		.byte	0x6
+ 1032 0286 9606     		.2byte	0x696
+ 1033 0288 8C020000 		.4byte	0x28c
+ 1034 028c 06       		.uleb128 0x6
+ 1035 028d AD000000 		.4byte	0xad
+ 1036 0291 14       		.uleb128 0x14
+ 1037 0292 60000000 		.4byte	.LASF43
+ 1038 0296 07       		.byte	0x7
+ 1039 0297 9101     		.2byte	0x191
+ 1040 0299 97000000 		.4byte	0x97
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 26
+
+
+ 1041 029d 05       		.uleb128 0x5
+ 1042 029e 03       		.byte	0x3
+ 1043 029f 00000000 		.4byte	devAddr
+ 1044 02a3 11       		.uleb128 0x11
+ 1045 02a4 97000000 		.4byte	0x97
+ 1046 02a8 B3020000 		.4byte	0x2b3
+ 1047 02ac 12       		.uleb128 0x12
+ 1048 02ad F5000000 		.4byte	0xf5
+ 1049 02b1 15       		.byte	0x15
+ 1050 02b2 00       		.byte	0
+ 1051 02b3 14       		.uleb128 0x14
+ 1052 02b4 4A020000 		.4byte	.LASF44
+ 1053 02b8 07       		.byte	0x7
+ 1054 02b9 9201     		.2byte	0x192
+ 1055 02bb A3020000 		.4byte	0x2a3
+ 1056 02bf 05       		.uleb128 0x5
+ 1057 02c0 03       		.byte	0x3
+ 1058 02c1 00000000 		.4byte	buffer
+ 1059 02c5 15       		.uleb128 0x15
+ 1060 02c6 5B000000 		.4byte	.LASF45
+ 1061 02ca 01       		.byte	0x1
+ 1062 02cb 3C       		.byte	0x3c
+ 1063 02cc B8000000 		.4byte	0xb8
+ 1064 02d0 05       		.uleb128 0x5
+ 1065 02d1 03       		.byte	0x3
+ 1066 02d2 00000000 		.4byte	Addr
+ 1067 02d6 16       		.uleb128 0x16
+ 1068 02d7 696400   		.ascii	"id\000"
+ 1069 02da 01       		.byte	0x1
+ 1070 02db 3D       		.byte	0x3d
+ 1071 02dc 62000000 		.4byte	0x62
+ 1072 02e0 05       		.uleb128 0x5
+ 1073 02e1 03       		.byte	0x3
+ 1074 02e2 00000000 		.4byte	id
+ 1075 02e6 15       		.uleb128 0x15
+ 1076 02e7 D0020000 		.4byte	.LASF46
+ 1077 02eb 01       		.byte	0x1
+ 1078 02ec 3E       		.byte	0x3e
+ 1079 02ed 62000000 		.4byte	0x62
+ 1080 02f1 05       		.uleb128 0x5
+ 1081 02f2 03       		.byte	0x3
+ 1082 02f3 00000000 		.4byte	data_point
+ 1083 02f7 16       		.uleb128 0x16
+ 1084 02f8 73756D00 		.ascii	"sum\000"
+ 1085 02fc 01       		.byte	0x1
+ 1086 02fd 40       		.byte	0x40
+ 1087 02fe 62000000 		.4byte	0x62
+ 1088 0302 05       		.uleb128 0x5
+ 1089 0303 03       		.byte	0x3
+ 1090 0304 00000000 		.4byte	sum
+ 1091 0308 15       		.uleb128 0x15
+ 1092 0309 8E000000 		.4byte	.LASF47
+ 1093 030d 01       		.byte	0x1
+ 1094 030e 41       		.byte	0x41
+ 1095 030f A2000000 		.4byte	0xa2
+ 1096 0313 05       		.uleb128 0x5
+ 1097 0314 03       		.byte	0x3
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 27
+
+
+ 1098 0315 00000000 		.4byte	average
+ 1099 0319 15       		.uleb128 0x15
+ 1100 031a B6020000 		.4byte	.LASF48
+ 1101 031e 01       		.byte	0x1
+ 1102 031f 42       		.byte	0x42
+ 1103 0320 2A030000 		.4byte	0x32a
+ 1104 0324 05       		.uleb128 0x5
+ 1105 0325 03       		.byte	0x3
+ 1106 0326 00000000 		.4byte	collect_flag
+ 1107 032a 02       		.uleb128 0x2
+ 1108 032b 01       		.byte	0x1
+ 1109 032c 02       		.byte	0x2
+ 1110 032d 32020000 		.4byte	.LASF49
+ 1111 0331 15       		.uleb128 0x15
+ 1112 0332 DB020000 		.4byte	.LASF50
+ 1113 0336 01       		.byte	0x1
+ 1114 0337 43       		.byte	0x43
+ 1115 0338 2A030000 		.4byte	0x32a
+ 1116 033c 05       		.uleb128 0x5
+ 1117 033d 03       		.byte	0x3
+ 1118 033e 00000000 		.4byte	wait_flag
+ 1119 0342 15       		.uleb128 0x15
+ 1120 0343 A9020000 		.4byte	.LASF51
+ 1121 0347 01       		.byte	0x1
+ 1122 0348 45       		.byte	0x45
+ 1123 0349 19010000 		.4byte	0x119
+ 1124 034d 05       		.uleb128 0x5
+ 1125 034e 03       		.byte	0x3
+ 1126 034f 00000000 		.4byte	STATE
+ 1127 0353 15       		.uleb128 0x15
+ 1128 0354 F3010000 		.4byte	.LASF52
+ 1129 0358 01       		.byte	0x1
+ 1130 0359 46       		.byte	0x46
+ 1131 035a 97000000 		.4byte	0x97
+ 1132 035e 05       		.uleb128 0x5
+ 1133 035f 03       		.byte	0x3
+ 1134 0360 00000000 		.4byte	testnum
+ 1135 0364 15       		.uleb128 0x15
+ 1136 0365 B0010000 		.4byte	.LASF53
+ 1137 0369 01       		.byte	0x1
+ 1138 036a 46       		.byte	0x46
+ 1139 036b 97000000 		.4byte	0x97
+ 1140 036f 05       		.uleb128 0x5
+ 1141 0370 03       		.byte	0x3
+ 1142 0371 00000000 		.4byte	countdown
+ 1143 0375 11       		.uleb128 0x11
+ 1144 0376 DD000000 		.4byte	0xdd
+ 1145 037a 85030000 		.4byte	0x385
+ 1146 037e 12       		.uleb128 0x12
+ 1147 037f F5000000 		.4byte	0xf5
+ 1148 0383 0A       		.byte	0xa
+ 1149 0384 00       		.byte	0
+ 1150 0385 15       		.uleb128 0x15
+ 1151 0386 7F000000 		.4byte	.LASF54
+ 1152 038a 01       		.byte	0x1
+ 1153 038b 47       		.byte	0x47
+ 1154 038c 75030000 		.4byte	0x375
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 28
+
+
+ 1155 0390 05       		.uleb128 0x5
+ 1156 0391 03       		.byte	0x3
+ 1157 0392 00000000 		.4byte	file
+ 1158 0396 11       		.uleb128 0x11
+ 1159 0397 DD000000 		.4byte	0xdd
+ 1160 039b A6030000 		.4byte	0x3a6
+ 1161 039f 12       		.uleb128 0x12
+ 1162 03a0 F5000000 		.4byte	0xf5
+ 1163 03a4 06       		.byte	0x6
+ 1164 03a5 00       		.byte	0
+ 1165 03a6 15       		.uleb128 0x15
+ 1166 03a7 68010000 		.4byte	.LASF55
+ 1167 03ab 01       		.byte	0x1
+ 1168 03ac 48       		.byte	0x48
+ 1169 03ad 96030000 		.4byte	0x396
+ 1170 03b1 05       		.uleb128 0x5
+ 1171 03b2 03       		.byte	0x3
+ 1172 03b3 00000000 		.4byte	volume
+ 1173 03b7 15       		.uleb128 0x15
+ 1174 03b8 F8020000 		.4byte	.LASF56
+ 1175 03bc 01       		.byte	0x1
+ 1176 03bd 49       		.byte	0x49
+ 1177 03be 0C010000 		.4byte	0x10c
+ 1178 03c2 05       		.uleb128 0x5
+ 1179 03c3 03       		.byte	0x3
+ 1180 03c4 00000000 		.4byte	fsfile
+ 1181 03c8 00       		.byte	0
+ 1182              		.section	.debug_abbrev,"",%progbits
+ 1183              	.Ldebug_abbrev0:
+ 1184 0000 01       		.uleb128 0x1
+ 1185 0001 11       		.uleb128 0x11
+ 1186 0002 01       		.byte	0x1
+ 1187 0003 25       		.uleb128 0x25
+ 1188 0004 0E       		.uleb128 0xe
+ 1189 0005 13       		.uleb128 0x13
+ 1190 0006 0B       		.uleb128 0xb
+ 1191 0007 03       		.uleb128 0x3
+ 1192 0008 0E       		.uleb128 0xe
+ 1193 0009 1B       		.uleb128 0x1b
+ 1194 000a 0E       		.uleb128 0xe
+ 1195 000b 55       		.uleb128 0x55
+ 1196 000c 17       		.uleb128 0x17
+ 1197 000d 11       		.uleb128 0x11
+ 1198 000e 01       		.uleb128 0x1
+ 1199 000f 10       		.uleb128 0x10
+ 1200 0010 17       		.uleb128 0x17
+ 1201 0011 00       		.byte	0
+ 1202 0012 00       		.byte	0
+ 1203 0013 02       		.uleb128 0x2
+ 1204 0014 24       		.uleb128 0x24
+ 1205 0015 00       		.byte	0
+ 1206 0016 0B       		.uleb128 0xb
+ 1207 0017 0B       		.uleb128 0xb
+ 1208 0018 3E       		.uleb128 0x3e
+ 1209 0019 0B       		.uleb128 0xb
+ 1210 001a 03       		.uleb128 0x3
+ 1211 001b 0E       		.uleb128 0xe
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 29
+
+
+ 1212 001c 00       		.byte	0
+ 1213 001d 00       		.byte	0
+ 1214 001e 03       		.uleb128 0x3
+ 1215 001f 16       		.uleb128 0x16
+ 1216 0020 00       		.byte	0
+ 1217 0021 03       		.uleb128 0x3
+ 1218 0022 0E       		.uleb128 0xe
+ 1219 0023 3A       		.uleb128 0x3a
+ 1220 0024 0B       		.uleb128 0xb
+ 1221 0025 3B       		.uleb128 0x3b
+ 1222 0026 0B       		.uleb128 0xb
+ 1223 0027 49       		.uleb128 0x49
+ 1224 0028 13       		.uleb128 0x13
+ 1225 0029 00       		.byte	0
+ 1226 002a 00       		.byte	0
+ 1227 002b 04       		.uleb128 0x4
+ 1228 002c 24       		.uleb128 0x24
+ 1229 002d 00       		.byte	0
+ 1230 002e 0B       		.uleb128 0xb
+ 1231 002f 0B       		.uleb128 0xb
+ 1232 0030 3E       		.uleb128 0x3e
+ 1233 0031 0B       		.uleb128 0xb
+ 1234 0032 03       		.uleb128 0x3
+ 1235 0033 08       		.uleb128 0x8
+ 1236 0034 00       		.byte	0
+ 1237 0035 00       		.byte	0
+ 1238 0036 05       		.uleb128 0x5
+ 1239 0037 16       		.uleb128 0x16
+ 1240 0038 00       		.byte	0
+ 1241 0039 03       		.uleb128 0x3
+ 1242 003a 0E       		.uleb128 0xe
+ 1243 003b 3A       		.uleb128 0x3a
+ 1244 003c 0B       		.uleb128 0xb
+ 1245 003d 3B       		.uleb128 0x3b
+ 1246 003e 05       		.uleb128 0x5
+ 1247 003f 49       		.uleb128 0x49
+ 1248 0040 13       		.uleb128 0x13
+ 1249 0041 00       		.byte	0
+ 1250 0042 00       		.byte	0
+ 1251 0043 06       		.uleb128 0x6
+ 1252 0044 35       		.uleb128 0x35
+ 1253 0045 00       		.byte	0
+ 1254 0046 49       		.uleb128 0x49
+ 1255 0047 13       		.uleb128 0x13
+ 1256 0048 00       		.byte	0
+ 1257 0049 00       		.byte	0
+ 1258 004a 07       		.uleb128 0x7
+ 1259 004b 13       		.uleb128 0x13
+ 1260 004c 00       		.byte	0
+ 1261 004d 03       		.uleb128 0x3
+ 1262 004e 0E       		.uleb128 0xe
+ 1263 004f 3C       		.uleb128 0x3c
+ 1264 0050 19       		.uleb128 0x19
+ 1265 0051 00       		.byte	0
+ 1266 0052 00       		.byte	0
+ 1267 0053 08       		.uleb128 0x8
+ 1268 0054 0F       		.uleb128 0xf
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 30
+
+
+ 1269 0055 00       		.byte	0
+ 1270 0056 0B       		.uleb128 0xb
+ 1271 0057 0B       		.uleb128 0xb
+ 1272 0058 49       		.uleb128 0x49
+ 1273 0059 13       		.uleb128 0x13
+ 1274 005a 00       		.byte	0
+ 1275 005b 00       		.byte	0
+ 1276 005c 09       		.uleb128 0x9
+ 1277 005d 04       		.uleb128 0x4
+ 1278 005e 01       		.byte	0x1
+ 1279 005f 03       		.uleb128 0x3
+ 1280 0060 0E       		.uleb128 0xe
+ 1281 0061 0B       		.uleb128 0xb
+ 1282 0062 0B       		.uleb128 0xb
+ 1283 0063 3A       		.uleb128 0x3a
+ 1284 0064 0B       		.uleb128 0xb
+ 1285 0065 3B       		.uleb128 0x3b
+ 1286 0066 0B       		.uleb128 0xb
+ 1287 0067 01       		.uleb128 0x1
+ 1288 0068 13       		.uleb128 0x13
+ 1289 0069 00       		.byte	0
+ 1290 006a 00       		.byte	0
+ 1291 006b 0A       		.uleb128 0xa
+ 1292 006c 28       		.uleb128 0x28
+ 1293 006d 00       		.byte	0
+ 1294 006e 03       		.uleb128 0x3
+ 1295 006f 0E       		.uleb128 0xe
+ 1296 0070 1C       		.uleb128 0x1c
+ 1297 0071 0D       		.uleb128 0xd
+ 1298 0072 00       		.byte	0
+ 1299 0073 00       		.byte	0
+ 1300 0074 0B       		.uleb128 0xb
+ 1301 0075 2E       		.uleb128 0x2e
+ 1302 0076 00       		.byte	0
+ 1303 0077 3F       		.uleb128 0x3f
+ 1304 0078 19       		.uleb128 0x19
+ 1305 0079 03       		.uleb128 0x3
+ 1306 007a 0E       		.uleb128 0xe
+ 1307 007b 3A       		.uleb128 0x3a
+ 1308 007c 0B       		.uleb128 0xb
+ 1309 007d 3B       		.uleb128 0x3b
+ 1310 007e 0B       		.uleb128 0xb
+ 1311 007f 27       		.uleb128 0x27
+ 1312 0080 19       		.uleb128 0x19
+ 1313 0081 11       		.uleb128 0x11
+ 1314 0082 01       		.uleb128 0x1
+ 1315 0083 12       		.uleb128 0x12
+ 1316 0084 06       		.uleb128 0x6
+ 1317 0085 40       		.uleb128 0x40
+ 1318 0086 18       		.uleb128 0x18
+ 1319 0087 9742     		.uleb128 0x2117
+ 1320 0089 19       		.uleb128 0x19
+ 1321 008a 00       		.byte	0
+ 1322 008b 00       		.byte	0
+ 1323 008c 0C       		.uleb128 0xc
+ 1324 008d 2E       		.uleb128 0x2e
+ 1325 008e 01       		.byte	0x1
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 31
+
+
+ 1326 008f 3F       		.uleb128 0x3f
+ 1327 0090 19       		.uleb128 0x19
+ 1328 0091 03       		.uleb128 0x3
+ 1329 0092 0E       		.uleb128 0xe
+ 1330 0093 3A       		.uleb128 0x3a
+ 1331 0094 0B       		.uleb128 0xb
+ 1332 0095 3B       		.uleb128 0x3b
+ 1333 0096 0B       		.uleb128 0xb
+ 1334 0097 49       		.uleb128 0x49
+ 1335 0098 13       		.uleb128 0x13
+ 1336 0099 11       		.uleb128 0x11
+ 1337 009a 01       		.uleb128 0x1
+ 1338 009b 12       		.uleb128 0x12
+ 1339 009c 06       		.uleb128 0x6
+ 1340 009d 40       		.uleb128 0x40
+ 1341 009e 18       		.uleb128 0x18
+ 1342 009f 9642     		.uleb128 0x2116
+ 1343 00a1 19       		.uleb128 0x19
+ 1344 00a2 01       		.uleb128 0x1
+ 1345 00a3 13       		.uleb128 0x13
+ 1346 00a4 00       		.byte	0
+ 1347 00a5 00       		.byte	0
+ 1348 00a6 0D       		.uleb128 0xd
+ 1349 00a7 34       		.uleb128 0x34
+ 1350 00a8 00       		.byte	0
+ 1351 00a9 03       		.uleb128 0x3
+ 1352 00aa 0E       		.uleb128 0xe
+ 1353 00ab 3A       		.uleb128 0x3a
+ 1354 00ac 0B       		.uleb128 0xb
+ 1355 00ad 3B       		.uleb128 0x3b
+ 1356 00ae 0B       		.uleb128 0xb
+ 1357 00af 49       		.uleb128 0x49
+ 1358 00b0 13       		.uleb128 0x13
+ 1359 00b1 02       		.uleb128 0x2
+ 1360 00b2 18       		.uleb128 0x18
+ 1361 00b3 00       		.byte	0
+ 1362 00b4 00       		.byte	0
+ 1363 00b5 0E       		.uleb128 0xe
+ 1364 00b6 34       		.uleb128 0x34
+ 1365 00b7 00       		.byte	0
+ 1366 00b8 03       		.uleb128 0x3
+ 1367 00b9 08       		.uleb128 0x8
+ 1368 00ba 3A       		.uleb128 0x3a
+ 1369 00bb 0B       		.uleb128 0xb
+ 1370 00bc 3B       		.uleb128 0x3b
+ 1371 00bd 0B       		.uleb128 0xb
+ 1372 00be 49       		.uleb128 0x49
+ 1373 00bf 13       		.uleb128 0x13
+ 1374 00c0 02       		.uleb128 0x2
+ 1375 00c1 18       		.uleb128 0x18
+ 1376 00c2 00       		.byte	0
+ 1377 00c3 00       		.byte	0
+ 1378 00c4 0F       		.uleb128 0xf
+ 1379 00c5 34       		.uleb128 0x34
+ 1380 00c6 00       		.byte	0
+ 1381 00c7 03       		.uleb128 0x3
+ 1382 00c8 08       		.uleb128 0x8
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 32
+
+
+ 1383 00c9 3A       		.uleb128 0x3a
+ 1384 00ca 0B       		.uleb128 0xb
+ 1385 00cb 3B       		.uleb128 0x3b
+ 1386 00cc 0B       		.uleb128 0xb
+ 1387 00cd 49       		.uleb128 0x49
+ 1388 00ce 13       		.uleb128 0x13
+ 1389 00cf 00       		.byte	0
+ 1390 00d0 00       		.byte	0
+ 1391 00d1 10       		.uleb128 0x10
+ 1392 00d2 0B       		.uleb128 0xb
+ 1393 00d3 01       		.byte	0x1
+ 1394 00d4 11       		.uleb128 0x11
+ 1395 00d5 01       		.uleb128 0x1
+ 1396 00d6 12       		.uleb128 0x12
+ 1397 00d7 06       		.uleb128 0x6
+ 1398 00d8 00       		.byte	0
+ 1399 00d9 00       		.byte	0
+ 1400 00da 11       		.uleb128 0x11
+ 1401 00db 01       		.uleb128 0x1
+ 1402 00dc 01       		.byte	0x1
+ 1403 00dd 49       		.uleb128 0x49
+ 1404 00de 13       		.uleb128 0x13
+ 1405 00df 01       		.uleb128 0x1
+ 1406 00e0 13       		.uleb128 0x13
+ 1407 00e1 00       		.byte	0
+ 1408 00e2 00       		.byte	0
+ 1409 00e3 12       		.uleb128 0x12
+ 1410 00e4 21       		.uleb128 0x21
+ 1411 00e5 00       		.byte	0
+ 1412 00e6 49       		.uleb128 0x49
+ 1413 00e7 13       		.uleb128 0x13
+ 1414 00e8 2F       		.uleb128 0x2f
+ 1415 00e9 0B       		.uleb128 0xb
+ 1416 00ea 00       		.byte	0
+ 1417 00eb 00       		.byte	0
+ 1418 00ec 13       		.uleb128 0x13
+ 1419 00ed 34       		.uleb128 0x34
+ 1420 00ee 00       		.byte	0
+ 1421 00ef 03       		.uleb128 0x3
+ 1422 00f0 0E       		.uleb128 0xe
+ 1423 00f1 3A       		.uleb128 0x3a
+ 1424 00f2 0B       		.uleb128 0xb
+ 1425 00f3 3B       		.uleb128 0x3b
+ 1426 00f4 05       		.uleb128 0x5
+ 1427 00f5 49       		.uleb128 0x49
+ 1428 00f6 13       		.uleb128 0x13
+ 1429 00f7 3F       		.uleb128 0x3f
+ 1430 00f8 19       		.uleb128 0x19
+ 1431 00f9 3C       		.uleb128 0x3c
+ 1432 00fa 19       		.uleb128 0x19
+ 1433 00fb 00       		.byte	0
+ 1434 00fc 00       		.byte	0
+ 1435 00fd 14       		.uleb128 0x14
+ 1436 00fe 34       		.uleb128 0x34
+ 1437 00ff 00       		.byte	0
+ 1438 0100 03       		.uleb128 0x3
+ 1439 0101 0E       		.uleb128 0xe
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 33
+
+
+ 1440 0102 3A       		.uleb128 0x3a
+ 1441 0103 0B       		.uleb128 0xb
+ 1442 0104 3B       		.uleb128 0x3b
+ 1443 0105 05       		.uleb128 0x5
+ 1444 0106 49       		.uleb128 0x49
+ 1445 0107 13       		.uleb128 0x13
+ 1446 0108 3F       		.uleb128 0x3f
+ 1447 0109 19       		.uleb128 0x19
+ 1448 010a 02       		.uleb128 0x2
+ 1449 010b 18       		.uleb128 0x18
+ 1450 010c 00       		.byte	0
+ 1451 010d 00       		.byte	0
+ 1452 010e 15       		.uleb128 0x15
+ 1453 010f 34       		.uleb128 0x34
+ 1454 0110 00       		.byte	0
+ 1455 0111 03       		.uleb128 0x3
+ 1456 0112 0E       		.uleb128 0xe
+ 1457 0113 3A       		.uleb128 0x3a
+ 1458 0114 0B       		.uleb128 0xb
+ 1459 0115 3B       		.uleb128 0x3b
+ 1460 0116 0B       		.uleb128 0xb
+ 1461 0117 49       		.uleb128 0x49
+ 1462 0118 13       		.uleb128 0x13
+ 1463 0119 3F       		.uleb128 0x3f
+ 1464 011a 19       		.uleb128 0x19
+ 1465 011b 02       		.uleb128 0x2
+ 1466 011c 18       		.uleb128 0x18
+ 1467 011d 00       		.byte	0
+ 1468 011e 00       		.byte	0
+ 1469 011f 16       		.uleb128 0x16
+ 1470 0120 34       		.uleb128 0x34
+ 1471 0121 00       		.byte	0
+ 1472 0122 03       		.uleb128 0x3
+ 1473 0123 08       		.uleb128 0x8
+ 1474 0124 3A       		.uleb128 0x3a
+ 1475 0125 0B       		.uleb128 0xb
+ 1476 0126 3B       		.uleb128 0x3b
+ 1477 0127 0B       		.uleb128 0xb
+ 1478 0128 49       		.uleb128 0x49
+ 1479 0129 13       		.uleb128 0x13
+ 1480 012a 3F       		.uleb128 0x3f
+ 1481 012b 19       		.uleb128 0x19
+ 1482 012c 02       		.uleb128 0x2
+ 1483 012d 18       		.uleb128 0x18
+ 1484 012e 00       		.byte	0
+ 1485 012f 00       		.byte	0
+ 1486 0130 00       		.byte	0
+ 1487              		.section	.debug_aranges,"",%progbits
+ 1488 0000 2C000000 		.4byte	0x2c
+ 1489 0004 0200     		.2byte	0x2
+ 1490 0006 00000000 		.4byte	.Ldebug_info0
+ 1491 000a 04       		.byte	0x4
+ 1492 000b 00       		.byte	0
+ 1493 000c 0000     		.2byte	0
+ 1494 000e 0000     		.2byte	0
+ 1495 0010 00000000 		.4byte	.LFB63
+ 1496 0014 38000000 		.4byte	.LFE63-.LFB63
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 34
+
+
+ 1497 0018 00000000 		.4byte	.LFB64
+ 1498 001c 3C000000 		.4byte	.LFE64-.LFB64
+ 1499 0020 00000000 		.4byte	.LFB65
+ 1500 0024 6C030000 		.4byte	.LFE65-.LFB65
+ 1501 0028 00000000 		.4byte	0
+ 1502 002c 00000000 		.4byte	0
+ 1503              		.section	.debug_ranges,"",%progbits
+ 1504              	.Ldebug_ranges0:
+ 1505 0000 00000000 		.4byte	.LFB63
+ 1506 0004 38000000 		.4byte	.LFE63
+ 1507 0008 00000000 		.4byte	.LFB64
+ 1508 000c 3C000000 		.4byte	.LFE64
+ 1509 0010 00000000 		.4byte	.LFB65
+ 1510 0014 6C030000 		.4byte	.LFE65
+ 1511 0018 00000000 		.4byte	0
+ 1512 001c 00000000 		.4byte	0
+ 1513              		.section	.debug_line,"",%progbits
+ 1514              	.Ldebug_line0:
+ 1515 0000 40020000 		.section	.debug_str,"MS",%progbits,1
+ 1515      02009301 
+ 1515      00000201 
+ 1515      FB0E0D00 
+ 1515      01010101 
+ 1516              	.LASF29:
+ 1517 0000 52455355 		.ascii	"RESURFACE\000"
+ 1517      52464143 
+ 1517      4500
+ 1518              	.LASF59:
+ 1519 000a 433A5C55 		.ascii	"C:\\Users\\gding\\Downloads\\Testing\\OVac.cydsn\000"
+ 1519      73657273 
+ 1519      5C676469 
+ 1519      6E675C44 
+ 1519      6F776E6C 
+ 1520              	.LASF27:
+ 1521 0036 44455343 		.ascii	"DESCENDING\000"
+ 1521      454E4449 
+ 1521      4E4700
+ 1522              	.LASF25:
+ 1523 0041 53595354 		.ascii	"SYSTEM_CHECK\000"
+ 1523      454D5F43 
+ 1523      4845434B 
+ 1523      00
+ 1524              	.LASF60:
+ 1525 004e 53544154 		.ascii	"STATES\000"
+ 1525      455300
+ 1526              	.LASF35:
+ 1527 0055 73646275 		.ascii	"sdbuf\000"
+ 1527      6600
+ 1528              	.LASF45:
+ 1529 005b 41646472 		.ascii	"Addr\000"
+ 1529      00
+ 1530              	.LASF43:
+ 1531 0060 64657641 		.ascii	"devAddr\000"
+ 1531      64647200 
+ 1532              	.LASF28:
+ 1533 0068 4C414E44 		.ascii	"LANDED\000"
+ 1533      454400
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 35
+
+
+ 1534              	.LASF61:
+ 1535 006f 6D61696E 		.ascii	"main\000"
+ 1535      00
+ 1536              	.LASF8:
+ 1537 0074 5F5F7569 		.ascii	"__uint32_t\000"
+ 1537      6E743332 
+ 1537      5F7400
+ 1538              	.LASF54:
+ 1539 007f 66696C65 		.ascii	"file\000"
+ 1539      00
+ 1540              	.LASF4:
+ 1541 0084 73686F72 		.ascii	"short int\000"
+ 1541      7420696E 
+ 1541      7400
+ 1542              	.LASF47:
+ 1543 008e 61766572 		.ascii	"average\000"
+ 1543      61676500 
+ 1544              	.LASF13:
+ 1545 0096 75696E74 		.ascii	"uint8_t\000"
+ 1545      385F7400 
+ 1546              	.LASF38:
+ 1547 009e 70726573 		.ascii	"pressure\000"
+ 1547      73757265 
+ 1547      00
+ 1548              	.LASF41:
+ 1549 00a7 64656369 		.ascii	"decimals\000"
+ 1549      6D616C73 
+ 1549      00
+ 1550              	.LASF18:
+ 1551 00b0 666C6F61 		.ascii	"float\000"
+ 1551      7400
+ 1552              	.LASF40:
+ 1553 00b6 74656D70 		.ascii	"temp\000"
+ 1553      00
+ 1554              	.LASF10:
+ 1555 00bb 6C6F6E67 		.ascii	"long long int\000"
+ 1555      206C6F6E 
+ 1555      6720696E 
+ 1555      7400
+ 1556              	.LASF30:
+ 1557 00c9 5452414E 		.ascii	"TRANSMIT\000"
+ 1557      534D4954 
+ 1557      00
+ 1558              	.LASF57:
+ 1559 00d2 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1559      4320342E 
+ 1559      392E3320 
+ 1559      32303135 
+ 1559      30333033 
+ 1560 0105 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1560      20726576 
+ 1560      6973696F 
+ 1560      6E203232 
+ 1560      31323230 
+ 1561 0138 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1561      66756E63 
+ 1561      74696F6E 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 36
+
+
+ 1561      2D736563 
+ 1561      74696F6E 
+ 1562              	.LASF39:
+ 1563 0160 766F6C74 		.ascii	"voltage\000"
+ 1563      61676500 
+ 1564              	.LASF55:
+ 1565 0168 766F6C75 		.ascii	"volume\000"
+ 1565      6D6500
+ 1566              	.LASF2:
+ 1567 016f 5F5F7569 		.ascii	"__uint8_t\000"
+ 1567      6E74385F 
+ 1567      7400
+ 1568              	.LASF31:
+ 1569 0179 4552524F 		.ascii	"ERROR\000"
+ 1569      5200
+ 1570              	.LASF24:
+ 1571 017f 6C6F6E67 		.ascii	"long double\000"
+ 1571      20646F75 
+ 1571      626C6500 
+ 1572              	.LASF26:
+ 1573 018b 57414954 		.ascii	"WAIT_TO_LAUNCH\000"
+ 1573      5F544F5F 
+ 1573      4C41554E 
+ 1573      434800
+ 1574              	.LASF1:
+ 1575 019a 756E7369 		.ascii	"unsigned char\000"
+ 1575      676E6564 
+ 1575      20636861 
+ 1575      7200
+ 1576              	.LASF23:
+ 1577 01a8 46535F46 		.ascii	"FS_FILE\000"
+ 1577      494C4500 
+ 1578              	.LASF53:
+ 1579 01b0 636F756E 		.ascii	"countdown\000"
+ 1579      74646F77 
+ 1579      6E00
+ 1580              	.LASF0:
+ 1581 01ba 7369676E 		.ascii	"signed char\000"
+ 1581      65642063 
+ 1581      68617200 
+ 1582              	.LASF11:
+ 1583 01c6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1583      206C6F6E 
+ 1583      6720756E 
+ 1583      7369676E 
+ 1583      65642069 
+ 1584              	.LASF16:
+ 1585 01dd 75696E74 		.ascii	"uint32_t\000"
+ 1585      33325F74 
+ 1585      00
+ 1586              	.LASF12:
+ 1587 01e6 756E7369 		.ascii	"unsigned int\000"
+ 1587      676E6564 
+ 1587      20696E74 
+ 1587      00
+ 1588              	.LASF52:
+ 1589 01f3 74657374 		.ascii	"testnum\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 37
+
+
+ 1589      6E756D00 
+ 1590              	.LASF5:
+ 1591 01fb 73686F72 		.ascii	"short unsigned int\000"
+ 1591      7420756E 
+ 1591      7369676E 
+ 1591      65642069 
+ 1591      6E7400
+ 1592              	.LASF20:
+ 1593 020e 63686172 		.ascii	"char\000"
+ 1593      00
+ 1594              	.LASF7:
+ 1595 0213 6C6F6E67 		.ascii	"long int\000"
+ 1595      20696E74 
+ 1595      00
+ 1596              	.LASF15:
+ 1597 021c 696E7433 		.ascii	"int32_t\000"
+ 1597      325F7400 
+ 1598              	.LASF14:
+ 1599 0224 696E7431 		.ascii	"int16_t\000"
+ 1599      365F7400 
+ 1600              	.LASF17:
+ 1601 022c 75696E74 		.ascii	"uint8\000"
+ 1601      3800
+ 1602              	.LASF49:
+ 1603 0232 5F426F6F 		.ascii	"_Bool\000"
+ 1603      6C00
+ 1604              	.LASF36:
+ 1605 0238 63757253 		.ascii	"curState\000"
+ 1605      74617465 
+ 1605      00
+ 1606              	.LASF37:
+ 1607 0241 7A5F6F66 		.ascii	"z_offset\000"
+ 1607      66736574 
+ 1607      00
+ 1608              	.LASF44:
+ 1609 024a 62756666 		.ascii	"buffer\000"
+ 1609      657200
+ 1610              	.LASF33:
+ 1611 0251 436F756E 		.ascii	"Countdown_ISR_Handler\000"
+ 1611      74646F77 
+ 1611      6E5F4953 
+ 1611      525F4861 
+ 1611      6E646C65 
+ 1612              	.LASF58:
+ 1613 0267 6D61696E 		.ascii	"main.c\000"
+ 1613      2E6300
+ 1614              	.LASF21:
+ 1615 026e 72656738 		.ascii	"reg8\000"
+ 1615      00
+ 1616              	.LASF9:
+ 1617 0273 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1617      20756E73 
+ 1617      69676E65 
+ 1617      6420696E 
+ 1617      7400
+ 1618              	.LASF19:
+ 1619 0285 646F7562 		.ascii	"double\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\cc51JLLN.s 			page 38
+
+
+ 1619      6C6500
+ 1620              	.LASF6:
+ 1621 028c 5F5F696E 		.ascii	"__int32_t\000"
+ 1621      7433325F 
+ 1621      7400
+ 1622              	.LASF3:
+ 1623 0296 5F5F696E 		.ascii	"__int16_t\000"
+ 1623      7431365F 
+ 1623      7400
+ 1624              	.LASF22:
+ 1625 02a0 73697A65 		.ascii	"sizetype\000"
+ 1625      74797065 
+ 1625      00
+ 1626              	.LASF51:
+ 1627 02a9 53544154 		.ascii	"STATE\000"
+ 1627      4500
+ 1628              	.LASF34:
+ 1629 02af 6F757470 		.ascii	"output\000"
+ 1629      757400
+ 1630              	.LASF48:
+ 1631 02b6 636F6C6C 		.ascii	"collect_flag\000"
+ 1631      6563745F 
+ 1631      666C6167 
+ 1631      00
+ 1632              	.LASF42:
+ 1633 02c3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1633      52784275 
+ 1633      66666572 
+ 1633      00
+ 1634              	.LASF46:
+ 1635 02d0 64617461 		.ascii	"data_point\000"
+ 1635      5F706F69 
+ 1635      6E7400
+ 1636              	.LASF50:
+ 1637 02db 77616974 		.ascii	"wait_flag\000"
+ 1637      5F666C61 
+ 1637      6700
+ 1638              	.LASF32:
+ 1639 02e5 53616D70 		.ascii	"Sample_ISR_Handler\000"
+ 1639      6C655F49 
+ 1639      53525F48 
+ 1639      616E646C 
+ 1639      657200
+ 1640              	.LASF56:
+ 1641 02f8 66736669 		.ascii	"fsfile\000"
+ 1641      6C6500
+ 1642              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

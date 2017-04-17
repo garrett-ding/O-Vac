@@ -1,0 +1,1170 @@
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"functions.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	accelData,10,4
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC0:
+  22 0000 25642025 		.ascii	"%d %d %d     \000"
+  22      64202564 
+  22      20202020 
+  22      2000
+  23              		.section	.text.I2C_LCD_print,"ax",%progbits
+  24              		.align	2
+  25              		.global	I2C_LCD_print
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	I2C_LCD_print, %function
+  29              	I2C_LCD_print:
+  30              	.LFB63:
+  31              		.file 1 "functions.c"
+   1:functions.c   **** /* ========================================
+   2:functions.c   ****  *
+   3:functions.c   ****  * Copyright YOUR COMPANY, THE YEAR
+   4:functions.c   ****  * All Rights Reserved
+   5:functions.c   ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:functions.c   ****  *
+   7:functions.c   ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:functions.c   ****  * WHICH IS THE PROPERTY OF your company.
+   9:functions.c   ****  *
+  10:functions.c   ****  * ========================================
+  11:functions.c   **** */
+  12:functions.c   **** #include <stdint.h>
+  13:functions.c   **** #include <stdio.h>
+  14:functions.c   **** #include <math.h>
+  15:functions.c   **** #include "functions.h"
+  16:functions.c   **** #include "LiquidCrystal_I2C.h"
+  17:functions.c   **** 
+  18:functions.c   **** char accelData[10];
+  19:functions.c   **** 
+  20:functions.c   **** void I2C_LCD_print(uint8_t row, uint8_t column, uint16_t ax, uint16_t ay,uint16_t az){
+  32              		.loc 1 20 0
+  33              		.cfi_startproc
+  34              		@ args = 4, pretend = 0, frame = 8
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 2
+
+
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 90B5     		push	{r4, r7, lr}
+  37              		.cfi_def_cfa_offset 12
+  38              		.cfi_offset 4, -12
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 85B0     		sub	sp, sp, #20
+  42              		.cfi_def_cfa_offset 32
+  43 0004 02AF     		add	r7, sp, #8
+  44              		.cfi_def_cfa 7, 24
+  45 0006 0446     		mov	r4, r0
+  46 0008 0846     		mov	r0, r1
+  47 000a 1146     		mov	r1, r2
+  48 000c 1A46     		mov	r2, r3
+  49 000e 2346     		mov	r3, r4
+  50 0010 FB71     		strb	r3, [r7, #7]
+  51 0012 0346     		mov	r3, r0
+  52 0014 BB71     		strb	r3, [r7, #6]
+  53 0016 0B46     		mov	r3, r1	@ movhi
+  54 0018 BB80     		strh	r3, [r7, #4]	@ movhi
+  55 001a 1346     		mov	r3, r2	@ movhi
+  56 001c 7B80     		strh	r3, [r7, #2]	@ movhi
+  21:functions.c   ****     sprintf(accelData,"%d %d %d     ",ax,ay,az); 
+  57              		.loc 1 21 0
+  58 001e BA88     		ldrh	r2, [r7, #4]
+  59 0020 7C88     		ldrh	r4, [r7, #2]
+  60 0022 3B8B     		ldrh	r3, [r7, #24]
+  61 0024 0093     		str	r3, [sp]
+  62 0026 0848     		ldr	r0, .L2
+  63 0028 0849     		ldr	r1, .L2+4
+  64 002a 2346     		mov	r3, r4
+  65 002c FFF7FEFF 		bl	sprintf
+  22:functions.c   ****     //clear();
+  23:functions.c   ****     setCursor(column,row);
+  66              		.loc 1 23 0
+  67 0030 BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+  68 0032 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  69 0034 1046     		mov	r0, r2
+  70 0036 1946     		mov	r1, r3
+  71 0038 FFF7FEFF 		bl	setCursor
+  24:functions.c   ****     LCD_print(accelData);
+  72              		.loc 1 24 0
+  73 003c 0248     		ldr	r0, .L2
+  74 003e FFF7FEFF 		bl	LCD_print
+  25:functions.c   **** }
+  75              		.loc 1 25 0
+  76 0042 0C37     		adds	r7, r7, #12
+  77              		.cfi_def_cfa_offset 12
+  78 0044 BD46     		mov	sp, r7
+  79              		.cfi_def_cfa_register 13
+  80              		@ sp needed
+  81 0046 90BD     		pop	{r4, r7, pc}
+  82              	.L3:
+  83              		.align	2
+  84              	.L2:
+  85 0048 00000000 		.word	accelData
+  86 004c 00000000 		.word	.LC0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 3
+
+
+  87              		.cfi_endproc
+  88              	.LFE63:
+  89              		.size	I2C_LCD_print, .-I2C_LCD_print
+  90              		.section	.text.ComputeMA,"ax",%progbits
+  91              		.align	2
+  92              		.global	ComputeMA
+  93              		.thumb
+  94              		.thumb_func
+  95              		.type	ComputeMA, %function
+  96              	ComputeMA:
+  97              	.LFB64:
+  26:functions.c   **** 
+  27:functions.c   **** int16_t ComputeMA(int16_t avg, int16_t n, int16_t sample){
+  98              		.loc 1 27 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 8
+ 101              		@ frame_needed = 1, uses_anonymous_args = 0
+ 102              		@ link register save eliminated.
+ 103 0000 80B4     		push	{r7}
+ 104              		.cfi_def_cfa_offset 4
+ 105              		.cfi_offset 7, -4
+ 106 0002 83B0     		sub	sp, sp, #12
+ 107              		.cfi_def_cfa_offset 16
+ 108 0004 00AF     		add	r7, sp, #0
+ 109              		.cfi_def_cfa_register 7
+ 110 0006 0346     		mov	r3, r0
+ 111 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 112 000a 0B46     		mov	r3, r1	@ movhi
+ 113 000c BB80     		strh	r3, [r7, #4]	@ movhi
+ 114 000e 1346     		mov	r3, r2	@ movhi
+ 115 0010 7B80     		strh	r3, [r7, #2]	@ movhi
+  28:functions.c   ****     avg -= avg/n;
+ 116              		.loc 1 28 0
+ 117 0012 FA88     		ldrh	r2, [r7, #6]
+ 118 0014 B7F90610 		ldrsh	r1, [r7, #6]
+ 119 0018 B7F90430 		ldrsh	r3, [r7, #4]
+ 120 001c 91FBF3F3 		sdiv	r3, r1, r3
+ 121 0020 9BB2     		uxth	r3, r3
+ 122 0022 D31A     		subs	r3, r2, r3
+ 123 0024 9BB2     		uxth	r3, r3
+ 124 0026 FB80     		strh	r3, [r7, #6]	@ movhi
+  29:functions.c   ****     avg += sample/n;
+ 125              		.loc 1 29 0
+ 126 0028 B7F90220 		ldrsh	r2, [r7, #2]
+ 127 002c B7F90430 		ldrsh	r3, [r7, #4]
+ 128 0030 92FBF3F3 		sdiv	r3, r2, r3
+ 129 0034 9AB2     		uxth	r2, r3
+ 130 0036 FB88     		ldrh	r3, [r7, #6]
+ 131 0038 1344     		add	r3, r3, r2
+ 132 003a 9BB2     		uxth	r3, r3
+ 133 003c FB80     		strh	r3, [r7, #6]	@ movhi
+  30:functions.c   ****     return avg;    
+ 134              		.loc 1 30 0
+ 135 003e FB88     		ldrh	r3, [r7, #6]
+ 136 0040 1BB2     		sxth	r3, r3
+  31:functions.c   **** }
+ 137              		.loc 1 31 0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 4
+
+
+ 138 0042 1846     		mov	r0, r3
+ 139 0044 0C37     		adds	r7, r7, #12
+ 140              		.cfi_def_cfa_offset 4
+ 141 0046 BD46     		mov	sp, r7
+ 142              		.cfi_def_cfa_register 13
+ 143              		@ sp needed
+ 144 0048 5DF8047B 		ldr	r7, [sp], #4
+ 145              		.cfi_restore 7
+ 146              		.cfi_def_cfa_offset 0
+ 147 004c 7047     		bx	lr
+ 148              		.cfi_endproc
+ 149              	.LFE64:
+ 150              		.size	ComputeMA, .-ComputeMA
+ 151 004e 00BF     		.section	.rodata
+ 152 000e 0000     		.align	2
+ 153              	.LC1:
+ 154 0010 7700     		.ascii	"w\000"
+ 155 0012 0000     		.align	2
+ 156              	.LC2:
+ 157 0014 54657374 		.ascii	"Testing Testing\012Testing\000"
+ 157      696E6720 
+ 157      54657374 
+ 157      696E670A 
+ 157      54657374 
+ 158              		.section	.text.Initialize_SD_Card,"ax",%progbits
+ 159              		.align	2
+ 160              		.global	Initialize_SD_Card
+ 161              		.thumb
+ 162              		.thumb_func
+ 163              		.type	Initialize_SD_Card, %function
+ 164              	Initialize_SD_Card:
+ 165              	.LFB65:
+  32:functions.c   **** 
+  33:functions.c   **** int Initialize_SD_Card(char *filename, char *volname, FS_FILE *file){
+ 166              		.loc 1 33 0
+ 167              		.cfi_startproc
+ 168              		@ args = 0, pretend = 0, frame = 16
+ 169              		@ frame_needed = 1, uses_anonymous_args = 0
+ 170 0000 80B5     		push	{r7, lr}
+ 171              		.cfi_def_cfa_offset 8
+ 172              		.cfi_offset 7, -8
+ 173              		.cfi_offset 14, -4
+ 174 0002 84B0     		sub	sp, sp, #16
+ 175              		.cfi_def_cfa_offset 24
+ 176 0004 00AF     		add	r7, sp, #0
+ 177              		.cfi_def_cfa_register 7
+ 178 0006 F860     		str	r0, [r7, #12]
+ 179 0008 B960     		str	r1, [r7, #8]
+ 180 000a 7A60     		str	r2, [r7, #4]
+  34:functions.c   ****     FS_Init();
+ 181              		.loc 1 34 0
+ 182 000c FFF7FEFF 		bl	FS_Init
+  35:functions.c   ****     FS_Mount(volname);
+ 183              		.loc 1 35 0
+ 184 0010 B868     		ldr	r0, [r7, #8]
+ 185 0012 FFF7FEFF 		bl	FS_Mount
+  36:functions.c   ****     if(0 != FS_GetVolumeName(0u, volname, 9u))
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 5
+
+
+ 186              		.loc 1 36 0
+ 187 0016 0020     		movs	r0, #0
+ 188 0018 B968     		ldr	r1, [r7, #8]
+ 189 001a 0922     		movs	r2, #9
+ 190 001c FFF7FEFF 		bl	FS_GetVolumeName
+ 191 0020 0346     		mov	r3, r0
+ 192 0022 002B     		cmp	r3, #0
+ 193 0024 10D0     		beq	.L7
+  37:functions.c   ****     {
+  38:functions.c   ****         /* Getting volume name succeeded so prompt it on the LCD */
+  39:functions.c   ****         LED4_Write(1);
+ 194              		.loc 1 39 0
+ 195 0026 0120     		movs	r0, #1
+ 196 0028 FFF7FEFF 		bl	LED4_Write
+  40:functions.c   ****         CyDelay(500u);
+ 197              		.loc 1 40 0
+ 198 002c 4FF4FA70 		mov	r0, #500
+ 199 0030 FFF7FEFF 		bl	CyDelay
+  41:functions.c   ****     }
+  42:functions.c   ****     else
+  43:functions.c   ****         return 1;   
+  44:functions.c   ****     
+  45:functions.c   ****     LED4_Write(0);
+ 200              		.loc 1 45 0
+ 201 0034 0020     		movs	r0, #0
+ 202 0036 FFF7FEFF 		bl	LED4_Write
+  46:functions.c   **** //    setCursor(0u, 0u);
+  47:functions.c   **** //    LCD_print("SD card format");
+  48:functions.c   ****     
+  49:functions.c   ****     if(0 == FS_FormatSD(volname))
+ 203              		.loc 1 49 0
+ 204 003a B868     		ldr	r0, [r7, #8]
+ 205 003c FFF7FEFF 		bl	FS_FormatSD
+ 206 0040 0346     		mov	r3, r0
+ 207 0042 002B     		cmp	r3, #0
+ 208 0044 12D1     		bne	.L10
+ 209 0046 01E0     		b	.L15
+ 210              	.L7:
+  43:functions.c   ****     
+ 211              		.loc 1 43 0
+ 212 0048 0123     		movs	r3, #1
+ 213 004a 2BE0     		b	.L9
+ 214              	.L15:
+  50:functions.c   ****     {
+  51:functions.c   ****         LED4_Write(1);
+ 215              		.loc 1 51 0
+ 216 004c 0120     		movs	r0, #1
+ 217 004e FFF7FEFF 		bl	LED4_Write
+  52:functions.c   **** //        setCursor(1u, 0u);
+  53:functions.c   **** //        LCD_print("Succeeded");
+  54:functions.c   ****     }
+  55:functions.c   ****     else
+  56:functions.c   ****     {
+  57:functions.c   **** //        setCursor(1u, 0u);
+  58:functions.c   **** //        LCD_print("Failed");
+  59:functions.c   ****         return 1;
+  60:functions.c   ****     }
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 6
+
+
+  61:functions.c   ****     CyDelay(500u);
+ 218              		.loc 1 61 0
+ 219 0052 4FF4FA70 		mov	r0, #500
+ 220 0056 FFF7FEFF 		bl	CyDelay
+  62:functions.c   ****     
+  63:functions.c   ****     file = FS_FOpen(filename, "w");
+ 221              		.loc 1 63 0
+ 222 005a F868     		ldr	r0, [r7, #12]
+ 223 005c 1349     		ldr	r1, .L17
+ 224 005e FFF7FEFF 		bl	FS_FOpen
+ 225 0062 7860     		str	r0, [r7, #4]
+  64:functions.c   ****     if(file)
+ 226              		.loc 1 64 0
+ 227 0064 7B68     		ldr	r3, [r7, #4]
+ 228 0066 002B     		cmp	r3, #0
+ 229 0068 1BD0     		beq	.L12
+ 230 006a 01E0     		b	.L16
+ 231              	.L10:
+  59:functions.c   ****     }
+ 232              		.loc 1 59 0
+ 233 006c 0123     		movs	r3, #1
+ 234 006e 19E0     		b	.L9
+ 235              	.L16:
+  65:functions.c   ****     {
+  66:functions.c   ****         /* Indicate successful file creation message */
+  67:functions.c   **** //        LCD_print("File ");
+  68:functions.c   **** //        LCD_print(filename);
+  69:functions.c   **** //        setCursor(1u, 0u);
+  70:functions.c   **** //        LCD_print("was opened");
+  71:functions.c   ****         LED4_Write(1);
+ 236              		.loc 1 71 0
+ 237 0070 0120     		movs	r0, #1
+ 238 0072 FFF7FEFF 		bl	LED4_Write
+  72:functions.c   ****         /* Need some delay to indicate output on the LCD */
+  73:functions.c   ****         CyDelay(500u);
+ 239              		.loc 1 73 0
+ 240 0076 4FF4FA70 		mov	r0, #500
+ 241 007a FFF7FEFF 		bl	CyDelay
+  74:functions.c   ****         LED4_Write(0);
+ 242              		.loc 1 74 0
+ 243 007e 0020     		movs	r0, #0
+ 244 0080 FFF7FEFF 		bl	LED4_Write
+  75:functions.c   **** //        clear();
+  76:functions.c   ****         
+  77:functions.c   **** //        setCursor(0u, 0u);
+  78:functions.c   ****         
+  79:functions.c   ****         if(0 != FS_Write(file, "Testing Testing\nTesting", 23u)) 
+ 245              		.loc 1 79 0
+ 246 0084 7868     		ldr	r0, [r7, #4]
+ 247 0086 0A49     		ldr	r1, .L17+4
+ 248 0088 1722     		movs	r2, #23
+ 249 008a FFF7FEFF 		bl	FS_Write
+ 250 008e 0346     		mov	r3, r0
+ 251 0090 002B     		cmp	r3, #0
+ 252 0092 04D0     		beq	.L13
+  80:functions.c   ****         {
+  81:functions.c   ****             /* Inditate that data was written to a file */
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 7
+
+
+  82:functions.c   **** //            LCD_print("\"0123456789\"");
+  83:functions.c   **** //            LCD_print(filename);
+  84:functions.c   **** //            setCursor(1u, 0u);
+  85:functions.c   **** //            LCD_print("written to file");
+  86:functions.c   ****             LED4_Write(1);
+ 253              		.loc 1 86 0
+ 254 0094 0120     		movs	r0, #1
+ 255 0096 FFF7FEFF 		bl	LED4_Write
+  87:functions.c   ****         }
+  88:functions.c   ****         else
+  89:functions.c   ****         {
+  90:functions.c   **** //            LCD_print("Failed to write");
+  91:functions.c   **** //            setCursor(1u, 0u);
+  92:functions.c   **** //            LCD_print("data to file");
+  93:functions.c   ****             return 1;
+  94:functions.c   ****         }
+  95:functions.c   ****     }
+  96:functions.c   ****     else
+  97:functions.c   ****     {
+  98:functions.c   **** //        LCD_print("Failed to create");
+  99:functions.c   **** //        setCursor(1u, 0u);
+ 100:functions.c   **** //        LCD_print("file");
+ 101:functions.c   ****         return 1;
+ 102:functions.c   ****     }
+ 103:functions.c   ****     return 0;
+ 256              		.loc 1 103 0
+ 257 009a 0023     		movs	r3, #0
+ 258 009c 02E0     		b	.L9
+ 259              	.L13:
+  93:functions.c   ****         }
+ 260              		.loc 1 93 0
+ 261 009e 0123     		movs	r3, #1
+ 262 00a0 00E0     		b	.L9
+ 263              	.L12:
+ 101:functions.c   ****     }
+ 264              		.loc 1 101 0
+ 265 00a2 0123     		movs	r3, #1
+ 266              	.L9:
+ 104:functions.c   **** }
+ 267              		.loc 1 104 0
+ 268 00a4 1846     		mov	r0, r3
+ 269 00a6 1037     		adds	r7, r7, #16
+ 270              		.cfi_def_cfa_offset 8
+ 271 00a8 BD46     		mov	sp, r7
+ 272              		.cfi_def_cfa_register 13
+ 273              		@ sp needed
+ 274 00aa 80BD     		pop	{r7, pc}
+ 275              	.L18:
+ 276              		.align	2
+ 277              	.L17:
+ 278 00ac 10000000 		.word	.LC1
+ 279 00b0 14000000 		.word	.LC2
+ 280              		.cfi_endproc
+ 281              	.LFE65:
+ 282              		.size	Initialize_SD_Card, .-Initialize_SD_Card
+ 283              		.text
+ 284              	.Letext0:
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 8
+
+
+ 285              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 286              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 287              		.file 4 ".\\emFile_V322c\\emFile_V322c\\Code\\Include\\PSoC5/FS_Types.h"
+ 288              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 289              		.section	.debug_info,"",%progbits
+ 290              	.Ldebug_info0:
+ 291 0000 10020000 		.4byte	0x210
+ 292 0004 0400     		.2byte	0x4
+ 293 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 294 000a 04       		.byte	0x4
+ 295 000b 01       		.uleb128 0x1
+ 296 000c 3D000000 		.4byte	.LASF32
+ 297 0010 01       		.byte	0x1
+ 298 0011 CB000000 		.4byte	.LASF33
+ 299 0015 D7000000 		.4byte	.LASF34
+ 300 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 301 001d 00000000 		.4byte	0
+ 302 0021 00000000 		.4byte	.Ldebug_line0
+ 303 0025 02       		.uleb128 0x2
+ 304 0026 01       		.byte	0x1
+ 305 0027 06       		.byte	0x6
+ 306 0028 0A020000 		.4byte	.LASF0
+ 307 002c 03       		.uleb128 0x3
+ 308 002d 07000000 		.4byte	.LASF2
+ 309 0031 02       		.byte	0x2
+ 310 0032 1D       		.byte	0x1d
+ 311 0033 37000000 		.4byte	0x37
+ 312 0037 02       		.uleb128 0x2
+ 313 0038 01       		.byte	0x1
+ 314 0039 08       		.byte	0x8
+ 315 003a 5B010000 		.4byte	.LASF1
+ 316 003e 03       		.uleb128 0x3
+ 317 003f 11000000 		.4byte	.LASF3
+ 318 0043 02       		.byte	0x2
+ 319 0044 29       		.byte	0x29
+ 320 0045 49000000 		.4byte	0x49
+ 321 0049 02       		.uleb128 0x2
+ 322 004a 02       		.byte	0x2
+ 323 004b 05       		.byte	0x5
+ 324 004c D3010000 		.4byte	.LASF4
+ 325 0050 03       		.uleb128 0x3
+ 326 0051 6E010000 		.4byte	.LASF5
+ 327 0055 02       		.byte	0x2
+ 328 0056 2B       		.byte	0x2b
+ 329 0057 5B000000 		.4byte	0x5b
+ 330 005b 02       		.uleb128 0x2
+ 331 005c 02       		.byte	0x2
+ 332 005d 07       		.byte	0x7
+ 333 005e 16020000 		.4byte	.LASF6
+ 334 0062 03       		.uleb128 0x3
+ 335 0063 33000000 		.4byte	.LASF7
+ 336 0067 02       		.byte	0x2
+ 337 0068 3F       		.byte	0x3f
+ 338 0069 6D000000 		.4byte	0x6d
+ 339 006d 02       		.uleb128 0x2
+ 340 006e 04       		.byte	0x4
+ 341 006f 05       		.byte	0x5
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 9
+
+
+ 342 0070 F0010000 		.4byte	.LASF8
+ 343 0074 02       		.uleb128 0x2
+ 344 0075 04       		.byte	0x4
+ 345 0076 07       		.byte	0x7
+ 346 0077 35010000 		.4byte	.LASF9
+ 347 007b 02       		.uleb128 0x2
+ 348 007c 08       		.byte	0x8
+ 349 007d 05       		.byte	0x5
+ 350 007e C5010000 		.4byte	.LASF10
+ 351 0082 02       		.uleb128 0x2
+ 352 0083 08       		.byte	0x8
+ 353 0084 07       		.byte	0x7
+ 354 0085 8D010000 		.4byte	.LASF11
+ 355 0089 04       		.uleb128 0x4
+ 356 008a 04       		.byte	0x4
+ 357 008b 05       		.byte	0x5
+ 358 008c 696E7400 		.ascii	"int\000"
+ 359 0090 02       		.uleb128 0x2
+ 360 0091 04       		.byte	0x4
+ 361 0092 07       		.byte	0x7
+ 362 0093 80010000 		.4byte	.LASF12
+ 363 0097 03       		.uleb128 0x3
+ 364 0098 A4010000 		.4byte	.LASF13
+ 365 009c 03       		.byte	0x3
+ 366 009d 15       		.byte	0x15
+ 367 009e 2C000000 		.4byte	0x2c
+ 368 00a2 03       		.uleb128 0x3
+ 369 00a3 AC010000 		.4byte	.LASF14
+ 370 00a7 03       		.byte	0x3
+ 371 00a8 20       		.byte	0x20
+ 372 00a9 3E000000 		.4byte	0x3e
+ 373 00ad 03       		.uleb128 0x3
+ 374 00ae DD010000 		.4byte	.LASF15
+ 375 00b2 03       		.byte	0x3
+ 376 00b3 21       		.byte	0x21
+ 377 00b4 50000000 		.4byte	0x50
+ 378 00b8 03       		.uleb128 0x3
+ 379 00b9 03010000 		.4byte	.LASF16
+ 380 00bd 03       		.byte	0x3
+ 381 00be 2C       		.byte	0x2c
+ 382 00bf 62000000 		.4byte	0x62
+ 383 00c3 02       		.uleb128 0x2
+ 384 00c4 04       		.byte	0x4
+ 385 00c5 07       		.byte	0x7
+ 386 00c6 BC010000 		.4byte	.LASF17
+ 387 00ca 05       		.uleb128 0x5
+ 388 00cb 04       		.byte	0x4
+ 389 00cc D0000000 		.4byte	0xd0
+ 390 00d0 02       		.uleb128 0x2
+ 391 00d1 01       		.byte	0x1
+ 392 00d2 08       		.byte	0x8
+ 393 00d3 F9010000 		.4byte	.LASF18
+ 394 00d7 02       		.uleb128 0x2
+ 395 00d8 08       		.byte	0x8
+ 396 00d9 04       		.byte	0x4
+ 397 00da 79010000 		.4byte	.LASF19
+ 398 00de 02       		.uleb128 0x2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 10
+
+
+ 399 00df 04       		.byte	0x4
+ 400 00e0 04       		.byte	0x4
+ 401 00e1 0B010000 		.4byte	.LASF20
+ 402 00e5 02       		.uleb128 0x2
+ 403 00e6 08       		.byte	0x8
+ 404 00e7 04       		.byte	0x4
+ 405 00e8 FE010000 		.4byte	.LASF21
+ 406 00ec 03       		.uleb128 0x3
+ 407 00ed B4010000 		.4byte	.LASF22
+ 408 00f1 04       		.byte	0x4
+ 409 00f2 7E       		.byte	0x7e
+ 410 00f3 F7000000 		.4byte	0xf7
+ 411 00f7 06       		.uleb128 0x6
+ 412 00f8 B4010000 		.4byte	.LASF22
+ 413 00fc 05       		.uleb128 0x5
+ 414 00fd 04       		.byte	0x4
+ 415 00fe EC000000 		.4byte	0xec
+ 416 0102 07       		.uleb128 0x7
+ 417 0103 25000000 		.4byte	.LASF35
+ 418 0107 01       		.byte	0x1
+ 419 0108 14       		.byte	0x14
+ 420 0109 00000000 		.4byte	.LFB63
+ 421 010d 50000000 		.4byte	.LFE63-.LFB63
+ 422 0111 01       		.uleb128 0x1
+ 423 0112 9C       		.byte	0x9c
+ 424 0113 5B010000 		.4byte	0x15b
+ 425 0117 08       		.uleb128 0x8
+ 426 0118 726F7700 		.ascii	"row\000"
+ 427 011c 01       		.byte	0x1
+ 428 011d 14       		.byte	0x14
+ 429 011e 97000000 		.4byte	0x97
+ 430 0122 02       		.uleb128 0x2
+ 431 0123 91       		.byte	0x91
+ 432 0124 6F       		.sleb128 -17
+ 433 0125 09       		.uleb128 0x9
+ 434 0126 47010000 		.4byte	.LASF23
+ 435 012a 01       		.byte	0x1
+ 436 012b 14       		.byte	0x14
+ 437 012c 97000000 		.4byte	0x97
+ 438 0130 02       		.uleb128 0x2
+ 439 0131 91       		.byte	0x91
+ 440 0132 6E       		.sleb128 -18
+ 441 0133 08       		.uleb128 0x8
+ 442 0134 617800   		.ascii	"ax\000"
+ 443 0137 01       		.byte	0x1
+ 444 0138 14       		.byte	0x14
+ 445 0139 AD000000 		.4byte	0xad
+ 446 013d 02       		.uleb128 0x2
+ 447 013e 91       		.byte	0x91
+ 448 013f 6C       		.sleb128 -20
+ 449 0140 08       		.uleb128 0x8
+ 450 0141 617900   		.ascii	"ay\000"
+ 451 0144 01       		.byte	0x1
+ 452 0145 14       		.byte	0x14
+ 453 0146 AD000000 		.4byte	0xad
+ 454 014a 02       		.uleb128 0x2
+ 455 014b 91       		.byte	0x91
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 11
+
+
+ 456 014c 6A       		.sleb128 -22
+ 457 014d 08       		.uleb128 0x8
+ 458 014e 617A00   		.ascii	"az\000"
+ 459 0151 01       		.byte	0x1
+ 460 0152 14       		.byte	0x14
+ 461 0153 AD000000 		.4byte	0xad
+ 462 0157 02       		.uleb128 0x2
+ 463 0158 91       		.byte	0x91
+ 464 0159 00       		.sleb128 0
+ 465 015a 00       		.byte	0
+ 466 015b 0A       		.uleb128 0xa
+ 467 015c 1B000000 		.4byte	.LASF25
+ 468 0160 01       		.byte	0x1
+ 469 0161 1B       		.byte	0x1b
+ 470 0162 A2000000 		.4byte	0xa2
+ 471 0166 00000000 		.4byte	.LFB64
+ 472 016a 4E000000 		.4byte	.LFE64-.LFB64
+ 473 016e 01       		.uleb128 0x1
+ 474 016f 9C       		.byte	0x9c
+ 475 0170 9D010000 		.4byte	0x19d
+ 476 0174 08       		.uleb128 0x8
+ 477 0175 61766700 		.ascii	"avg\000"
+ 478 0179 01       		.byte	0x1
+ 479 017a 1B       		.byte	0x1b
+ 480 017b A2000000 		.4byte	0xa2
+ 481 017f 02       		.uleb128 0x2
+ 482 0180 91       		.byte	0x91
+ 483 0181 76       		.sleb128 -10
+ 484 0182 08       		.uleb128 0x8
+ 485 0183 6E00     		.ascii	"n\000"
+ 486 0185 01       		.byte	0x1
+ 487 0186 1B       		.byte	0x1b
+ 488 0187 A2000000 		.4byte	0xa2
+ 489 018b 02       		.uleb128 0x2
+ 490 018c 91       		.byte	0x91
+ 491 018d 74       		.sleb128 -12
+ 492 018e 09       		.uleb128 0x9
+ 493 018f 00000000 		.4byte	.LASF24
+ 494 0193 01       		.byte	0x1
+ 495 0194 1B       		.byte	0x1b
+ 496 0195 A2000000 		.4byte	0xa2
+ 497 0199 02       		.uleb128 0x2
+ 498 019a 91       		.byte	0x91
+ 499 019b 72       		.sleb128 -14
+ 500 019c 00       		.byte	0
+ 501 019d 0B       		.uleb128 0xb
+ 502 019e 22010000 		.4byte	.LASF26
+ 503 01a2 01       		.byte	0x1
+ 504 01a3 21       		.byte	0x21
+ 505 01a4 89000000 		.4byte	0x89
+ 506 01a8 00000000 		.4byte	.LFB65
+ 507 01ac B4000000 		.4byte	.LFE65-.LFB65
+ 508 01b0 01       		.uleb128 0x1
+ 509 01b1 9C       		.byte	0x9c
+ 510 01b2 E1010000 		.4byte	0x1e1
+ 511 01b6 09       		.uleb128 0x9
+ 512 01b7 19010000 		.4byte	.LASF27
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 12
+
+
+ 513 01bb 01       		.byte	0x1
+ 514 01bc 21       		.byte	0x21
+ 515 01bd CA000000 		.4byte	0xca
+ 516 01c1 02       		.uleb128 0x2
+ 517 01c2 91       		.byte	0x91
+ 518 01c3 74       		.sleb128 -12
+ 519 01c4 09       		.uleb128 0x9
+ 520 01c5 11010000 		.4byte	.LASF28
+ 521 01c9 01       		.byte	0x1
+ 522 01ca 21       		.byte	0x21
+ 523 01cb CA000000 		.4byte	0xca
+ 524 01cf 02       		.uleb128 0x2
+ 525 01d0 91       		.byte	0x91
+ 526 01d1 70       		.sleb128 -16
+ 527 01d2 09       		.uleb128 0x9
+ 528 01d3 69010000 		.4byte	.LASF29
+ 529 01d7 01       		.byte	0x1
+ 530 01d8 21       		.byte	0x21
+ 531 01d9 FC000000 		.4byte	0xfc
+ 532 01dd 02       		.uleb128 0x2
+ 533 01de 91       		.byte	0x91
+ 534 01df 6C       		.sleb128 -20
+ 535 01e0 00       		.byte	0
+ 536 01e1 0C       		.uleb128 0xc
+ 537 01e2 4E010000 		.4byte	.LASF30
+ 538 01e6 05       		.byte	0x5
+ 539 01e7 9606     		.2byte	0x696
+ 540 01e9 ED010000 		.4byte	0x1ed
+ 541 01ed 0D       		.uleb128 0xd
+ 542 01ee B8000000 		.4byte	0xb8
+ 543 01f2 0E       		.uleb128 0xe
+ 544 01f3 D0000000 		.4byte	0xd0
+ 545 01f7 02020000 		.4byte	0x202
+ 546 01fb 0F       		.uleb128 0xf
+ 547 01fc C3000000 		.4byte	0xc3
+ 548 0200 09       		.byte	0x9
+ 549 0201 00       		.byte	0
+ 550 0202 10       		.uleb128 0x10
+ 551 0203 E6010000 		.4byte	.LASF31
+ 552 0207 01       		.byte	0x1
+ 553 0208 12       		.byte	0x12
+ 554 0209 F2010000 		.4byte	0x1f2
+ 555 020d 05       		.uleb128 0x5
+ 556 020e 03       		.byte	0x3
+ 557 020f 00000000 		.4byte	accelData
+ 558 0213 00       		.byte	0
+ 559              		.section	.debug_abbrev,"",%progbits
+ 560              	.Ldebug_abbrev0:
+ 561 0000 01       		.uleb128 0x1
+ 562 0001 11       		.uleb128 0x11
+ 563 0002 01       		.byte	0x1
+ 564 0003 25       		.uleb128 0x25
+ 565 0004 0E       		.uleb128 0xe
+ 566 0005 13       		.uleb128 0x13
+ 567 0006 0B       		.uleb128 0xb
+ 568 0007 03       		.uleb128 0x3
+ 569 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 13
+
+
+ 570 0009 1B       		.uleb128 0x1b
+ 571 000a 0E       		.uleb128 0xe
+ 572 000b 55       		.uleb128 0x55
+ 573 000c 17       		.uleb128 0x17
+ 574 000d 11       		.uleb128 0x11
+ 575 000e 01       		.uleb128 0x1
+ 576 000f 10       		.uleb128 0x10
+ 577 0010 17       		.uleb128 0x17
+ 578 0011 00       		.byte	0
+ 579 0012 00       		.byte	0
+ 580 0013 02       		.uleb128 0x2
+ 581 0014 24       		.uleb128 0x24
+ 582 0015 00       		.byte	0
+ 583 0016 0B       		.uleb128 0xb
+ 584 0017 0B       		.uleb128 0xb
+ 585 0018 3E       		.uleb128 0x3e
+ 586 0019 0B       		.uleb128 0xb
+ 587 001a 03       		.uleb128 0x3
+ 588 001b 0E       		.uleb128 0xe
+ 589 001c 00       		.byte	0
+ 590 001d 00       		.byte	0
+ 591 001e 03       		.uleb128 0x3
+ 592 001f 16       		.uleb128 0x16
+ 593 0020 00       		.byte	0
+ 594 0021 03       		.uleb128 0x3
+ 595 0022 0E       		.uleb128 0xe
+ 596 0023 3A       		.uleb128 0x3a
+ 597 0024 0B       		.uleb128 0xb
+ 598 0025 3B       		.uleb128 0x3b
+ 599 0026 0B       		.uleb128 0xb
+ 600 0027 49       		.uleb128 0x49
+ 601 0028 13       		.uleb128 0x13
+ 602 0029 00       		.byte	0
+ 603 002a 00       		.byte	0
+ 604 002b 04       		.uleb128 0x4
+ 605 002c 24       		.uleb128 0x24
+ 606 002d 00       		.byte	0
+ 607 002e 0B       		.uleb128 0xb
+ 608 002f 0B       		.uleb128 0xb
+ 609 0030 3E       		.uleb128 0x3e
+ 610 0031 0B       		.uleb128 0xb
+ 611 0032 03       		.uleb128 0x3
+ 612 0033 08       		.uleb128 0x8
+ 613 0034 00       		.byte	0
+ 614 0035 00       		.byte	0
+ 615 0036 05       		.uleb128 0x5
+ 616 0037 0F       		.uleb128 0xf
+ 617 0038 00       		.byte	0
+ 618 0039 0B       		.uleb128 0xb
+ 619 003a 0B       		.uleb128 0xb
+ 620 003b 49       		.uleb128 0x49
+ 621 003c 13       		.uleb128 0x13
+ 622 003d 00       		.byte	0
+ 623 003e 00       		.byte	0
+ 624 003f 06       		.uleb128 0x6
+ 625 0040 13       		.uleb128 0x13
+ 626 0041 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 14
+
+
+ 627 0042 03       		.uleb128 0x3
+ 628 0043 0E       		.uleb128 0xe
+ 629 0044 3C       		.uleb128 0x3c
+ 630 0045 19       		.uleb128 0x19
+ 631 0046 00       		.byte	0
+ 632 0047 00       		.byte	0
+ 633 0048 07       		.uleb128 0x7
+ 634 0049 2E       		.uleb128 0x2e
+ 635 004a 01       		.byte	0x1
+ 636 004b 3F       		.uleb128 0x3f
+ 637 004c 19       		.uleb128 0x19
+ 638 004d 03       		.uleb128 0x3
+ 639 004e 0E       		.uleb128 0xe
+ 640 004f 3A       		.uleb128 0x3a
+ 641 0050 0B       		.uleb128 0xb
+ 642 0051 3B       		.uleb128 0x3b
+ 643 0052 0B       		.uleb128 0xb
+ 644 0053 27       		.uleb128 0x27
+ 645 0054 19       		.uleb128 0x19
+ 646 0055 11       		.uleb128 0x11
+ 647 0056 01       		.uleb128 0x1
+ 648 0057 12       		.uleb128 0x12
+ 649 0058 06       		.uleb128 0x6
+ 650 0059 40       		.uleb128 0x40
+ 651 005a 18       		.uleb128 0x18
+ 652 005b 9642     		.uleb128 0x2116
+ 653 005d 19       		.uleb128 0x19
+ 654 005e 01       		.uleb128 0x1
+ 655 005f 13       		.uleb128 0x13
+ 656 0060 00       		.byte	0
+ 657 0061 00       		.byte	0
+ 658 0062 08       		.uleb128 0x8
+ 659 0063 05       		.uleb128 0x5
+ 660 0064 00       		.byte	0
+ 661 0065 03       		.uleb128 0x3
+ 662 0066 08       		.uleb128 0x8
+ 663 0067 3A       		.uleb128 0x3a
+ 664 0068 0B       		.uleb128 0xb
+ 665 0069 3B       		.uleb128 0x3b
+ 666 006a 0B       		.uleb128 0xb
+ 667 006b 49       		.uleb128 0x49
+ 668 006c 13       		.uleb128 0x13
+ 669 006d 02       		.uleb128 0x2
+ 670 006e 18       		.uleb128 0x18
+ 671 006f 00       		.byte	0
+ 672 0070 00       		.byte	0
+ 673 0071 09       		.uleb128 0x9
+ 674 0072 05       		.uleb128 0x5
+ 675 0073 00       		.byte	0
+ 676 0074 03       		.uleb128 0x3
+ 677 0075 0E       		.uleb128 0xe
+ 678 0076 3A       		.uleb128 0x3a
+ 679 0077 0B       		.uleb128 0xb
+ 680 0078 3B       		.uleb128 0x3b
+ 681 0079 0B       		.uleb128 0xb
+ 682 007a 49       		.uleb128 0x49
+ 683 007b 13       		.uleb128 0x13
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 15
+
+
+ 684 007c 02       		.uleb128 0x2
+ 685 007d 18       		.uleb128 0x18
+ 686 007e 00       		.byte	0
+ 687 007f 00       		.byte	0
+ 688 0080 0A       		.uleb128 0xa
+ 689 0081 2E       		.uleb128 0x2e
+ 690 0082 01       		.byte	0x1
+ 691 0083 3F       		.uleb128 0x3f
+ 692 0084 19       		.uleb128 0x19
+ 693 0085 03       		.uleb128 0x3
+ 694 0086 0E       		.uleb128 0xe
+ 695 0087 3A       		.uleb128 0x3a
+ 696 0088 0B       		.uleb128 0xb
+ 697 0089 3B       		.uleb128 0x3b
+ 698 008a 0B       		.uleb128 0xb
+ 699 008b 27       		.uleb128 0x27
+ 700 008c 19       		.uleb128 0x19
+ 701 008d 49       		.uleb128 0x49
+ 702 008e 13       		.uleb128 0x13
+ 703 008f 11       		.uleb128 0x11
+ 704 0090 01       		.uleb128 0x1
+ 705 0091 12       		.uleb128 0x12
+ 706 0092 06       		.uleb128 0x6
+ 707 0093 40       		.uleb128 0x40
+ 708 0094 18       		.uleb128 0x18
+ 709 0095 9742     		.uleb128 0x2117
+ 710 0097 19       		.uleb128 0x19
+ 711 0098 01       		.uleb128 0x1
+ 712 0099 13       		.uleb128 0x13
+ 713 009a 00       		.byte	0
+ 714 009b 00       		.byte	0
+ 715 009c 0B       		.uleb128 0xb
+ 716 009d 2E       		.uleb128 0x2e
+ 717 009e 01       		.byte	0x1
+ 718 009f 3F       		.uleb128 0x3f
+ 719 00a0 19       		.uleb128 0x19
+ 720 00a1 03       		.uleb128 0x3
+ 721 00a2 0E       		.uleb128 0xe
+ 722 00a3 3A       		.uleb128 0x3a
+ 723 00a4 0B       		.uleb128 0xb
+ 724 00a5 3B       		.uleb128 0x3b
+ 725 00a6 0B       		.uleb128 0xb
+ 726 00a7 27       		.uleb128 0x27
+ 727 00a8 19       		.uleb128 0x19
+ 728 00a9 49       		.uleb128 0x49
+ 729 00aa 13       		.uleb128 0x13
+ 730 00ab 11       		.uleb128 0x11
+ 731 00ac 01       		.uleb128 0x1
+ 732 00ad 12       		.uleb128 0x12
+ 733 00ae 06       		.uleb128 0x6
+ 734 00af 40       		.uleb128 0x40
+ 735 00b0 18       		.uleb128 0x18
+ 736 00b1 9642     		.uleb128 0x2116
+ 737 00b3 19       		.uleb128 0x19
+ 738 00b4 01       		.uleb128 0x1
+ 739 00b5 13       		.uleb128 0x13
+ 740 00b6 00       		.byte	0
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 16
+
+
+ 741 00b7 00       		.byte	0
+ 742 00b8 0C       		.uleb128 0xc
+ 743 00b9 34       		.uleb128 0x34
+ 744 00ba 00       		.byte	0
+ 745 00bb 03       		.uleb128 0x3
+ 746 00bc 0E       		.uleb128 0xe
+ 747 00bd 3A       		.uleb128 0x3a
+ 748 00be 0B       		.uleb128 0xb
+ 749 00bf 3B       		.uleb128 0x3b
+ 750 00c0 05       		.uleb128 0x5
+ 751 00c1 49       		.uleb128 0x49
+ 752 00c2 13       		.uleb128 0x13
+ 753 00c3 3F       		.uleb128 0x3f
+ 754 00c4 19       		.uleb128 0x19
+ 755 00c5 3C       		.uleb128 0x3c
+ 756 00c6 19       		.uleb128 0x19
+ 757 00c7 00       		.byte	0
+ 758 00c8 00       		.byte	0
+ 759 00c9 0D       		.uleb128 0xd
+ 760 00ca 35       		.uleb128 0x35
+ 761 00cb 00       		.byte	0
+ 762 00cc 49       		.uleb128 0x49
+ 763 00cd 13       		.uleb128 0x13
+ 764 00ce 00       		.byte	0
+ 765 00cf 00       		.byte	0
+ 766 00d0 0E       		.uleb128 0xe
+ 767 00d1 01       		.uleb128 0x1
+ 768 00d2 01       		.byte	0x1
+ 769 00d3 49       		.uleb128 0x49
+ 770 00d4 13       		.uleb128 0x13
+ 771 00d5 01       		.uleb128 0x1
+ 772 00d6 13       		.uleb128 0x13
+ 773 00d7 00       		.byte	0
+ 774 00d8 00       		.byte	0
+ 775 00d9 0F       		.uleb128 0xf
+ 776 00da 21       		.uleb128 0x21
+ 777 00db 00       		.byte	0
+ 778 00dc 49       		.uleb128 0x49
+ 779 00dd 13       		.uleb128 0x13
+ 780 00de 2F       		.uleb128 0x2f
+ 781 00df 0B       		.uleb128 0xb
+ 782 00e0 00       		.byte	0
+ 783 00e1 00       		.byte	0
+ 784 00e2 10       		.uleb128 0x10
+ 785 00e3 34       		.uleb128 0x34
+ 786 00e4 00       		.byte	0
+ 787 00e5 03       		.uleb128 0x3
+ 788 00e6 0E       		.uleb128 0xe
+ 789 00e7 3A       		.uleb128 0x3a
+ 790 00e8 0B       		.uleb128 0xb
+ 791 00e9 3B       		.uleb128 0x3b
+ 792 00ea 0B       		.uleb128 0xb
+ 793 00eb 49       		.uleb128 0x49
+ 794 00ec 13       		.uleb128 0x13
+ 795 00ed 3F       		.uleb128 0x3f
+ 796 00ee 19       		.uleb128 0x19
+ 797 00ef 02       		.uleb128 0x2
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 17
+
+
+ 798 00f0 18       		.uleb128 0x18
+ 799 00f1 00       		.byte	0
+ 800 00f2 00       		.byte	0
+ 801 00f3 00       		.byte	0
+ 802              		.section	.debug_aranges,"",%progbits
+ 803 0000 2C000000 		.4byte	0x2c
+ 804 0004 0200     		.2byte	0x2
+ 805 0006 00000000 		.4byte	.Ldebug_info0
+ 806 000a 04       		.byte	0x4
+ 807 000b 00       		.byte	0
+ 808 000c 0000     		.2byte	0
+ 809 000e 0000     		.2byte	0
+ 810 0010 00000000 		.4byte	.LFB63
+ 811 0014 50000000 		.4byte	.LFE63-.LFB63
+ 812 0018 00000000 		.4byte	.LFB64
+ 813 001c 4E000000 		.4byte	.LFE64-.LFB64
+ 814 0020 00000000 		.4byte	.LFB65
+ 815 0024 B4000000 		.4byte	.LFE65-.LFB65
+ 816 0028 00000000 		.4byte	0
+ 817 002c 00000000 		.4byte	0
+ 818              		.section	.debug_ranges,"",%progbits
+ 819              	.Ldebug_ranges0:
+ 820 0000 00000000 		.4byte	.LFB63
+ 821 0004 50000000 		.4byte	.LFE63
+ 822 0008 00000000 		.4byte	.LFB64
+ 823 000c 4E000000 		.4byte	.LFE64
+ 824 0010 00000000 		.4byte	.LFB65
+ 825 0014 B4000000 		.4byte	.LFE65
+ 826 0018 00000000 		.4byte	0
+ 827 001c 00000000 		.4byte	0
+ 828              		.section	.debug_line,"",%progbits
+ 829              	.Ldebug_line0:
+ 830 0000 D7010000 		.section	.debug_str,"MS",%progbits,1
+ 830      02007C01 
+ 830      00000201 
+ 830      FB0E0D00 
+ 830      01010101 
+ 831              	.LASF24:
+ 832 0000 73616D70 		.ascii	"sample\000"
+ 832      6C6500
+ 833              	.LASF2:
+ 834 0007 5F5F7569 		.ascii	"__uint8_t\000"
+ 834      6E74385F 
+ 834      7400
+ 835              	.LASF3:
+ 836 0011 5F5F696E 		.ascii	"__int16_t\000"
+ 836      7431365F 
+ 836      7400
+ 837              	.LASF25:
+ 838 001b 436F6D70 		.ascii	"ComputeMA\000"
+ 838      7574654D 
+ 838      4100
+ 839              	.LASF35:
+ 840 0025 4932435F 		.ascii	"I2C_LCD_print\000"
+ 840      4C43445F 
+ 840      7072696E 
+ 840      7400
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 18
+
+
+ 841              	.LASF7:
+ 842 0033 5F5F696E 		.ascii	"__int32_t\000"
+ 842      7433325F 
+ 842      7400
+ 843              	.LASF32:
+ 844 003d 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 844      4320342E 
+ 844      392E3320 
+ 844      32303135 
+ 844      30333033 
+ 845 0070 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 845      20726576 
+ 845      6973696F 
+ 845      6E203232 
+ 845      31323230 
+ 846 00a3 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 846      66756E63 
+ 846      74696F6E 
+ 846      2D736563 
+ 846      74696F6E 
+ 847              	.LASF33:
+ 848 00cb 66756E63 		.ascii	"functions.c\000"
+ 848      74696F6E 
+ 848      732E6300 
+ 849              	.LASF34:
+ 850 00d7 433A5C55 		.ascii	"C:\\Users\\gding\\Downloads\\Testing\\OVac.cydsn\000"
+ 850      73657273 
+ 850      5C676469 
+ 850      6E675C44 
+ 850      6F776E6C 
+ 851              	.LASF16:
+ 852 0103 696E7433 		.ascii	"int32_t\000"
+ 852      325F7400 
+ 853              	.LASF20:
+ 854 010b 666C6F61 		.ascii	"float\000"
+ 854      7400
+ 855              	.LASF28:
+ 856 0111 766F6C6E 		.ascii	"volname\000"
+ 856      616D6500 
+ 857              	.LASF27:
+ 858 0119 66696C65 		.ascii	"filename\000"
+ 858      6E616D65 
+ 858      00
+ 859              	.LASF26:
+ 860 0122 496E6974 		.ascii	"Initialize_SD_Card\000"
+ 860      69616C69 
+ 860      7A655F53 
+ 860      445F4361 
+ 860      726400
+ 861              	.LASF9:
+ 862 0135 6C6F6E67 		.ascii	"long unsigned int\000"
+ 862      20756E73 
+ 862      69676E65 
+ 862      6420696E 
+ 862      7400
+ 863              	.LASF23:
+ 864 0147 636F6C75 		.ascii	"column\000"
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 19
+
+
+ 864      6D6E00
+ 865              	.LASF30:
+ 866 014e 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 866      52784275 
+ 866      66666572 
+ 866      00
+ 867              	.LASF1:
+ 868 015b 756E7369 		.ascii	"unsigned char\000"
+ 868      676E6564 
+ 868      20636861 
+ 868      7200
+ 869              	.LASF29:
+ 870 0169 66696C65 		.ascii	"file\000"
+ 870      00
+ 871              	.LASF5:
+ 872 016e 5F5F7569 		.ascii	"__uint16_t\000"
+ 872      6E743136 
+ 872      5F7400
+ 873              	.LASF19:
+ 874 0179 646F7562 		.ascii	"double\000"
+ 874      6C6500
+ 875              	.LASF12:
+ 876 0180 756E7369 		.ascii	"unsigned int\000"
+ 876      676E6564 
+ 876      20696E74 
+ 876      00
+ 877              	.LASF11:
+ 878 018d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 878      206C6F6E 
+ 878      6720756E 
+ 878      7369676E 
+ 878      65642069 
+ 879              	.LASF13:
+ 880 01a4 75696E74 		.ascii	"uint8_t\000"
+ 880      385F7400 
+ 881              	.LASF14:
+ 882 01ac 696E7431 		.ascii	"int16_t\000"
+ 882      365F7400 
+ 883              	.LASF22:
+ 884 01b4 46535F46 		.ascii	"FS_FILE\000"
+ 884      494C4500 
+ 885              	.LASF17:
+ 886 01bc 73697A65 		.ascii	"sizetype\000"
+ 886      74797065 
+ 886      00
+ 887              	.LASF10:
+ 888 01c5 6C6F6E67 		.ascii	"long long int\000"
+ 888      206C6F6E 
+ 888      6720696E 
+ 888      7400
+ 889              	.LASF4:
+ 890 01d3 73686F72 		.ascii	"short int\000"
+ 890      7420696E 
+ 890      7400
+ 891              	.LASF15:
+ 892 01dd 75696E74 		.ascii	"uint16_t\000"
+ 892      31365F74 
+ARM GAS  C:\Users\gding\AppData\Local\Temp\ccBJfs4H.s 			page 20
+
+
+ 892      00
+ 893              	.LASF31:
+ 894 01e6 61636365 		.ascii	"accelData\000"
+ 894      6C446174 
+ 894      6100
+ 895              	.LASF8:
+ 896 01f0 6C6F6E67 		.ascii	"long int\000"
+ 896      20696E74 
+ 896      00
+ 897              	.LASF18:
+ 898 01f9 63686172 		.ascii	"char\000"
+ 898      00
+ 899              	.LASF21:
+ 900 01fe 6C6F6E67 		.ascii	"long double\000"
+ 900      20646F75 
+ 900      626C6500 
+ 901              	.LASF0:
+ 902 020a 7369676E 		.ascii	"signed char\000"
+ 902      65642063 
+ 902      68617200 
+ 903              	.LASF6:
+ 904 0216 73686F72 		.ascii	"short unsigned int\000"
+ 904      7420756E 
+ 904      7369676E 
+ 904      65642069 
+ 904      6E7400
+ 905              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
